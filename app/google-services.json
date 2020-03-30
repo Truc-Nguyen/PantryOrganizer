@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1083744849120",
+    "firebase_url": "https://pantry-organizer.firebaseio.com",
+    "project_id": "pantry-organizer",
+    "storage_bucket": "pantry-organizer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083744849120:android:81d167577266ee80a8d485",
+        "android_client_info": {
+          "package_name": "com.example.pantry_organizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083744849120-ui1704cenguunj95mj4hecq45nngq9rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcfbGtRd3Wnk1DqTmwIZbq7_HieMoELuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083744849120-ui1704cenguunj95mj4hecq45nngq9rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
