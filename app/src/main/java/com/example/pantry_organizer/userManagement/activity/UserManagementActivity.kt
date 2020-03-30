@@ -18,10 +18,10 @@ class UserManagementActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_management)
 
-        // Set an instance of firebase firestore
+        // Set an instance of firebase database.
         db = FirebaseFirestore.getInstance()
 
-        // Set an instance of firebase authentication
+        // Set an instance of firebase authentication.
         auth = FirebaseAuth.getInstance()
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)

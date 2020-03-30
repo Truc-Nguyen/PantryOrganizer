@@ -6,17 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.pantry.activity.PantryListActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_login.*
 
-class LoginFragment(private val db: FirebaseFirestore, private val auth: FirebaseAuth): Fragment() {
-    // Toggle components enable flag.
-    private var enableComponents: Boolean = true
-
+class LoginFragment(private val db: FirebaseFirestore, private val auth: FirebaseAuth): UserManagementFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -25,9 +22,15 @@ class LoginFragment(private val db: FirebaseFirestore, private val auth: Firebas
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Sign up button click listener.
+        signUp_navigate.setOnClickListener {
+            val viewPager: ViewPager = activity!!.findViewById(R.id.userManagement_viewPager)
+            viewPager.currentItem = 1
+        }
+
         // Login button click listener.
         login_button.setOnClickListener {
-            toggleEnabledFields()
+            toggleEnabledComponents()
 
             // Harvest user input.
             val email = loginEmail_editText.text.toString()
@@ -37,15 +40,15 @@ class LoginFragment(private val db: FirebaseFirestore, private val auth: Firebas
 
             // Sanitize input.
             if (email == "") {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(activity, "Email cannot be blank.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (!emailRegex.matches(email)) {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(activity, "Invalid email format.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (password.length < 6) {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(activity, "Password must be at least 6 characters.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
@@ -58,26 +61,10 @@ class LoginFragment(private val db: FirebaseFirestore, private val auth: Firebas
                         val intent = Intent(activity, PantryListActivity::class.java)
                         activity!!.startActivity(intent)
                     } else {
-                        toggleEnabledFields()
+                        toggleEnabledComponents()
                         Toast.makeText(activity,"Invalid email/password entered.", Toast.LENGTH_LONG).show()
                     }
                 }
-        }
-    }
-
-    // Toggle enabling of user input components while waiting for user authentication.
-    private fun toggleEnabledFields() {
-        // Toggle components.
-        enableComponents = !enableComponents
-        login_button.isEnabled = enableComponents
-        loginEmail_editText.isEnabled = enableComponents
-        loginPassword_editText.isEnabled = enableComponents
-
-        // Toggle component text.
-        if (enableComponents) {
-            login_button.text = resources.getString(R.string.login_fragment_title)
-        } else {
-            login_button.text = resources.getString(R.string.login_fragment_status)
         }
     }
 }

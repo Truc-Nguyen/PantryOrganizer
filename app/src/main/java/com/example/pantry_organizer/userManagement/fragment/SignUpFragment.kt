@@ -2,22 +2,17 @@ package com.example.pantry_organizer.userManagement.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.UserData
 import com.example.pantry_organizer.pantry.activity.PantryListActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
-class SignUpFragment(private val db: FirebaseFirestore, private val auth: FirebaseAuth) : Fragment() {
-    // Toggle components enable flag.
-    private var enableComponents: Boolean = true
-
+class SignUpFragment(private val db: FirebaseFirestore, private val auth: FirebaseAuth) : UserManagementFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sign_up, container, false)
@@ -28,7 +23,7 @@ class SignUpFragment(private val db: FirebaseFirestore, private val auth: Fireba
 
         // Sign up button click listener.
         signUp_button.setOnClickListener {
-            toggleEnabledFields()
+            toggleEnabledComponents()
 
             // Harvest user input.
             val email = signUpEmail_editText.text.toString()
@@ -40,15 +35,15 @@ class SignUpFragment(private val db: FirebaseFirestore, private val auth: Fireba
 
             // Sanitize input.
             if (email == "") {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(activity, "Email cannot be blank.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (!emailRegex.matches(email)) {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(activity, "Invalid email format.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (password.length < 6) {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(
                     activity,
                     "Password must be at least 6 characters.",
@@ -56,7 +51,7 @@ class SignUpFragment(private val db: FirebaseFirestore, private val auth: Fireba
                 ).show()
                 return@setOnClickListener
             } else if (password != confirmPassword) {
-                toggleEnabledFields()
+                toggleEnabledComponents()
                 Toast.makeText(
                     activity,
                     "Passwords do not match.",
@@ -73,27 +68,10 @@ class SignUpFragment(private val db: FirebaseFirestore, private val auth: Fireba
                         val intent = Intent(activity, PantryListActivity::class.java)
                         activity!!.startActivity(intent)
                     } else {
-                        toggleEnabledFields()
+                        toggleEnabledComponents()
                         Toast.makeText(activity, "This email address has already been registered.", Toast.LENGTH_LONG).show()
                     }
                 }
-        }
-    }
-
-    // Toggle enabling of user input components while waiting for user authentication.
-    private fun toggleEnabledFields() {
-        // Toggle components.
-        enableComponents = !enableComponents
-        signUp_button.isEnabled = enableComponents
-        signUpEmail_editText.isEnabled = enableComponents
-        signUpPassword_editText.isEnabled = enableComponents
-        signUpConfirmPassword_editText.isEnabled = enableComponents
-
-        // Toggle component text.
-        if (enableComponents) {
-            signUp_button.text = resources.getString(R.string.sign_up_fragment_title)
-        } else {
-            signUp_button.text = resources.getString(R.string.sign_up_fragment_status)
         }
     }
 }
