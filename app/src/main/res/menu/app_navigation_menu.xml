@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/pantry_navMenu"
+        android:title="Pantry"
+        android:icon="@mipmap/ic_launcher"/>
+
+    <item
+        android:id="@+id/recipe_navMenu"
+        android:title="Recipe"
+        android:icon="@mipmap/ic_launcher"/>
+
+    <item
+        android:id="@+id/planner_navMenu"
+        android:title="Planner"
+        android:icon="@mipmap/ic_launcher"/>
+
+    <item
+        android:id="@+id/shopping_navMenu"
+        android:title="Shopping"
+        android:icon="@mipmap/ic_launcher"/>
+</menu>

@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pantry.activity.PantryListActivity" />
+        <activity android:name=".home.activity.HomeActivity" />
     </application>
 
 </manifest>

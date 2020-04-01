@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.global.adapter
+package com.example.pantry_organizer.global.activity
 
 import android.content.Intent
 import android.view.LayoutInflater

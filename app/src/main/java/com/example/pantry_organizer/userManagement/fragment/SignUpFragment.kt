@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.pantry.activity.PantryListActivity
+import com.example.pantry_organizer.home.activity.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_sign_up.*
@@ -65,7 +65,7 @@ class SignUpFragment(private val db: FirebaseFirestore, private val auth: Fireba
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         // Start the pantry list activity for this user.
-                        val intent = Intent(activity, PantryListActivity::class.java)
+                        val intent = Intent(activity, HomeActivity::class.java)
                         activity!!.startActivity(intent)
                     } else {
                         toggleEnabledComponents()
