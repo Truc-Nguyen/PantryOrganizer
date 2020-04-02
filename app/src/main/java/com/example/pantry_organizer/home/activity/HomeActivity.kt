@@ -9,27 +9,29 @@ class HomeActivity: AbstractPantryAppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        supportActionBar?.title = resources.getString(R.string.pantry_nav)
     }
 
     override fun onStart() {
         super.onStart()
 
         // Define navigation menu button listeners.
-        appNav_appBar.setOnNavigationItemReselectedListener { item ->
+        appNav_appBar.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.pantry_navMenu -> {
-
+                    supportActionBar?.title = resources.getString(R.string.pantry_nav)
                 }
                 R.id.recipe_navMenu -> {
-
+                    supportActionBar?.title = resources.getString(R.string.recipe_nav)
                 }
                 R.id.planner_navMenu -> {
-
+                    supportActionBar?.title = resources.getString(R.string.planner_nav)
                 }
                 R.id.shopping_navMenu -> {
-
+                    supportActionBar?.title = resources.getString(R.string.shopping_nav)
                 }
             }
+            true
         }
     }
 }

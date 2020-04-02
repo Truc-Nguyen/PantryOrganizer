@@ -20,11 +20,13 @@
             android:id="@+id/appNav_appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/app_navigation_menu"
             app:labelVisibilityMode="labeled"
             app:itemHorizontalTranslationEnabled="true"
-            android:background="@color/colorPrimaryDark"/>
+            app:itemIconTint="@drawable/app_nav_selector"
+            app:itemTextColor="@color/white"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

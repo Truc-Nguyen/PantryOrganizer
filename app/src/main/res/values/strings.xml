@@ -13,4 +13,9 @@
     <string name="logout_message">Are you sure you want to logout?</string>
     <string name="logout_yes">Yes</string>
     <string name="logout_no">No</string>
+
+    <string name="pantry_nav">Pantries</string>
+    <string name="recipe_nav">Recipes</string>
+    <string name="planner_nav">Planner</string>
+    <string name="shopping_nav">Shopping</string>
 </resources>

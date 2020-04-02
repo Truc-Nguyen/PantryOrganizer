@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/pantry_navMenu"
-        android:title="Pantry"
-        android:icon="@mipmap/ic_launcher"/>
+        android:title="@string/pantry_nav"
+        android:icon="@drawable/pantry_icon"/>
 
     <item
         android:id="@+id/recipe_navMenu"
-        android:title="Recipe"
-        android:icon="@mipmap/ic_launcher"/>
+        android:title="@string/recipe_nav"
+        android:icon="@drawable/recipe_icon"/>
 
     <item
         android:id="@+id/planner_navMenu"
-        android:title="Planner"
-        android:icon="@mipmap/ic_launcher"/>
+        android:title="@string/planner_nav"
+        android:icon="@drawable/planner_icon"/>
 
     <item
         android:id="@+id/shopping_navMenu"
-        android:title="Shopping"
-        android:icon="@mipmap/ic_launcher"/>
+        android:title="@string/shopping_nav"
+        android:icon="@drawable/shopping_icon"/>
 </menu>
