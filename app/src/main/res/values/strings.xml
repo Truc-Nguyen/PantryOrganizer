@@ -2,7 +2,7 @@
     <string name="app_name">Pantry Organizer</string>
 
     <string name="login_fragment_title">Login</string>
-    <string name="login_fragment_status">Please Wait</string>
+    <string name="login_fragment_status">Authenticating</string>
     <string name="sign_up_fragment_title">Sign Up</string>
     <string name="sign_up_fragment_status">Please Wait</string>
     <string name="login_email_hint">E-Mail Address</string>
@@ -18,4 +18,6 @@
     <string name="recipe_nav">Recipes</string>
     <string name="planner_nav">Planner</string>
     <string name="shopping_nav">Shopping</string>
+
+    <string name="add_custom_food_menu_item_desc">DONE</string>
 </resources>

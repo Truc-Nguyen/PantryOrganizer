@@ -42,4 +42,10 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-firestore:$rootProject.firestoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuthVersion"
+    implementation "com.google.firebase:firebase-storage-ktx:$rootProject.firebaseStorageVersion"
+
+    // Picasso
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    // Picasso transformation library
+    implementation "jp.wasabeef:picasso-transformations:$rootProject.picassoTransformationsVersion"
 }

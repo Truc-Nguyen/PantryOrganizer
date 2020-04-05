@@ -10,10 +10,6 @@ class HomeActivity: AbstractPantryAppActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         supportActionBar?.title = resources.getString(R.string.pantry_nav)
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         // Define navigation menu button listeners.
         appNav_appBar.setOnNavigationItemSelectedListener { item ->
@@ -33,5 +29,10 @@ class HomeActivity: AbstractPantryAppActivity() {
             }
             true
         }
+    }
+
+    // Prompt user for logout when the back button is pressed.
+    override fun onBackPressed() {
+        logout()
     }
 }

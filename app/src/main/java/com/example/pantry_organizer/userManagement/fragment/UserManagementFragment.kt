@@ -4,8 +4,9 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
+import com.example.pantry_organizer.global.fragment.AbstractPantryAppFragment
 
-abstract class UserManagementFragment: Fragment() {
+abstract class UserManagementFragment: AbstractPantryAppFragment() {
     // Toggle components enable flag.
     private var enableComponents: Boolean = true
 

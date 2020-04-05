@@ -9,11 +9,9 @@ import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.home.activity.HomeActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_login.*
 
-class LoginFragment(private val db: FirebaseFirestore, private val auth: FirebaseAuth): UserManagementFragment() {
+class LoginFragment: UserManagementFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
