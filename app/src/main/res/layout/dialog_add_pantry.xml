@@ -7,9 +7,9 @@
         android:padding="10dp">
 
     <EditText
-            android:id="@+id/ace_value"
-            android:hint="Enter value of ace: 1 or 11"
-            android:inputType="number"
+            android:id="@+id/enter_pantry_name"
+            android:hint="(fridge, wine closet, baking shelf, etc.)"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
     />
