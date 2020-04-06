@@ -39,14 +39,10 @@ class PantryFragment: AbstractPantryAppFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         return inflater.inflate(R.layout.fragment_pantry_list, container, false)
-
-
-
     }
 
-    override fun onStart(savedInstanceState: Bundle?) {
+    override fun onStart() {
         super.onStart()
 
 
@@ -59,15 +55,25 @@ class PantryFragment: AbstractPantryAppFragment() {
         mAdapter = object : PantryDataAdapter(mQuery) {
         }
 
-        pantryRecycler!!.setLayoutManager(LinearLayoutManager(this))
+        pantryRecycler!!.setLayoutManager(LinearLayoutManager(this.context))
         pantryRecycler!!.setAdapter(mAdapter)
-
-        Log.d("recycler","set up w/ query ")
 
         add_pantry_button.setOnClickListener{
             addPantryDialog()
         }
 
+        //click on recyclerview object
+
+    }
+
+    override fun onPantryItemClicked(pantry: PantryData) {
+
+        //need to pass pantry name between the fragment
+
+        val fragment = PantryFoodFragment()
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.home_frameLayout, fragment)
+        transaction.commit()
     }
 
     private fun addPantryDialog() {

@@ -1,26 +1,17 @@
 package com.example.pantry_organizer.home.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.global.fragment.AbstractPantryAppFragment
+import com.example.pantry_organizer.home.adapters.FoodDataAdapter
 import com.example.pantry_organizer.home.adapters.PantryDataAdapter
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.android.synthetic.main.dialog_add_pantry.*
 import kotlinx.android.synthetic.main.fragment_food_list.*
-import kotlinx.android.synthetic.main.fragment_food_list.view.*
-import kotlinx.android.synthetic.main.fragment_pantry_list.*
 
 class PantryFoodFragment: AbstractPantryAppFragment() {
     private var foodRecycler: RecyclerView? = null
@@ -33,32 +24,39 @@ class PantryFoodFragment: AbstractPantryAppFragment() {
 
     }
 
-    override fun onStart(savedInstanceState: Bundle?) {
+    override fun onStart() {
         super.onStart()
 
 
         foodRecycler = view!!.findViewById(R.id.food_recycler_view)
 
         // Get users sorted by chips
-        val mQuery = db.collection("names")
+        val mQuery = db.collection("food_names")
+        mQuery.whereArrayContainsAny("regions", listOf("west_coast", "east_coast"))
 
-        // RecyclerView
-        mAdapter = object : PantryDataAdapter(mQuery) {
+        // RecyclerView  -> fix this!
+        mAdapter = object : FoodDataAdapter(mQuery) {
         }
 
-        foodRecycler!!.setLayoutManager(LinearLayoutManager(this))
+        foodRecycler!!.setLayoutManager(LinearLayoutManager(this.context))
         foodRecycler!!.setAdapter(mAdapter)
-
-        Log.d("recycler","set up w/ query ")
-
         add_food_button.setOnClickListener{
-            //function to add new food item to database
+            //functionality to add new food item to database
+
+            //functionality to add new food item to corresponding pantry_item.foodList (ArrayList<FoodData>())
         }
 
         back_button.setOnClickListener{
-            //go back to list of pantries
+            val fragment = PantryFragment()
+            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.home_frameLayout, fragment)
+            transaction.commit()
         }
 
     }
 
+    override fun onFoodItemClicked(pantry: PantryData) {
+
+        //navigate to food detail fragment
+    }
 }
