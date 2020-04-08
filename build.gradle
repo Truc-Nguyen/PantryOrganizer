@@ -31,7 +31,7 @@ task clean(type: Delete) {
 
 ext {
     materialVersion = '1.1.0'
-    firestoreVersion = '21.4.1'
+    firestoreVersion = '21.4.2'
     firebaseAuthVersion = '19.3.0'
     firebaseStorageVersion = '19.1.1'
     picassoVersion = '2.71828'
