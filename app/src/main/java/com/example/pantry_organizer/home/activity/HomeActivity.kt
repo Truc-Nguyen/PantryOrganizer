@@ -3,6 +3,7 @@ package com.example.pantry_organizer.home.activity
 import android.os.Bundle
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
+import com.example.pantry_organizer.global.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity: AbstractPantryAppActivity() {
@@ -10,6 +11,10 @@ class HomeActivity: AbstractPantryAppActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         supportActionBar?.title = resources.getString(R.string.pantry_nav)
+
+        //set up fragment manager
+        val fragmentAdapter = ViewPagerAdapter(supportFragmentManager)
+        viewpager_main.adapter = fragmentAdapter
 
         // Define navigation menu button listeners.
         appNav_appBar.setOnNavigationItemSelectedListener { item ->
