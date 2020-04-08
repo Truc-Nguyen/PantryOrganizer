@@ -7,36 +7,37 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
-import com.example.pantry_organizer.global.adapter.ViewPagerAdapter
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
-import com.example.pantry_organizer.pantry.fragment.PantryFragment
+import com.example.pantry_organizer.pantry.fragment.PantryListFragment
+import com.example.pantry_organizer.recipe.fragment.PlanningListFragment
+import com.example.pantry_organizer.recipe.fragment.ShoppingListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity: AbstractPantryAppActivity() {
     // App menu identifier.
-    private var menuID = 0
+    private var menuID: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         // Initialize fragment on home activity to pantry fragment.
-        swapFragment(resources.getString(R.string.pantry_nav), PantryFragment(), R.menu.add_pantry_menu)
+        swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
 
         // Define navigation menu button listeners.
         appNav_appBar.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.pantry_navMenu -> swapFragment(resources.getString(R.string.pantry_nav), PantryFragment(), R.menu.add_pantry_menu)
-                //R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), )
-                //R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), )
-                //R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), )
+                R.id.pantry_navMenu -> swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
+                R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), ShoppingListFragment(), R.menu.add_recipe_menu)
+                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), PlanningListFragment(), null)
+                R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), ShoppingListFragment(), null)
             }
             true
         }
     }
 
     // Swap out a fragment on the home activity.
-    private fun swapFragment(title: String, fragment: Fragment, menu: Int) {
+    private fun swapFragment(title: String, fragment: Fragment, menu: Int?) {
         if (menuID != menu) {
             // Update the activity title bar.
             supportActionBar?.title = title
@@ -55,7 +56,10 @@ class HomeActivity: AbstractPantryAppActivity() {
     // Inflate the app menu corresponding to the current menuID.
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
-        menuInflater.inflate(menuID, menu)
+        // todo remove this when all fragments are implemented and change menu to non-nullable
+        if (menuID != null) {
+            menuInflater.inflate(menuID!!, menu)
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 

@@ -10,7 +10,7 @@ import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractCameraImageCapture
 import kotlinx.android.synthetic.main.activity_custom_food.*
 
-class CustomFoodActivity: AbstractCameraImageCapture() {
+class AddCustomFoodActivity: AbstractCameraImageCapture() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_food)

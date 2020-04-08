@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.activity.HomeActivity" />
-        <activity android:name=".pantry.activity.CustomFoodActivity" />
+        <activity android:name=".pantry.activity.AddCustomFoodActivity" />
         <activity android:name=".pantry.activity.AddPantryActivity" />
 
         <provider

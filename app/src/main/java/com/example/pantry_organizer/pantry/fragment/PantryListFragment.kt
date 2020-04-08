@@ -14,7 +14,7 @@ import com.example.pantry_organizer.global.viewModel.ViewModel
 import com.example.pantry_organizer.pantry.adapter.PantryListAdapter
 import kotlinx.android.synthetic.main.fragment_pantry_list.*
 
-class PantryFragment: AbstractPantryAppFragment() {
+class PantryListFragment: AbstractPantryAppFragment() {
     lateinit var viewModel: ViewModel
     private var pantryList: ArrayList<PantryData> = ArrayList()
 

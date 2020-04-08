@@ -21,4 +21,5 @@
 
     <string name="done_menu_item_desc">DONE</string>
     <string name="add_pantry_menu_item_desc">Add New Pantry</string>
+    <string name="add_recipe_menu_item_desc">Add New Recipe</string>
 </resources>
