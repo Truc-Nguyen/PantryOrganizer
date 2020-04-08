@@ -19,5 +19,6 @@
     <string name="planner_nav">Planner</string>
     <string name="shopping_nav">Shopping</string>
 
-    <string name="add_custom_food_menu_item_desc">DONE</string>
+    <string name="done_menu_item_desc">DONE</string>
+    <string name="add_pantry_menu_item_desc">Add New Pantry</string>
 </resources>

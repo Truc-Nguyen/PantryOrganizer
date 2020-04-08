@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".home.activity.HomeActivity" />
         <activity android:name=".pantry.activity.CustomFoodActivity" />
+        <activity android:name=".pantry.activity.AddPantryActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

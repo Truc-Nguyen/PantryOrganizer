@@ -1,17 +1,11 @@
-package com.example.pantry_organizer.home.adapters
+package com.example.pantry_organizer.pantry.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.FoodData
-import com.example.pantry_organizer.data.PantryData
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.fragment_food_item.view.*
 
 interface OnFoodItemClickListener{
     fun onFoodItemClicked(food: FoodData)
@@ -50,7 +44,10 @@ class FoodDataAdapter(private val list: ArrayList<FoodData>?, val itemClickListe
     private var listEvents : ArrayList<FoodData>? = list
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return FoodViewHolder(inflater, parent)
+        return FoodViewHolder(
+            inflater,
+            parent
+        )
     }
 
     //bind the object

@@ -88,17 +88,4 @@ abstract class AbstractCameraImageCapture: AbstractPantryAppActivity() {
         // Push the image to firebase storage.
         fbs.child(photoImagePath!!).putStream(stream)
     }
-
-//    // todo this is reference code for pulling a picture into firebase storage
-//    val imageRef = fbs.child("e9733fe0-9817-4906-90f4-d3d6e9f6162a.jpg")
-//
-//    imageRef.downloadUrl.addOnSuccessListener {
-//        Picasso.get()
-//            .load(it)
-//            .transform(CropSquareTransformation())
-//            .transform(RoundedCornersTransformation(10, 0))
-//            .placeholder(R.drawable.loading_icon).into(customFood_imageView)
-//    }.addOnFailureListener {
-//        customFood_imageView.setImageResource(R.drawable.no_image_icon)
-//    }
 }

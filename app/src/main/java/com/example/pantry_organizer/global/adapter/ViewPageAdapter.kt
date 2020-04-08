@@ -3,8 +3,6 @@ package com.example.pantry_organizer.global.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.example.pantry_organizer.home.fragments.PantryFragment
-import com.example.pantry_organizer.userManagement.fragment.LoginFragment
 
 class ViewPagerAdapter(supportFragmentManager: FragmentManager):
     FragmentStatePagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
