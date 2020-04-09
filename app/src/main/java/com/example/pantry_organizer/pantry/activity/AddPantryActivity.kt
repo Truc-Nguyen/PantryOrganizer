@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.global.activity.AbstractCameraImageCapture
@@ -29,20 +30,31 @@ class AddPantryActivity: AbstractCameraImageCapture() {
 
     // Inflate custom food activity app bar menu.
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.done_menu, menu)
+        menuInflater.inflate(R.menu.create_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     // App bar menu button listeners.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.done_menuItem -> {
-                // todo add fields for required food attributes
-                // todo sanitize inputs
-                val pantryData = PantryData(addPantry_pantryName_editText.text.toString(), photoImagePath)
+            R.id.create_menuItem -> {
+                // Harvest user input.
+                val name = addPantry_pantryName_editText.text.toString()
+                val location = addPantry_pantryLocation_editText.text.toString()
+
+                // Sanitize input.
+                if (name == "") {
+                    Toast.makeText(this, "Pantry name cannot be blank.", Toast.LENGTH_LONG).show()
+                    return true
+                } else if (location == "") {
+                    Toast.makeText(this, "Pantry location cannot be blank.", Toast.LENGTH_LONG).show()
+                    return true
+                }
+
+                // Create new pantry data entry for insertion into firebase.
+                val pantryData = PantryData(name, location, photoImagePath)
 
                 // Push data to firebase database.
-                // todo firebase user data structure? use food name as key? update instead of add?
                 db.collection("userData")
                     .document(userID!!)
                     .collection("pantryList")

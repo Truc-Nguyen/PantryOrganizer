@@ -32,9 +32,11 @@ class PantryListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
 RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_pantry_list_item, parent, false)) {
     fun bind(pantryData: PantryData) {
         val pantryNameView: TextView = itemView.findViewById(R.id.adapter_pantryList_pantryName_textView)
+        val pantryLocationView: TextView = itemView.findViewById(R.id.adapter_pantryList_pantryLocation_textView)
         val pantryImageView: ImageView = itemView.findViewById(R.id.adapter_pantryList_pantryImage_imageView)
 
         pantryNameView.text = pantryData.name
+        pantryLocationView.text = pantryData.location
         if (pantryData.imageLink == null) {
             pantryImageView.setImageResource(R.drawable.no_image_icon)
         } else {

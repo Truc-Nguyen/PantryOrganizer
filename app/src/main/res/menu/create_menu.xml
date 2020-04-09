@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/done_menuItem"
-        android:title="@string/done_menu_item_desc"
+        android:id="@+id/create_menuItem"
+        android:title="@string/create_menu_item_desc"
         app:showAsAction="always"/>
 </menu>

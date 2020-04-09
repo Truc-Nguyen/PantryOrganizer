@@ -13,7 +13,7 @@ interface OnFoodItemClickListener{
 
 //create the view holder
 class FoodViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.fragment_food_item, parent, false)) {
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_food_list_item, parent, false)) {
 
     private val food_name : TextView
     private val amount : TextView

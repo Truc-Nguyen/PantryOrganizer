@@ -19,7 +19,13 @@
     <string name="planner_nav">Planner</string>
     <string name="shopping_nav">Shopping</string>
 
-    <string name="done_menu_item_desc">DONE</string>
+    <string name="add_pantry_name_label">Pantry Name</string>
+    <string name="add_pantry_location_label">Location</string>
+    <string name="add_pantry_image_label">Image</string>
+    <string name="add_pantry_name_hint">Description</string>
+    <string name="add_pantry_location_hint">Physical Location</string>
+
+    <string name="create_menu_item_desc">CREATE</string>
     <string name="add_pantry_menu_item_desc">Add New Pantry</string>
     <string name="add_recipe_menu_item_desc">Add New Recipe</string>
 </resources>

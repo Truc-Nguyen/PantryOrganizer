@@ -29,14 +29,14 @@ class AddCustomFoodActivity: AbstractCameraImageCapture() {
 
     // Inflate custom food activity app bar menu.
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.done_menu, menu)
+        menuInflater.inflate(R.menu.create_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     // App bar menu button listeners.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.done_menuItem -> {
+            R.id.create_menuItem -> {
                 // todo add fields for required food attributes
                 // todo sanitize inputs
                 val foodData = FoodData("test food,", null, photoImagePath)

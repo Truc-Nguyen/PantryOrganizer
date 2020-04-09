@@ -1,8 +1,8 @@
 package com.example.pantry_organizer.global.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.data.Repository
@@ -18,12 +18,15 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         pantryList = getPantries()
     }
 
-    fun getPantries(): MutableLiveData<List<PantryData>> {
+    private fun getPantries(): MutableLiveData<List<PantryData>> {
         repository.getUserPantries()
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 var list: MutableList<PantryData> = mutableListOf()
                 for (doc in querySnapshot!!) {
-                    list.add(PantryData(doc))
+                    Log.d("aoeu",doc.get("name").toString())
+                    if (doc.get("name") != null) {
+                        list.add(PantryData(doc))
+                    }
                 }
                 pantryList.value = list
             }
