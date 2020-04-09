@@ -51,17 +51,21 @@ class AddPantryActivity: AbstractCameraImageCapture() {
                     return true
                 }
 
-                // Create new pantry data entry for insertion into firebase.
-                val pantryData = PantryData(name, location, photoImagePath)
+                // Create new pantry data entry.
+                val pantryData = PantryData(name, location, fbsFilename)
 
-                // Push data to firebase database.
-                db.collection("userData")
-                    .document(userID!!)
-                    .collection("pantryList")
-                    .add(pantryData.getDataMap())
+                // Attempt to push the new pantry to firebase.
+                if (viewModel.addPantry(pantryData.getDataMap())) {
+                    // Push successful.
+                    Toast.makeText(this, "$name added to pantries.", Toast.LENGTH_LONG).show()
 
-                // Return to previous activity.
-                onBackPressed()
+                    // Return to previous activity.
+                    onBackPressed()
+                } else {
+                    // Pantry with this name already exists.
+                    Toast.makeText(this, "$name already exists.", Toast.LENGTH_LONG).show()
+                }
+
                 true
             }
             else -> super.onOptionsItemSelected(item)

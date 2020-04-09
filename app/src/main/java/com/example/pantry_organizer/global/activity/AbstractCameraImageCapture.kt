@@ -11,7 +11,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.File
-import java.io.FileInputStream
 import java.io.IOException
 import java.util.*
 
@@ -21,8 +20,10 @@ abstract class AbstractCameraImageCapture: AbstractPantryAppActivity() {
     val REQUEST_CAMERA_IMAGE_CAPTURE = 2
 
     // Stores the path to the local file during temporary storage.
+    var tempLocalAbsolutePath: String? = null
+
     // Stores the firebase storage filename after the image has been pushed to the cloud.
-    var photoImagePath: String? = null
+    var fbsFilename: String? = null
 
     // Request use of camera to take a picture.
     fun requestImageCapture() {
@@ -70,22 +71,16 @@ abstract class AbstractCameraImageCapture: AbstractPantryAppActivity() {
         // Return the created file and store an instance of its absolute path to photoImagePath.
         return File.createTempFile(filename, ".jpg", storageDir)
             .apply {
-                photoImagePath = absolutePath
+                tempLocalAbsolutePath = absolutePath
             }
     }
 
     // Push the image to the cloud as well as an optional image view.
     fun pushImage(view: ImageView?) {
-        // Load the view with the file image.
-        view?.setImageBitmap(BitmapFactory.decodeFile(photoImagePath))
+        // Load the view if it exists with the file image.
+        view?.setImageBitmap(BitmapFactory.decodeFile(tempLocalAbsolutePath))
 
-        // Define the file stream from the locally stored image file.
-        val stream = FileInputStream(File(photoImagePath!!))
-
-        // Update photoImagePath to a random UUID to store in the cloud.
-        photoImagePath = "${UUID.randomUUID()}.jpg"
-
-        // Push the image to firebase storage.
-        fbs.child(photoImagePath!!).putStream(stream)
+        // Upload the image to firebase and get the cloud filename.
+        fbsFilename = viewModel.uploadFileToStorage(tempLocalAbsolutePath!!)
     }
 }

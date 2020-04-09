@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractCameraImageCapture
@@ -38,13 +39,21 @@ class AddCustomFoodActivity: AbstractCameraImageCapture() {
         return when (item.itemId) {
             R.id.create_menuItem -> {
                 // todo add fields for required food attributes
+                val name = "test food"
                 // todo sanitize inputs
-                val foodData = FoodData("test food,", null, photoImagePath)
+                val foodData = FoodData(name, null, fbsFilename)
 
-                // Push data to firebase database.
-                // todo firebase user data structure? use food name as key? update instead of add?
-                db.collection(userID!!)
-                    .add(foodData.getDataMap())
+                // Attempt to push the new pantry to firebase.
+                if (viewModel.addPantry(foodData.getDataMap())) {
+                    // Push successful.
+                    Toast.makeText(this, "$name added to pantries.", Toast.LENGTH_LONG).show()
+
+                    // Return to previous activity.
+                    onBackPressed()
+                } else {
+                    // Pantry with this name already exists.
+                    Toast.makeText(this, "$name already exists.", Toast.LENGTH_LONG).show()
+                }
 
                 // Return to previous activity.
                 onBackPressed()

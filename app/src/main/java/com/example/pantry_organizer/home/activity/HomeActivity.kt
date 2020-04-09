@@ -2,16 +2,21 @@ package com.example.pantry_organizer.home.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
-import com.example.pantry_organizer.recipe.fragment.PlanningListFragment
-import com.example.pantry_organizer.recipe.fragment.ShoppingListFragment
+import com.example.pantry_organizer.planner.fragment.PlanningListFragment
+import com.example.pantry_organizer.shopping.fragment.ShoppingListFragment
+import com.example.pantry_organizer.userManagement.activity.UserManagementActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.dialog_logout.*
 
 class HomeActivity: AbstractPantryAppActivity() {
     // App menu identifier.
@@ -70,6 +75,10 @@ class HomeActivity: AbstractPantryAppActivity() {
                 startActivity(Intent(this, AddPantryActivity:: class.java))
                 true
             }
+            R.id.addRecipe_menuItem -> {
+                // todo start activity to add new recipes here
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -77,5 +86,30 @@ class HomeActivity: AbstractPantryAppActivity() {
     // Prompt user for logout when the back button is pressed.
     override fun onBackPressed() {
         logout()
+    }
+
+    // Log out and return to user management page.
+    private fun logout() {
+        // Build an alert dialog for logging out.
+        val logoutView = LayoutInflater.from(this).inflate(R.layout.dialog_logout, null)
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(logoutView)
+            .setTitle("Logout")
+        val dialog = dialogBuilder.show()
+
+        // User selects yes to logout.
+        dialog.logoutYes_button.setOnClickListener{
+            dialog.dismiss()
+            FirebaseAuth.getInstance().signOut()
+
+            // Return to main menu.
+            val intent = Intent(this, UserManagementActivity::class.java)
+            startActivity(intent)
+        }
+
+        // User selects no to cancel.
+        dialog.logoutNo_button.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 }

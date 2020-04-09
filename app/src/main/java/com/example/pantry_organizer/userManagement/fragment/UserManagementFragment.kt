@@ -4,9 +4,12 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.global.fragment.AbstractPantryAppFragment
+import com.google.firebase.auth.FirebaseAuth
 
-abstract class UserManagementFragment: AbstractPantryAppFragment() {
+abstract class UserManagementFragment: Fragment() {
+    // Set firebase instances.
+    val auth = FirebaseAuth.getInstance()
+
     // Toggle components enable flag.
     private var enableComponents: Boolean = true
 

@@ -6,8 +6,6 @@ import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.adapter.ViewPagerAdapter
 import com.example.pantry_organizer.userManagement.fragment.LoginFragment
 import com.example.pantry_organizer.userManagement.fragment.SignUpFragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_user_management.*
 
 class UserManagementActivity: AppCompatActivity() {

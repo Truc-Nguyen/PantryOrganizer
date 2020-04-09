@@ -1,7 +1,7 @@
-package com.example.pantry_organizer.recipe.fragment
+package com.example.pantry_organizer.planner.fragment
 
-import com.example.pantry_organizer.global.fragment.AbstractPantryAppFragment
+import androidx.fragment.app.Fragment
 
-class PlanningListFragment: AbstractPantryAppFragment() {
+class PlanningListFragment: Fragment() {
 
 }
