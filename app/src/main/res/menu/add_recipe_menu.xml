@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/addRecipe_menuItem"
-        android:title="@string/add_pantry_menu_item_desc"
+        android:title="@string/add_recipe_menu_item_desc"
         android:icon="@drawable/add_new_icon"
         app:showAsAction="always"/>
 </menu>

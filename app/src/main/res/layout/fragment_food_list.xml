@@ -31,7 +31,6 @@
         android:id="@+id/add_food_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:text="Add Food"
         app:layout_constraintBottom_toTopOf="@+id/back_button"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -2,6 +2,7 @@ package com.example.pantry_organizer.home.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,8 @@ import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
 import com.example.pantry_organizer.planner.fragment.PlanningListFragment
+import com.example.pantry_organizer.recipe.fragment.AddRecipeActivity
+import com.example.pantry_organizer.recipe.fragment.RecipeListFragment
 import com.example.pantry_organizer.shopping.fragment.ShoppingListFragment
 import com.example.pantry_organizer.userManagement.activity.UserManagementActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +36,7 @@ class HomeActivity: AbstractPantryAppActivity() {
         appNav_appBar.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.pantry_navMenu -> swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
-                R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), ShoppingListFragment(), R.menu.add_recipe_menu)
+                R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), RecipeListFragment(), R.menu.add_recipe_menu)
                 R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), PlanningListFragment(), null)
                 R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), ShoppingListFragment(), null)
             }
@@ -76,7 +79,8 @@ class HomeActivity: AbstractPantryAppActivity() {
                 true
             }
             R.id.addRecipe_menuItem -> {
-                // todo start activity to add new recipes here
+                Log.d("recipe_menuitem", "clicked")
+                startActivity(Intent(this, AddRecipeActivity:: class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

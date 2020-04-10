@@ -1,10 +1,17 @@
 package com.example.pantry_organizer.data
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -51,4 +58,79 @@ class Repository {
             .document(pantryName)
             .delete()
     }
+
+    //Recipe fragment code
+
+    //get all recipes from firebase
+    fun getRecipes(): CollectionReference {
+        return db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+    }
+
+    // Push a new recipe to firebase.
+    fun addRecipe(recipeData: Map<String, Any?>){
+        db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeData["name"] as String)
+            .set(recipeData)
+    }
+
+    // Delete a recipe from firebase.
+    fun deleteRecipe(recipeName: String) {
+        val recipe = db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeName)
+            .delete()
+
+    }
+
+    // Get single recipe as a document reference
+   fun getSingleRecipe(recipname: String,resBody:MutableLiveData<RecipeData>){
+        Log.d("repogetsingle", "entered")
+        Log.d("repogetsingle", recipname)
+
+       CoroutineScope(Dispatchers.IO).launch{
+           Log.d("coroutine", "started")
+           val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("recipeList").document(recipname).get().await()
+           Log.d("coroutine", "ended")
+           withContext(Dispatchers.Main){
+               Log.d("coroutine", "in with context")
+               Log.d("coroutine", snapshot.get("name").toString())
+
+               val recipe = RecipeData(
+                   snapshot.get("name").toString(),
+                   snapshot.get("ingredientsList").toString(),
+                   snapshot.get("imageLink").toString()
+               )
+               Log.d("coroutine", recipe.ingredientsList)
+               resBody.value = recipe
+
+              // resBody.value = snapshot.toObject<RecipeData>()!!
+               Log.d("coroutine", "toObject")
+           }
+        }
+    }
+
+    suspend fun getRecipeFromFireStore(recipeName : String)
+            : DocumentSnapshot?{
+        Log.d("suspendfxn","entered" )
+        return try{
+            val data = db
+                .collection("userData")
+                .document(userID!!)
+                .collection("recipeList")
+                .document(recipeName)
+                .get()
+                .await()
+            Log.d("suspendfxn","exited" )
+            data
+        }catch (e : Exception){
+            null
+        }
+    }
+
+
 }

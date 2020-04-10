@@ -43,6 +43,9 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:$rootProject.firestoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuthVersion"
     implementation "com.google.firebase:firebase-storage-ktx:$rootProject.firebaseStorageVersion"
+    /* coroutines support for firebase operations */
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+    implementation "com.google.firebase:firebase-firestore-ktx:$rootProject.firestoreVersion"
 
     // Picasso
     implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
@@ -52,4 +55,7 @@ dependencies {
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "android.arch.lifecycle:extensions:1.1.1"
+
+    //Coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 }
