@@ -102,12 +102,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
     //get details of a recipe
     fun getSingleRecipe(recipeName: String) {
-        Log.d("VMgetsingle", "entered")
-        Log.d("VMgetsingle", recipeName)
-
-        //retrieve a recipe from firebase
         repository.getSingleRecipe(recipeName,singleRecipe)
-        Log.d("VMgetsingle", "success")
     }
 
 }

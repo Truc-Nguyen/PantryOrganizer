@@ -88,49 +88,17 @@ class Repository {
     }
 
     // Get single recipe as a document reference
-   fun getSingleRecipe(recipname: String,resBody:MutableLiveData<RecipeData>){
-        Log.d("repogetsingle", "entered")
-        Log.d("repogetsingle", recipname)
-
+   fun getSingleRecipe(recipeName: String,resBody:MutableLiveData<RecipeData>){
        CoroutineScope(Dispatchers.IO).launch{
-           Log.d("coroutine", "started")
-           val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("recipeList").document(recipname).get().await()
-           Log.d("coroutine", "ended")
+           val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("recipeList").document(recipeName).get().await()
            withContext(Dispatchers.Main){
-               Log.d("coroutine", "in with context")
-               Log.d("coroutine", snapshot.get("name").toString())
-
                val recipe = RecipeData(
                    snapshot.get("name").toString(),
                    snapshot.get("ingredientsList").toString(),
                    snapshot.get("imageLink").toString()
                )
-               Log.d("coroutine", recipe.ingredientsList)
                resBody.value = recipe
-
-              // resBody.value = snapshot.toObject<RecipeData>()!!
-               Log.d("coroutine", "toObject")
            }
         }
     }
-
-    suspend fun getRecipeFromFireStore(recipeName : String)
-            : DocumentSnapshot?{
-        Log.d("suspendfxn","entered" )
-        return try{
-            val data = db
-                .collection("userData")
-                .document(userID!!)
-                .collection("recipeList")
-                .document(recipeName)
-                .get()
-                .await()
-            Log.d("suspendfxn","exited" )
-            data
-        }catch (e : Exception){
-            null
-        }
-    }
-
-
 }
