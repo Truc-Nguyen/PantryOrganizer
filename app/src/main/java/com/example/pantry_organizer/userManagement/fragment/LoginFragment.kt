@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.home.activity.HomeActivity
@@ -20,8 +19,11 @@ class LoginFragment: UserManagementFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Sign up button click listener.
-        signUp_navigate.setOnClickListener {
+        // Turn off the warning layout.
+        loginWarning_layout.visibility = View.INVISIBLE
+
+        // Navigate to registration click listener.
+        register_navigate.setOnClickListener {
             val viewPager: ViewPager = activity!!.findViewById(R.id.userManagement_viewPager)
             viewPager.currentItem = 1
         }
@@ -29,6 +31,7 @@ class LoginFragment: UserManagementFragment() {
         // Login button click listener.
         login_button.setOnClickListener {
             toggleEnabledComponents()
+            loginWarning_layout.visibility = View.INVISIBLE
 
             // Harvest user input.
             val email = loginEmail_editText.text.toString()
@@ -39,15 +42,15 @@ class LoginFragment: UserManagementFragment() {
             // Sanitize input.
             if (email == "") {
                 toggleEnabledComponents()
-                Toast.makeText(activity, "Email cannot be blank.", Toast.LENGTH_LONG).show()
+                printLoginWarning("Email cannot be blank.")
                 return@setOnClickListener
             } else if (!emailRegex.matches(email)) {
                 toggleEnabledComponents()
-                Toast.makeText(activity, "Invalid email format.", Toast.LENGTH_LONG).show()
+                printLoginWarning("Invalid email entered.")
                 return@setOnClickListener
             } else if (password.length < 6) {
                 toggleEnabledComponents()
-                Toast.makeText(activity, "Password must be at least 6 characters.", Toast.LENGTH_LONG).show()
+                printLoginWarning("Invalid email or password entered.")
                 return@setOnClickListener
             }
 
@@ -60,7 +63,7 @@ class LoginFragment: UserManagementFragment() {
                         activity!!.startActivity(intent)
                     } else {
                         toggleEnabledComponents()
-                        Toast.makeText(activity,"Invalid email/password entered.", Toast.LENGTH_LONG).show()
+                        printLoginWarning("Invalid email or password entered.")
                     }
                 }
         }

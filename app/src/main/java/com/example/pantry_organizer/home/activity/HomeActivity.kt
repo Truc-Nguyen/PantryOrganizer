@@ -2,7 +2,6 @@ package com.example.pantry_organizer.home.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -63,9 +62,11 @@ class HomeActivity: AbstractPantryAppActivity() {
 
     // Inflate the app menu corresponding to the current menuID.
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        // Destroy the current app menu.
         menu?.clear()
         // todo remove this when all fragments are implemented and change menu to non-nullable
         if (menuID != null) {
+            // Inflate the new menu.
             menuInflater.inflate(menuID!!, menu)
         }
         return super.onPrepareOptionsMenu(menu)
@@ -79,7 +80,6 @@ class HomeActivity: AbstractPantryAppActivity() {
                 true
             }
             R.id.addRecipe_menuItem -> {
-                Log.d("recipe_menuitem", "clicked")
                 startActivity(Intent(this, AddRecipeActivity:: class.java))
                 true
             }
@@ -98,11 +98,10 @@ class HomeActivity: AbstractPantryAppActivity() {
         val logoutView = LayoutInflater.from(this).inflate(R.layout.dialog_logout, null)
         val dialogBuilder = AlertDialog.Builder(this)
             .setView(logoutView)
-            .setTitle("Logout")
         val dialog = dialogBuilder.show()
 
         // User selects yes to logout.
-        dialog.logoutYes_button.setOnClickListener{
+        dialog.signOutConfirm_button.setOnClickListener{
             dialog.dismiss()
             FirebaseAuth.getInstance().signOut()
 
@@ -112,7 +111,7 @@ class HomeActivity: AbstractPantryAppActivity() {
         }
 
         // User selects no to cancel.
-        dialog.logoutNo_button.setOnClickListener {
+        dialog.signOutCancel_button.setOnClickListener {
             dialog.dismiss()
         }
     }

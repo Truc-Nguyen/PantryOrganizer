@@ -8,7 +8,7 @@
     tools:context=".userManagement.activity.UserManagementActivity">
 
     <ImageView
-        android:id="@+id/loginTitle_imageView"
+        android:id="@+id/register_imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -21,14 +21,14 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
-        android:id="@+id/loginEmail_layout"
+        android:id="@+id/registerEmail_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/edit_text_border"
         android:layout_marginTop="60dp"
         android:layout_marginHorizontal="50dp"
-        app:layout_constraintTop_toBottomOf="@id/loginTitle_imageView"
+        app:layout_constraintTop_toBottomOf="@id/register_imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -42,7 +42,7 @@
             android:layout_marginHorizontal="5dp"/>
 
         <EditText
-            android:id="@+id/loginEmail_editText"
+            android:id="@+id/registerEmail_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_email_hint"
@@ -53,14 +53,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/loginPassword_layout"
+        android:id="@+id/registerPassword_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/edit_text_border"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="50dp"
-        app:layout_constraintTop_toBottomOf="@id/loginEmail_layout"
+        app:layout_constraintTop_toBottomOf="@id/registerEmail_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -75,7 +75,7 @@
             android:layout_marginEnd="11dp"/>
 
         <EditText
-            android:id="@+id/loginPassword_editText"
+            android:id="@+id/registerPassword_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_password_hint"
@@ -86,14 +86,47 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/loginWarning_layout"
+        android:id="@+id/registerConfirmPassword_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/edit_text_border"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintTop_toBottomOf="@id/registerPassword_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/password_icon"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="11dp"/>
+
+        <EditText
+            android:id="@+id/registerConfirmPassword_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/register_confirm_password_hint"
+            android:inputType="textPassword"
+            android:layout_marginHorizontal="10dp"
+            android:layout_gravity="center_vertical"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/registerWarning_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:layout_marginHorizontal="50dp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/loginPassword_layout"
+        app:layout_constraintTop_toBottomOf="@id/registerConfirmPassword_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -106,7 +139,7 @@
             android:layout_marginEnd="10dp"/>
 
         <TextView
-            android:id="@+id/loginWarning_textView"
+            android:id="@+id/registerWarning_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -115,30 +148,30 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_fragment_title"
+        android:text="@string/register_fragment_title"
         android:gravity="center"
         android:layout_marginTop="30dp"
         android:layout_marginHorizontal="120dp"
         android:paddingVertical="10dp"
         android:background="@drawable/button_style_user_management"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/loginWarning_layout"
+        app:layout_constraintTop_toBottomOf="@id/registerWarning_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/register_navigate"
+        android:id="@+id/login_navigate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_register_hint"
+        android:text="@string/register_login_hint"
         android:gravity="center"
         android:layout_marginTop="20dp"
         android:textColor="@color/blue"
         android:textSize="6pt"
-        app:layout_constraintTop_toBottomOf="@id/login_button"
+        app:layout_constraintTop_toBottomOf="@id/register_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
