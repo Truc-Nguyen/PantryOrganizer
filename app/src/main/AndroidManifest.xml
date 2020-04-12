@@ -29,9 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.activity.HomeActivity" />
-        <activity android:name=".pantry.activity.AddCustomFoodActivity" />
         <activity android:name=".pantry.activity.AddPantryActivity" />
         <activity android:name=".recipe.fragment.AddRecipeActivity" />
+        <activity android:name=".pantry.activity.AddFoodActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
