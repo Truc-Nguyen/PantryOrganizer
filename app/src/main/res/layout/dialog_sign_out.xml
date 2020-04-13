@@ -57,7 +57,7 @@
             android:text="@string/sign_out_cancel"
             android:textColor="@color/white"
             android:textSize="7pt"
-            android:background="@drawable/button_cancel"/>
+            android:background="@drawable/button_gray"/>
 
         <Button
             android:id="@+id/signOutConfirm_button"
@@ -68,6 +68,6 @@
             android:text="@string/sign_out_confirm"
             android:textColor="@color/white"
             android:textSize="7pt"
-            android:background="@drawable/button_confirm"/>
+            android:background="@drawable/button_red"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
