@@ -3,7 +3,9 @@ package com.example.pantry_organizer.global.viewModel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.data.Repository
@@ -19,6 +21,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
     // Live data objects.
     val pantryList: MutableLiveData<List<PantryData>> = MutableLiveData()
+    var foodPreviewList: MutableLiveData<List<FoodData>> = MutableLiveData()
     val recipeList: MutableLiveData<List<RecipeData>> = MutableLiveData()
     var singleRecipe: MutableLiveData<RecipeData> = MutableLiveData()
 
@@ -104,5 +107,12 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     fun getSingleRecipe(recipeName: String) {
         repository.getSingleRecipe(recipeName,singleRecipe)
     }
+
+
+//    fun getFoodPreviews(name: String){
+//        repository.getFoodPreviews( foodPreviewList, name)
+//    }
+
+
 
 }

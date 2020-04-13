@@ -2,6 +2,7 @@ package com.example.pantry_organizer.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.pantry_organizer.network.ApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
@@ -12,6 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -48,6 +52,34 @@ class Repository {
         fbs.child(fbsFilename).putStream(FileInputStream(File(filePath)))
 
         return fbsFilename
+    }
+
+    fun addFood(pantryName: String, foodAndAmount: Pair<FoodData, Int>){
+        //get existing foodList as an arraylist (if null, create arraylist)
+        //append new foodData, quantity pair
+        //reupload foodlist to database
+        //currently non-functional
+//        var listTask  =
+//            db.collection("userData")
+//            .document(userID!!)
+//                .collection("pantryList")
+//                .document(pantryName)
+//                .get()
+//
+//        listTask.addOnCompleteListener(){
+//            val listDoc = listTask.result
+//            var list : MutableList<Pair<FoodData, Int>>
+//            list = listDoc!!.get("foodList") as MutableList<Pair<FoodData, Int>>
+//            list.add(foodAndAmount)
+//
+//            val newList = list.toList()
+//            fbs.child("userData").child(userID!!).child("pantryList").child(pantryName).child("foodList")
+//
+//        }
+//
+//
+//        Log.d("test", listTask.toString())
+
     }
 
     // Delete a pantry from firebase.
@@ -101,4 +133,25 @@ class Repository {
            }
         }
     }
+
+    //create api client
+    val service = ApiClient.makeRetrofitService()
+
+//    fun getFoodPreviews(resBody: MutableLiveData<List<FoodData>>, title: String) {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val response = service.getFoodBySearch(title)
+//
+//            withContext(Dispatchers.Main) {
+//                try {
+//                    if (response.isSuccessful) {
+//                        resBody.value = response.body()
+//                    }
+//                } catch (e: HttpException) {
+//                    println("Http error")
+//                }
+//            }
+//        }
+//    }
+
 }
+

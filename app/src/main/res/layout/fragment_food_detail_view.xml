@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/enter_food_name"
+        android:hint="Food name"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:contentDescription="TODO"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/enter_food_calories"
+        android:hint="Calories"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:id="@+id/enter_food_serving_size"
+        android:hint="Serving Size"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:id="@+id/enter_food_fat"
+        android:hint="Fat Content (g)"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:id="@+id/enter_food_sugar"
+        android:hint="Sugar Content (g)"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:id="@+id/enter_food_carbs"
+        android:hint="Carbohydrates (g)"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:id="@+id/enter_food_protein"
+        android:hint="Protein Content (g)"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginBottom="10dp"
+        />
+
+        <Button
+            android:id="@+id/enter_manual_food_item"
+            android:text="Return to Pantry"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"/>
+</LinearLayout>

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
+import com.example.pantry_organizer.pantry.fragment.PantryFoodFragment
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
 import com.example.pantry_organizer.planner.fragment.PlanningListFragment
 import com.example.pantry_organizer.recipe.fragment.AddRecipeActivity
