@@ -153,7 +153,7 @@
         android:layout_height="wrap_content"
         android:text="@string/register_fragment_title"
         android:gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginHorizontal="120dp"
         android:paddingVertical="10dp"
         android:background="@drawable/button_style_user_management"

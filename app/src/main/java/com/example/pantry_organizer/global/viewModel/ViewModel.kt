@@ -36,7 +36,9 @@ class ViewModel(application: Application): AndroidViewModel(application) {
             .addSnapshotListener { querySnapshot, _ ->
                 val list: MutableList<PantryData> = mutableListOf()
                 for (doc in querySnapshot!!) {
-                    list.add(PantryData(doc))
+                    if (doc.get("name") != null) {
+                        list.add(PantryData(doc))
+                    }
                 }
                 pantryList.value = list
             }

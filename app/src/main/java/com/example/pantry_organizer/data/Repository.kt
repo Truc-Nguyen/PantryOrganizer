@@ -84,7 +84,7 @@ class Repository {
 
     // Delete a pantry from firebase.
     fun deletePantry(pantryName: String) {
-        val pantry = db.collection("userData")
+        db.collection("userData")
             .document(userID!!)
             .collection("pantryList")
             .document(pantryName)
