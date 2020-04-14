@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.pantry_organizer.data.FoodData
-import com.example.pantry_organizer.data.PantryData
-import com.example.pantry_organizer.data.RecipeData
-import com.example.pantry_organizer.data.Repository
+import com.example.pantry_organizer.data.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.CoroutineScope
@@ -16,12 +13,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ViewModel(application: Application): AndroidViewModel(application) {
-    // Firebase repository.
+    // Firebase repository (and Api)
     private val repository = Repository()
 
     // Live data objects.
     val pantryList: MutableLiveData<List<PantryData>> = MutableLiveData()
-    var foodPreviewList: MutableLiveData<List<FoodData>> = MutableLiveData()
+    var foodPreviewList: MutableLiveData<ApiFoodPreviewPackage> = MutableLiveData()
+    var foodNutrients: MutableLiveData<ApiFoodNutritionPackage> = MutableLiveData()
     val recipeList: MutableLiveData<List<RecipeData>> = MutableLiveData()
     var singleRecipe: MutableLiveData<RecipeData> = MutableLiveData()
 
@@ -109,9 +107,15 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-//    fun getFoodPreviews(name: String){
-//        repository.getFoodPreviews( foodPreviewList, name)
-//    }
+    //get food previews from the nutritionix api
+    fun getFoodPreviews(query: String){
+        repository.getFoodPreviews( foodPreviewList, query)
+    }
+
+    // get food nutrient information from the nutritionix api
+    fun getFoodNutrients(query: String){
+        repository.getFoodNutrients(foodNutrients, query)
+    }
 
 
 

@@ -12,12 +12,12 @@ import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.home.activity.HomeActivity
 import com.example.pantry_organizer.pantry.activity.AddFoodActivity
-import com.example.pantry_organizer.pantry.adapter.FoodDataAdapter
+//import com.example.pantry_organizer.pantry.adapter.FoodDataAdapter
 import kotlinx.android.synthetic.main.fragment_food_list.*
 
 class PantryFoodFragment: Fragment() {
     private var foodRecycler: RecyclerView? = null
-    private var mAdapter: FoodDataAdapter? = null
+//    private var mAdapter: FoodDataAdapter? = null
 
     // firebase instances already set in AbstractPantryAppFragment.
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
