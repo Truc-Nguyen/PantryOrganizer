@@ -137,21 +137,37 @@ class Repository {
     //create api client
     val service = ApiClient.makeRetrofitService()
 
-//    fun getFoodPreviews(resBody: MutableLiveData<List<FoodData>>, title: String) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val response = service.getFoodBySearch(title)
-//
-//            withContext(Dispatchers.Main) {
-//                try {
-//                    if (response.isSuccessful) {
-//                        resBody.value = response.body()
-//                    }
-//                } catch (e: HttpException) {
-//                    println("Http error")
-//                }
-//            }
-//        }
-//    }
+    fun getFoodPreviews(resBody: MutableLiveData<ApiFoodPreviewPackage>, food: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = service.getFoodBySearch(food)
+
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        resBody.value = response.body()
+                    }
+                } catch (e: HttpException) {
+                    println("Http error")
+                }
+            }
+        }
+    }
+
+    fun getFoodNutrients(resBody: MutableLiveData<ApiFoodNutritionPackage>, food: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = service.getFoodNutrients(food)
+
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        resBody.value = response.body()
+                    }
+                } catch (e: HttpException) {
+                    println("Http error")
+                }
+            }
+        }
+    }
 
 }
 

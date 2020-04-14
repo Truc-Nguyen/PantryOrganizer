@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.home.activity.HomeActivity
-import com.example.pantry_organizer.pantry.adapter.FoodDataAdapter
 import kotlinx.android.synthetic.main.fragment_add_custom_food.*
 import kotlinx.android.synthetic.main.fragment_add_online_food.*
 import kotlinx.android.synthetic.main.fragment_food_list.*
