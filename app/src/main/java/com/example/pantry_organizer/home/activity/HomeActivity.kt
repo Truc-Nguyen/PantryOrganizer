@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
+import com.example.pantry_organizer.pantry.activity.AddFoodActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
 import com.example.pantry_organizer.planner.fragment.PlanningListFragment
@@ -80,7 +81,7 @@ class HomeActivity: AbstractPantryAppActivity() {
                 true
             }
             R.id.addRecipe_menuItem -> {
-                startActivity(Intent(this, AddRecipeActivity:: class.java))
+                startActivity(Intent(this, AddRecipeActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

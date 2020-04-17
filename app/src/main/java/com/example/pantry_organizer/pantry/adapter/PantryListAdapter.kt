@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
-import com.example.pantry_organizer.pantry.fragment.PantryFoodFragment
+import com.example.pantry_organizer.pantry.fragment.PantryFoodListFragment
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
@@ -28,22 +28,23 @@ class PantryListAdapter(private val list: ArrayList<PantryData>?): RecyclerView.
         // Extract the pantry data from the position in the list.
         val pantry = list?.get(position)
 
-        // Bind the pantry data to the view holder.
-        holder.bind(pantry)
+        holder.bind(list!![position])
+        holder.itemView.setOnClickListener(object: View.OnClickListener{
+            override fun onClick(view: View?){
+//                val myToast = Toast.makeText(this.context,"This would take you to food in the pantry", Toast.LENGTH_SHORT)
+//                myToast.show()
+                val activity = view!!.context as AppCompatActivity
+                var bundle = Bundle()
+                //is there a better identifier than pantry name?
+                bundle.putString("PantryName", pantry!!.name)
+                val fragment = PantryFoodListFragment()
+                fragment.arguments = bundle
+                val transanction = activity.supportFragmentManager!!.beginTransaction()
+                transanction.replace(R.id.home_frameLayout, fragment)
+                transanction.commit()
+            }
+        })
 
-        // todo ?
-        holder.itemView.setOnClickListener {
-            val activity = it!!.context as AppCompatActivity
-            var bundle = Bundle()
-            //is there a better identifier than pantry name?
-            Log.d("PantryName", pantry?.name)
-            bundle.putString("pantry_name", pantry?.name)
-            val fragment = PantryFoodFragment()
-            fragment.arguments = bundle
-            val transanction = activity.supportFragmentManager!!.beginTransaction()
-            transanction.replace(R.id.home_frameLayout, fragment)
-            transanction.commit()
-        }
     }
 
     override fun getItemCount(): Int {

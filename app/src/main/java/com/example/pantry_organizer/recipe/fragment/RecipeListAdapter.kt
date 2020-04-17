@@ -31,10 +31,6 @@ class RecipeListAdapter(private val list: ArrayList<RecipeData>?): RecyclerView.
         val recipeName: String = holder.bind(list!![position])
         holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-
-                Log.d("onclick", "succeeded")
-                Log.d("adaptrecipename", recipeName)
-
                 //store
                 val bundle = Bundle()
                 bundle.putString("RecipeName",recipeName)

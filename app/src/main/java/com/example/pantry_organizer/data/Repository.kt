@@ -34,6 +34,23 @@ class Repository {
             .collection("pantryList")
     }
 
+
+
+    //Get single pantry, called in view model to get food list
+    fun getSinglePantryFoods(pantryName: String,resBody:MutableLiveData<List<List<String>>>){
+        CoroutineScope(Dispatchers.IO).launch{
+            val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("pantryList").document(pantryName).get().await()
+            withContext(Dispatchers.Main){
+                var pantryFoodList = snapshot.get("foodList") as List<List<String>>?
+                Log.d("repogetsinglepantry",pantryFoodList.toString())
+//                if (pantryFoodList == null) {
+//                    pantryFoodList = emptyList()
+//                }
+                resBody.value = pantryFoodList
+            }
+        }
+    }
+
     // Push a new pantry to firebase.
     fun addPantry(pantryData: Map<String, Any?>){
         db.collection("userData")
@@ -54,31 +71,53 @@ class Repository {
         return fbsFilename
     }
 
-    fun addFood(pantryName: String, foodAndAmount: Pair<FoodData, Int>){
-        //get existing foodList as an arraylist (if null, create arraylist)
-        //append new foodData, quantity pair
-        //reupload foodlist to database
-        //currently non-functional
-//        var listTask  =
-//            db.collection("userData")
-//            .document(userID!!)
-//                .collection("pantryList")
-//                .document(pantryName)
-//                .get()
-//
-//        listTask.addOnCompleteListener(){
+    fun addFoodToFirebase(foodData: Map<String, Any?>){
+        Log.d("repoaddfood","entered")
+        db.collection("userData")
+            .document(userID!!)
+            .collection("foodList")
+            .document(foodData["food_name"] as String)
+            .set(foodData)
+        Log.d("repoaddfood","finished")
+    }
+
+    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>, resBody: MutableLiveData<List<List<String>>>) {
+        var updatedFoodList: List<List<String>> = emptyList()
+        Log.d("repoaddfood",foodAndAmount[0])
+        Log.d("repoaddfood",foodAndAmount[1])
+
+        CoroutineScope(Dispatchers.IO).launch{
+            //get initial food list
+            val snapshot: DocumentSnapshot = db.collection("userData")
+                    .document(userID!!).collection("pantryList")
+                    .document(pantryName).get().await()
+            withContext(Dispatchers.Main){
+                var tempFoodList = snapshot.get("foodList") as MutableList<List<String>>
+                Log.d("repoaddfood","before adding: " + tempFoodList.toString())
+                tempFoodList.add(foodAndAmount)
+
+                updatedFoodList = tempFoodList.toList()
+//                val updatedPantry = PantryData(
+//                    snapshot.get("name").toString(),
+//                    snapshot.get("location").toString(),
+//                    snapshot.get("imageLink").toString(),
+//                    updatedFoodList
+//                )
+                Log.d("repoaddfood","after adding: " + updatedFoodList.toString())
+
+                snapshot.reference.update("foodList",updatedFoodList)
+
+                resBody.value = updatedFoodList
+            }
+        }
+
 //            val listDoc = listTask.result
-//            var list : MutableList<Pair<FoodData, Int>>
-//            list = listDoc!!.get("foodList") as MutableList<Pair<FoodData, Int>>
+//            var list : MutableList<Pair<_root_ide_package_.com.example.pantry_organizer.data.ApiFoodNutrition, Int>>
+//            list = listDoc!!.get("foodList") as MutableList<Pair<_root_ide_package_.com.example.pantry_organizer.data.ApiFoodNutrition, Int>>
 //            list.add(foodAndAmount)
 //
 //            val newList = list.toList()
 //            fbs.child("userData").child(userID!!).child("pantryList").child(pantryName).child("foodList")
-//
-//        }
-//
-//
-//        Log.d("test", listTask.toString())
 
     }
 
@@ -132,6 +171,34 @@ class Repository {
                resBody.value = recipe
            }
         }
+    }
+
+    // Get single food as a document reference
+    fun getSingleFood(foodName: String,resBody:MutableLiveData<ApiFoodNutrition>){
+        CoroutineScope(Dispatchers.IO).launch{
+            val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("foodList").document(foodName).get().await()
+            withContext(Dispatchers.Main){
+                val food = ApiFoodNutrition(
+                    snapshot.get("serving_qty").toString(),
+                    snapshot.get("serving_unit").toString(),
+                    snapshot.get("nf_calories").toString().toDouble(),
+                    snapshot.get("nf_total_fat").toString().toDouble(),
+                    snapshot.get("nf_total_carbohydrate").toString().toDouble(),
+                    snapshot.get("nf_sugars").toString().toDouble(),
+                    snapshot.get("nf_protein").toString().toDouble(),
+                    snapshot.get("photo") as Photo,
+                    snapshot.get("food_name").toString()
+                )
+                resBody.value = food
+            }
+        }
+    }
+
+    // Get all food data objects from firebase.
+    fun getFoods(): CollectionReference {
+        return db.collection("userData")
+            .document(userID!!)
+            .collection("foodList")
     }
 
     //create api client

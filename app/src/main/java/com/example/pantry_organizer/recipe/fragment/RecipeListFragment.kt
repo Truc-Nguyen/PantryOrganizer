@@ -37,7 +37,7 @@ class RecipeListFragment: Fragment() {
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)
 
-        // Attach observer to pantry list.
+        // Attach observer to recipe list.
         viewModel.recipeList.observe(this, Observer { liveData ->
             recipeList.clear()
             recipeList.addAll(liveData)

@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_centerHorizontal="true"
         android:textAlignment="center" />
     <TextView
         android:id="@+id/pantry_food_amount"
@@ -21,24 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:layout_centerHorizontal="true"
         android:textAlignment="center" />
-    <TextView
-        android:id="@+id/pantry_food_calories"
-        android:text="Calories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center" />
-    <ImageView
-        android:id="@+id/food_imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="30dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
 </RelativeLayout>

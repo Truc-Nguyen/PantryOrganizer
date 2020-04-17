@@ -41,7 +41,7 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-firestore:$rootProject.firestoreVersion"
-    implementation "com.google.firebase:firebase-auth:$rootProject.firebaseAuthVersion"
+    implementation "com.google.firebase:firebase-auth:17.0.0"
     implementation "com.google.firebase:firebase-storage-ktx:$rootProject.firebaseStorageVersion"
     /* coroutines support for firebase operations */
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'

@@ -6,19 +6,8 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/enter_food_name"
-        android:hint="Food name"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="25dp"
-        android:layout_marginBottom="10dp"
-        />
-
-
     <ImageView
+        android:id="@+id/food_detail_imageView"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:contentDescription="TODO"
@@ -28,7 +17,7 @@
 
 
     <TextView
-        android:id="@+id/enter_food_calories"
+        android:id="@+id/food_detail_calories"
         android:hint="Calories"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -38,7 +27,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/enter_food_serving_size"
+        android:id="@+id/food_detail_serving_size"
         android:hint="Serving Size"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -48,7 +37,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/enter_food_fat"
+        android:id="@+id/food_detail_fat"
         android:hint="Fat Content (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -58,7 +47,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/enter_food_sugar"
+        android:id="@+id/food_detail_sugar"
         android:hint="Sugar Content (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -68,7 +57,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/enter_food_carbs"
+        android:id="@+id/food_detail_carbs"
         android:hint="Carbohydrates (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -78,7 +67,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/enter_food_protein"
+        android:id="@+id/food_detail_protein"
         android:hint="Protein Content (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -88,11 +77,4 @@
         android:layout_marginBottom="10dp"
         />
 
-        <Button
-            android:id="@+id/enter_manual_food_item"
-            android:text="Return to Pantry"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"/>
 </LinearLayout>

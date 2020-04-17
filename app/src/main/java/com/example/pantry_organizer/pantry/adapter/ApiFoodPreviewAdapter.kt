@@ -90,8 +90,8 @@ class FoodPreviewViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
 //        val food_img: ImageView = itemView.findViewById(R.id.adapter_pantryList_pantryImage_imageView)
         food_name.text = food!!.food_name
         val picasso = Picasso.get()
-        val trackImgUrl = food.photo.thumb
-        picasso.load(trackImgUrl).into(food_img)
+//        val trackImgUrl = food.photo.thumb
+//        picasso.load(trackImgUrl).into(food_img)
     }
 }
 

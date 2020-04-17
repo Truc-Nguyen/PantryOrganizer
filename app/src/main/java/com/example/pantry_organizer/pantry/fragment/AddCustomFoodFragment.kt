@@ -2,45 +2,143 @@ package com.example.pantry_organizer.pantry.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
+import com.example.pantry_organizer.data.ApiFoodNutrition
 import com.example.pantry_organizer.data.PantryData
+//import com.example.pantry_organizer.data.Photo
+import com.example.pantry_organizer.global.viewModel.ViewModel
 import com.example.pantry_organizer.home.activity.HomeActivity
+import kotlinx.android.synthetic.main.activity_add_pantry.*
 import kotlinx.android.synthetic.main.fragment_add_custom_food.*
 import kotlinx.android.synthetic.main.fragment_add_online_food.*
 import kotlinx.android.synthetic.main.fragment_food_list.*
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class AddCustomFoodFragment: Fragment() {
+
+    lateinit var viewModel: ViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        //enable menu functions
+        setHasOptionsMenu(true);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_custom_food, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
 
-        enter_custom_food_item.setOnClickListener {
-            //Call function to add food to pantry food list
+//        enter_custom_food_item.setOnClickListener {
+//            //Call function to add food to pantry food list
+//
+//            val myToast = Toast.makeText(this.context,"Add Custom Food To Pantry", Toast.LENGTH_SHORT)
+//            myToast.show()
+//        }
 
-            val myToast = Toast.makeText(this.context,"Add Custom Food To Pantry", Toast.LENGTH_SHORT)
-            myToast.show()
-        }
 
-        custom_return_to_pantry.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
-            activity!!.startActivity(intent)
-        }
-
+//        custom_return_to_pantry.setOnClickListener {
+//            val intent = Intent(activity, HomeActivity::class.java)
+//            activity!!.startActivity(intent)
+//        }
 
     }
+
+    // App bar menu button listeners.
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.create_menuItem -> {
+                Log.d("addcustomfood","create menu button pressed")
+
+                // Harvest user input.
+                val name = enter_food_name.text.toString()
+                val amount = enter_food_amount.text.toString()
+                // Sanitize input for necessary fields
+                if (name == "") {
+                    Toast.makeText(this.context, "Food name cannot be blank.", Toast.LENGTH_LONG).show()
+                    return true
+                } else if (amount == "") {
+                    Toast.makeText(this.context, "Food amount cannot be blank.", Toast.LENGTH_LONG).show()
+                    return true
+                }
+
+                //optional entries
+                var calories = 0.0
+                if (enter_food_calories.text.toString() != "") calories = enter_food_calories.text.toString().toDouble()
+                var servingSize = "Not known"
+                if (enter_food_serving_size_quantity.text.toString() != "") servingSize = enter_food_serving_size_quantity.text.toString()
+                var servingUnit = "Not known"
+                if (enter_food_serving_size_unit.text.toString() != "") servingSize = enter_food_serving_size_unit.text.toString()
+                var fat = 0.0
+                if (enter_food_fat.text.toString() != "") fat = enter_food_fat.text.toString().toDouble()
+                var carbs = 0.0
+                if (enter_food_carbs.text.toString() != "") carbs = enter_food_carbs.text.toString().toDouble()
+                var sugar = 0.0
+                if (enter_food_sugar.text.toString() != "") sugar = enter_food_sugar.text.toString().toDouble()
+                var protein = 0.0
+                if (enter_food_protein.text.toString() != "") protein = enter_food_protein.text.toString().toDouble()
+
+
+                //get current pantry location
+                //retrieve arguments from previous fragment
+                val bundle = this.arguments
+                val currentPantry=bundle!!.getString("EnterPantry","none")
+                Log.d("addcustomfood","current pantry: $currentPantry")
+
+                Log.d("addcustomfood","name: $name")
+                Log.d("addcustomfood","amount: $amount")
+                val foodPair = listOf(name,amount)
+                Log.d("addcustomfood","added to pantry foodlist")
+
+                // Create new food database entry
+               val foodData = ApiFoodNutrition(
+                   servingSize,
+                   servingUnit,
+                   calories,
+                   fat,
+                   carbs,
+                   sugar,
+                   protein,null,name
+                   )
+                // Attempt to push the new pantry to firebase.
+                if (viewModel.addFoodToFirebase(foodData.getDataMap())) {
+                    // Push successful.
+                    Toast.makeText(this.context, "$name added to firebase", Toast.LENGTH_LONG).show()
+
+//Stuff not working, do not delete
+
+//                    if (viewModel.addFoodToPantry(currentPantry,foodPair)){
+//                        Toast.makeText(this.context, "$name added to pantry food list", Toast.LENGTH_LONG).show()
+
+                        // Return to previous activity.
+                        this.activity!!.onBackPressed()
+
+//                    }
+
+                } else {
+                    // Pantry with this name already exists.
+                    Toast.makeText(this.context, "$name already exists.", Toast.LENGTH_LONG).show()
+                }
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 }
 
 //package com.example.pantry_organizer.pantry.activity

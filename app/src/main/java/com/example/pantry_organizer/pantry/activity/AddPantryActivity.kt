@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.global.activity.AbstractCameraImageCapture
 import kotlinx.android.synthetic.main.activity_add_pantry.*
@@ -53,8 +52,9 @@ class AddPantryActivity: AbstractCameraImageCapture() {
                 }
 
                 // Create new pantry data entry.
-                val pantryData = PantryData(name, location, fbsFilename)
-//                val pantryData = PantryData(name, location, fbsFilename, List<Pair<FoodData,Int>>())
+//                val pantryData = PantryData(name, location, fbsFilename)
+                val newFoodList : List<List<String>> = emptyList()
+                val pantryData = PantryData(name, location, fbsFilename, newFoodList)
 
                 // Attempt to push the new pantry to firebase.
                 if (viewModel.addPantry(pantryData.getDataMap())) {

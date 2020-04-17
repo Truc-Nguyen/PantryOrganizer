@@ -1,47 +1,46 @@
 package com.example.pantry_organizer.pantry.adapter
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.FoodData
-
-interface OnItemClickListener{
-    fun onFoodItemClicked(food: FoodData)
-}
+import com.example.pantry_organizer.data.RecipeData
+import com.example.pantry_organizer.pantry.fragment.FoodDetailFragment
+import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+import com.example.pantry_organizer.recipe.fragment.RecipeListViewHolder
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropSquareTransformation
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 
 //create the view holder
 class PantryFoodListViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_food_list_item, parent, false)) {
 
-    private val food_name : TextView
-    private val amount : TextView
-    private val calories : TextView
+    fun bind(foodNameAndAmount: List<String>): String {
+//fun bind(foodNameAndAmount: HashMap<String, String>): String {
 
-    init {
-        food_name = itemView.findViewById(R.id.pantry_food_name)
-        amount = itemView.findViewById(R.id.pantry_food_amount)
-        calories = itemView.findViewById(R.id.pantry_food_calories)
-    }
+    val foodNameView: TextView = itemView.findViewById(R.id.pantry_food_name)
+        val foodAmountView: TextView = itemView.findViewById(R.id.pantry_food_amount)
 
-    fun bind(food: FoodData,clickListener: OnItemClickListener) {
-        food_name.text = food!!.name
-//        amount.text =
-//        calories.text =
+        foodNameView.text = foodNameAndAmount[0]
+        foodAmountView.text = foodNameAndAmount[1]
 
-        itemView.setOnClickListener {
-            clickListener.onFoodItemClicked(food)
-
-        }
+        return foodNameAndAmount[0]
     }
 
 }
 
 //create the listener for the recycler view
-class PantryFoodListAdapter(private val list: ArrayList<FoodData>?, val itemClickListener: OnItemClickListener)
-    : RecyclerView.Adapter<PantryFoodListViewHolder>() {
-    private var listEvents : ArrayList<FoodData>? = list
+class PantryFoodListAdapter(private val list: List<List<String>>?) : RecyclerView.Adapter<PantryFoodListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PantryFoodListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return PantryFoodListViewHolder(
@@ -50,14 +49,38 @@ class PantryFoodListAdapter(private val list: ArrayList<FoodData>?, val itemClic
         )
     }
 
-    //bind the object
     override fun onBindViewHolder(holder: PantryFoodListViewHolder, position: Int) {
-        val event: FoodData = listEvents!!.get(position)
-        holder.bind(event,itemClickListener)
+       // val test1 = list!![0].toList() as Pair<String,String>
+////        val test2 = list!![position]
+//
+        Log.d("test", list.toString())
+       // Log.d("test", test2)
+
+        val foodName: String = holder.bind(list!![position])
+        holder.itemView.setOnClickListener(object : View.OnClickListener {
+
+            //set onclick for food item in list
+            override fun onClick(view: View?) {
+                //store
+                val bundle = Bundle()
+                bundle.putString("FoodName",foodName)
+
+                //start recipe detail fragment
+                val activity = view!!.context as AppCompatActivity
+                val fragment = FoodDetailFragment()
+                fragment.setArguments(bundle)
+
+                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
+                ft.replace(R.id.home_frameLayout, fragment)
+                ft.commit()
+            }
+        })
     }
 
     //set the count
-    override fun getItemCount(): Int = list!!.size
+    override fun getItemCount(): Int{
+        return list!!.size
+    }
 
 }
 

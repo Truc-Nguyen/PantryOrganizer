@@ -22,10 +22,14 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     var foodNutrients: MutableLiveData<ApiFoodNutritionPackage> = MutableLiveData()
     val recipeList: MutableLiveData<List<RecipeData>> = MutableLiveData()
     var singleRecipe: MutableLiveData<RecipeData> = MutableLiveData()
+    var singleFood: MutableLiveData<ApiFoodNutrition> = MutableLiveData()
+    val singlePantryFoods: MutableLiveData<List<List<String>>> = MutableLiveData()
+    var foodList: MutableLiveData<List<ApiFoodNutrition>> = MutableLiveData()
 
     init {
         getPantries()
         getRecipes()
+        getFoods()
     }
 
     // Populate pantry list live data from firebase data.
@@ -40,6 +44,11 @@ class ViewModel(application: Application): AndroidViewModel(application) {
                 }
                 pantryList.value = list
             }
+    }
+
+    //get details of a pantry (ie: foodList)
+    fun getSinglePantryFoods(pantryName: String) {
+        repository.getSinglePantryFoods(pantryName,singlePantryFoods)
     }
 
     // Push a new pantry to firebase.
@@ -118,6 +127,53 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     fun getFoodNutrients(query: String){
         repository.getFoodNutrients(foodNutrients, query)
     }
+    //Foods fragments
+
+    fun getFoods() {
+        repository.getFoods()
+            .addSnapshotListener { querySnapshot, _ ->
+                val list: MutableList<ApiFoodNutrition> = mutableListOf()
+                for (doc in querySnapshot!!) {
+                    list.add(ApiFoodNutrition(doc))
+                }
+                foodList.value = list
+            }
+    }
+
+    //get details of a single food
+    fun getSingleFood(foodName: String) {
+        Log.d("vmaddfood",foodName)
+        repository.getSingleFood(foodName,singleFood)
+        Log.d("vmaddfood",singleFood.value.toString())
+    }
+
+    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>): Boolean{
+        repository.addFoodToPantry(pantryName,foodAndAmount,singlePantryFoods)
+        return true
+    }
+
+    fun addFoodToFirebase(foodData: Map<String, Any?>): Boolean {
+        // Check for existing pantry with duplicate name.
+        Log.d("vmaddfoodfirebase",foodList.value.toString())
+        if (foodList.value != null) {
+            for (food in foodList.value!!) {
+                if (food.food_name == foodData["name"]) {
+                    return false
+                }
+            }
+        }
+        // Push the new pantry data to firebase.
+        repository.addFoodToFirebase(foodData)
+        Log.d("vmaddfoodfirebase","added to firebaes")
+        return true
+    }
+
+
+
+
+//    fun getFoodPreviews(name: String){
+//        repository.getFoodPreviews( foodPreviewList, name)
+//    }
 
 
 

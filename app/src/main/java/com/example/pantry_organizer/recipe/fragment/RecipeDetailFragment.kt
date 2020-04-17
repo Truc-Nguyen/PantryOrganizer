@@ -71,5 +71,9 @@ class RecipeDetailFragment: Fragment() {
             }
 
         })
+
+        detail_recipe_add_to_meals_button.setOnClickListener {
+            //add to meals functionality
+        }
     }
 }

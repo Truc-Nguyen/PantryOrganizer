@@ -15,16 +15,41 @@
         android:gravity="center_horizontal"
         />
     <EditText
+        android:id="@+id/enter_food_amount"
+        android:hint="Amount in pantry"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        />
+    <TextView
+        android:id="@+id/optional_header"
+        android:text="OPTIONAL INFORMATION"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        />
+    <EditText
         android:id="@+id/enter_food_calories"
         android:hint="Calories"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        />
+    <EditText
+        android:id="@+id/enter_food_serving_size_quantity"
+        android:hint="Quantity of serving size"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         />
     <EditText
-        android:id="@+id/enter_food_serving_size"
-        android:hint="Serving Size"
+        android:id="@+id/enter_food_serving_size_unit"
+        android:hint="Unit of serving size"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +58,7 @@
     <EditText
         android:id="@+id/enter_food_fat"
         android:hint="Fat Content (g)"
-        android:inputType="text"
+        android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -41,7 +66,7 @@
     <EditText
         android:id="@+id/enter_food_sugar"
         android:hint="Sugar Content (g)"
-        android:inputType="text"
+        android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -49,7 +74,7 @@
     <EditText
         android:id="@+id/enter_food_carbs"
         android:hint="Carbohydrates (g)"
-        android:inputType="text"
+        android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -57,7 +82,7 @@
     <EditText
         android:id="@+id/enter_food_protein"
         android:hint="Protein Content (g)"
-        android:inputType="text"
+        android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -69,20 +94,9 @@
         android:orientation="horizontal"
         android:gravity="center">
         <Button
-            android:id="@+id/enter_custom_food_item"
-            android:text="Submit"
-            android:layout_weight="0.9"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignRight="@id/custom_return_to_pantry"
-            android:layout_width="0dp" />
-
-        <Button
             android:id="@+id/custom_return_to_pantry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/enter_custom_food_item"
-            android:layout_alignParentRight="true"
             android:layout_weight="0.9"
             android:text="Back to Pantry" />
     </LinearLayout>
