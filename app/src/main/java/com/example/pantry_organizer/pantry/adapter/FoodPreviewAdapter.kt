@@ -1,12 +1,13 @@
 package com.example.pantry_organizer.pantry.adapter
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
@@ -15,9 +16,62 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 
+
+
+
 interface OnFoodItemClickListener{
     fun onFoodItemClicked(food: ApiFoodPreview)
 }
+
+class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?): RecyclerView.Adapter<FoodPreviewViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodPreviewViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return FoodPreviewViewHolder(inflater, parent)
+    }
+
+    //bind the object
+    override fun onBindViewHolder(holder: FoodPreviewViewHolder, position: Int) {
+        val foodName = list!![position].food_name
+        val context = holder.savedParent.context
+
+        holder.bind(list!![position])
+        holder.itemView.setOnClickListener(object: View.OnClickListener{
+            override fun onClick(view: View?){
+                val builder = AlertDialog.Builder(context).create()
+                val inflater = holder.savedInflater
+                val dialogLayout = inflater.inflate(R.layout.alert_dialog_add_online_food, null)
+                val amount  = dialogLayout.findViewById<EditText>(R.id.online_food_amount)
+                builder.setView(dialogLayout)
+//                val cancel_button: Button = dialogLayout.findViewById(R.id.online_food_amount_cancel_button)
+//                val confirm_button: ImageView = dialogLayout.findViewById(R.id.online_food_amount_confirm_button)
+                val cancel_button = dialogLayout.findViewById<Button>(R.id.online_food_amount_cancel_button)
+                val confirm_button = dialogLayout.findViewById<Button>(R.id.online_food_amount_confirm_button)
+
+//                builder.setNegativeButton("Cancel") { dialogInterface, i -> Toast.makeText(context, "Negative is " + amount.text.toString(), Toast.LENGTH_SHORT).show() }
+//                builder.setPositiveButton("Add Food to Pantry") { dialogInterface, i -> Toast.makeText(context, "Positive is " + amount.text.toString(), Toast.LENGTH_SHORT).show() }
+
+                cancel_button.setOnClickListener {
+                    val myToast = Toast.makeText(context,"Canceled", Toast.LENGTH_SHORT)
+                    myToast.show()
+                    builder.dismiss()
+                }
+
+                confirm_button.setOnClickListener {
+
+                    val myToast = Toast.makeText(context,"Added " + amount.text.toString() +" of item " + foodName + " to pantry", Toast.LENGTH_SHORT)
+                    //call function to add this food to pantry
+                    myToast.show()
+                    builder.dismiss()
+                }
+                builder.show()
+            }
+        })
+    }
+
+    //set the count
+    override fun getItemCount(): Int = list!!.size
+}
+
 
 //create the view holder
 //class FoodPreviewViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
@@ -25,6 +79,8 @@ interface OnFoodItemClickListener{
 
 class FoodPreviewViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_online_food_preview_list_item, parent, false)) {
+    val savedParent = parent
+    val savedInflater = inflater
 
     fun bind(food: ApiFoodPreview) {
 
@@ -40,38 +96,6 @@ class FoodPreviewViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
 }
 
 //create the listener for the recycler view position: Int
-class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?): RecyclerView.Adapter<FoodPreviewViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodPreviewViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return FoodPreviewViewHolder(inflater, parent)
-    }
 
-    //bind the object
-    override fun onBindViewHolder(holder: FoodPreviewViewHolder, position: Int) {
-        val pantryName = list!![position].food_name
-
-        holder.bind(list!![position])
-        holder.itemView.setOnClickListener(object: View.OnClickListener{
-            override fun onClick(view: View?){
-//                //            val myToast =
-////                Toast.makeText(this.context,"This would take you to food in the pantry", Toast.LENGTH_SHORT)
-////            myToast.show()
-//                val activity = view!!.context as AppCompatActivity
-//                var bundle = Bundle()
-//                //is there a better identifier than pantry name?
-//                Log.d("PantryName", pantryName)
-//                bundle.putString("pantry_name", pantryName)
-//                val fragment = PantryFoodFragment()
-//                fragment.arguments = bundle
-//                val transanction = activity.supportFragmentManager!!.beginTransaction()
-//                transanction.replace(R.id.home_frameLayout, fragment)
-//                transanction.commit()
-            }
-        })
-    }
-
-    //set the count
-    override fun getItemCount(): Int = list!!.size
-}
 
 

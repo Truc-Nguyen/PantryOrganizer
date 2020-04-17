@@ -23,13 +23,8 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 class RecipeListAdapter(private val list: ArrayList<RecipeData>?): RecyclerView.Adapter<RecipeListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
-
-
         val inflater = LayoutInflater.from(parent.context)
-        return RecipeListViewHolder(
-            inflater,
-            parent
-        )
+        return RecipeListViewHolder(inflater, parent)
     }
 
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
