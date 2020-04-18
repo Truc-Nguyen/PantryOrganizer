@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_recipe_list.*
 
 class PantryFoodListFragment: Fragment() {
     lateinit var viewModel: ViewModel
-    private var singlePantryFoods: List<List<String>> = ArrayList()
+    var singlePantryFoods: List<String> = ArrayList()
     var pantryName: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,30 +56,33 @@ class PantryFoodListFragment: Fragment() {
         Log.d("foodlistfrag", "initial foods: $singlePantryFoods")
         //retrieve current pantry location
 
-//        var foods = viewModel.singlePantryFoods.value!!
+        viewModel.getSinglePantryFoods(pantryName!!)
 
         //Stuff commented out currently does not work, do not delete
 
         // Set up the recycler view to show food list.
         val recyclerView = food_recycler_view
-//        val adapter =
-//            PantryFoodListAdapter(
-//                singlePantryFoods
-//            )
-//        recyclerView.adapter = adapter
-//        recyclerView!!.layoutManager = LinearLayoutManager(this.context)
+        val adapter =
+            PantryFoodListAdapter(
+                singlePantryFoods
+            )
+        recyclerView.adapter = adapter
+        recyclerView!!.layoutManager = LinearLayoutManager(this.context)
 
         // Attach observer to food list
-//        viewModel.singlePantryFoods.observe(this, Observer { liveData ->
-//            var mutable  = singlePantryFoods as MutableList<List<String>>
-//            mutable.clear()
-//            mutable.addAll(liveData)
-//            singlePantryFoods = mutable
-////            singlePantryFoods.clear()
-////            singlePantryFoods.addAll(liveData)
-//            Log.d("foodlistfrag", "singlepantry foods: $singlePantryFoods")
-//            adapter.notifyDataSetChanged()
-//        })
+        if (singlePantryFoods != null){
+            viewModel.singlePantryFoods.observe(this, Observer { liveData ->
+                var mutable  = singlePantryFoods!! as MutableList<String>
+                mutable.clear()
+                mutable.addAll(liveData)
+                singlePantryFoods = mutable
+//            singlePantryFoods.clear()
+//            singlePantryFoods.addAll(liveData)
+                Log.d("foodlistfrag", "singlepantry foods: $singlePantryFoods")
+                adapter.notifyDataSetChanged()
+            })
+        }
+
 
         add_food_button.setOnClickListener {
             val intent = Intent(activity, AddFoodActivity::class.java)

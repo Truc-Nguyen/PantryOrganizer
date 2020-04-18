@@ -19,6 +19,7 @@ import retrofit2.HttpException
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
+import kotlin.collections.HashMap
 
 class Repository {
     // Set firebase instances.
@@ -37,11 +38,11 @@ class Repository {
 
 
     //Get single pantry, called in view model to get food list
-    fun getSinglePantryFoods(pantryName: String,resBody:MutableLiveData<List<List<String>>>){
+    fun getSinglePantryFoods(pantryName: String,resBody:MutableLiveData<List<String>>){
         CoroutineScope(Dispatchers.IO).launch{
             val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("pantryList").document(pantryName).get().await()
             withContext(Dispatchers.Main){
-                var pantryFoodList = snapshot.get("foodList") as List<List<String>>?
+                var pantryFoodList = snapshot.get("foodList") as List<String>
                 Log.d("repogetsinglepantry",pantryFoodList.toString())
 //                if (pantryFoodList == null) {
 //                    pantryFoodList = emptyList()
@@ -81,10 +82,10 @@ class Repository {
         Log.d("repoaddfood","finished")
     }
 
-    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>, resBody: MutableLiveData<List<List<String>>>) {
-        var updatedFoodList: List<List<String>> = emptyList()
-        Log.d("repoaddfood",foodAndAmount[0])
-        Log.d("repoaddfood",foodAndAmount[1])
+    fun addFoodToPantry(pantryName: String, foodAndAmount: String, resBody: MutableLiveData<List<String>>) {
+        var updatedFoodList: List<String>
+        Log.d("repoaddfood",foodAndAmount)
+        Log.d("repoaddfood",foodAndAmount)
 
         CoroutineScope(Dispatchers.IO).launch{
             //get initial food list
@@ -92,11 +93,11 @@ class Repository {
                     .document(userID!!).collection("pantryList")
                     .document(pantryName).get().await()
             withContext(Dispatchers.Main){
-                var tempFoodList = snapshot.get("foodList") as MutableList<List<String>>
+                var tempFoodList = snapshot.get("foodList") as MutableList<String>
                 Log.d("repoaddfood","before adding: " + tempFoodList.toString())
                 tempFoodList.add(foodAndAmount)
 
-                updatedFoodList = tempFoodList.toList()
+                updatedFoodList = tempFoodList
 //                val updatedPantry = PantryData(
 //                    snapshot.get("name").toString(),
 //                    snapshot.get("location").toString(),

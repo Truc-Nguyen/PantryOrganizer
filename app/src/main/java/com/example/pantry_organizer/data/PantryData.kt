@@ -6,16 +6,18 @@ data class PantryData(
     val name: String,
     val location: String,
     val imageLink: String?,
-    val foodList: List<List<String>>? // = emptyList()
+    val foodList: List<String>? // = emptyList()
 )
 {
+
     // Convenience constructor using a firebase document object.
     constructor(fbDoc: QueryDocumentSnapshot):
             this(
                 fbDoc.get("name") as String,
                 fbDoc.get("location") as String,
                 fbDoc.get("imageLink") as String?,
-                fbDoc.get("foodList") as List<List<String>>? //uncertain if correct
+                fbDoc.get("foodList") as List<String>?
+//                fbDoc.get("foodList", HashMap<String,String>()::class.java) as HashMap<String,String>? //uncertain if correct
                 )
 
     // Convenience method for returning a map of this object.

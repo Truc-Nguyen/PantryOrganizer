@@ -14,11 +14,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
+    <TextView
         android:id="@+id/tempAddFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="temporary edit box until more fields are defined"
+        android:text="Picture of your custom food"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/customFood_imageView"/>

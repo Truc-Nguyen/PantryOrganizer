@@ -23,7 +23,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     val recipeList: MutableLiveData<List<RecipeData>> = MutableLiveData()
     var singleRecipe: MutableLiveData<RecipeData> = MutableLiveData()
     var singleFood: MutableLiveData<ApiFoodNutrition> = MutableLiveData()
-    val singlePantryFoods: MutableLiveData<List<List<String>>> = MutableLiveData()
+    val singlePantryFoods: MutableLiveData<List<String>> = MutableLiveData()
     var foodList: MutableLiveData<List<ApiFoodNutrition>> = MutableLiveData()
 
     init {
@@ -147,7 +147,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         Log.d("vmaddfood",singleFood.value.toString())
     }
 
-    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>): Boolean{
+    fun addFoodToPantry(pantryName: String, foodAndAmount: String): Boolean{
         repository.addFoodToPantry(pantryName,foodAndAmount,singlePantryFoods)
         return true
     }

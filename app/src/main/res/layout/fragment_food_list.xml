@@ -9,9 +9,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_recycler_view"
-        android:layout_width="406dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/back_button"
+        android:layout_width="match_parent"
+        android:layout_height="520dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_food_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
