@@ -1,17 +1,14 @@
 package com.example.pantry_organizer.pantry.adapter
 
-import android.os.Bundle
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
-import com.example.pantry_organizer.pantry.fragment.PantryFoodListFragment
+import com.example.pantry_organizer.pantry.activity.PantryFoodListActivity
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
@@ -26,25 +23,19 @@ class PantryListAdapter(private val list: ArrayList<PantryData>?): RecyclerView.
 
     override fun onBindViewHolder(holder: PantryListViewHolder, position: Int) {
         // Extract the pantry data from the position in the list.
-        val pantry = list?.get(position)
+        val pantryData = list!![position]
 
-        holder.bind(list!![position])
-        holder.itemView.setOnClickListener(object: View.OnClickListener{
-            override fun onClick(view: View?){
-//                val myToast = Toast.makeText(this.context,"This would take you to food in the pantry", Toast.LENGTH_SHORT)
-//                myToast.show()
-                val activity = view!!.context as AppCompatActivity
-                var bundle = Bundle()
-                //is there a better identifier than pantry name?
-                bundle.putString("PantryName", pantry!!.name)
-                val fragment = PantryFoodListFragment()
-                fragment.arguments = bundle
-                val transanction = activity.supportFragmentManager!!.beginTransaction()
-                transanction.replace(R.id.home_frameLayout, fragment)
-                transanction.commit()
-            }
-        })
+        // Bind pantry data at this position to recycler view item.
+        holder.bind(pantryData)
 
+        // Set click listener for starting food list activity for this pantry.
+        holder.itemView.setOnClickListener {
+            val activity = it.context
+            val intent = Intent(activity, PantryFoodListActivity::class.java)
+            intent.putExtra("pantryName", pantryData.name)
+            intent.putExtra("pantryIndex", position)
+            activity.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -53,7 +44,7 @@ class PantryListAdapter(private val list: ArrayList<PantryData>?): RecyclerView.
 }
 
 class PantryListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
-RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_pantry_list_item, parent, false)) {
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_pantry_list_item, parent, false)) {
     fun bind(pantryData: PantryData?) {
         // Get view objects.
         val pantryNameView: TextView = itemView.findViewById(R.id.adapter_pantryList_pantryName_textView)

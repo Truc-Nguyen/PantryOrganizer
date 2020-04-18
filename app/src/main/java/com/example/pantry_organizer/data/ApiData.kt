@@ -1,6 +1,5 @@
 package com.example.pantry_organizer.data
 
-import android.provider.ContactsContract
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
 data class ApiFoodPreviewPackage (val common: List<ApiFoodPreview>)
@@ -22,6 +21,7 @@ data class Photo( //there are other fields here, but I have chosen to ignore the
 
 data class ApiFoodNutritionPackage(val foods: List<ApiFoodNutrition>)
 
+//
 data class ApiFoodNutrition(
 
     val serving_qty: String?,

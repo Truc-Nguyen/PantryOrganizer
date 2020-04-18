@@ -8,20 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.PantryData
-import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.global.viewModel.ViewModel
-import com.example.pantry_organizer.home.activity.HomeActivity
 import com.example.pantry_organizer.pantry.activity.AddFoodActivity
-import com.example.pantry_organizer.pantry.adapter.PantryFoodListAdapter
-import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
 import kotlinx.android.synthetic.main.fragment_food_list.*
-import kotlinx.android.synthetic.main.fragment_recipe_list.*
 
 class PantryFoodListFragment: Fragment() {
     lateinit var viewModel: ViewModel

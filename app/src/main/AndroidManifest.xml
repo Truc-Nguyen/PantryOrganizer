@@ -32,6 +32,7 @@
         <activity android:name=".pantry.activity.AddPantryActivity" />
         <activity android:name=".recipe.fragment.AddRecipeActivity" />
         <activity android:name=".pantry.activity.AddFoodActivity" />
+        <activity android:name=".pantry.activity.PantryFoodListActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -22,10 +22,9 @@ import com.example.pantry_organizer.pantry.adapter.PantryListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 import kotlinx.android.synthetic.main.fragment_pantry_list.*
 
-
 class PantryListFragment: Fragment() {
     lateinit var viewModel: ViewModel
-    private var pantryList: ArrayList<PantryData> = ArrayList()
+    private var pantryList= ArrayList<PantryData>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_pantry_list, container, false)
@@ -71,7 +70,7 @@ class PantryListFragment: Fragment() {
             }
         })
 
-        // Attach observer to pantry list.
+        // Attach observer to pantry data.
         viewModel.pantryList.observe(this, Observer { liveData ->
             pantryList.clear()
             pantryList.addAll(liveData)

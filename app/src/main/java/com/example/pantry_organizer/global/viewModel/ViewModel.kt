@@ -18,6 +18,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
     // Live data objects.
     val pantryList: MutableLiveData<List<PantryData>> = MutableLiveData()
+
     var foodPreviewList: MutableLiveData<ApiFoodPreviewPackage> = MutableLiveData()
     var foodNutrients: MutableLiveData<ApiFoodNutritionPackage> = MutableLiveData()
     val recipeList: MutableLiveData<List<RecipeData>> = MutableLiveData()
@@ -29,26 +30,25 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     init {
         getPantries()
         getRecipes()
-        getFoods()
+    }
+
+    // Upload a file to firebase storage. Returns the unique name of the file.
+    fun uploadFileToStorage(filePath: String): String {
+        return repository.uploadFileToStorage(filePath)
     }
 
     // Populate pantry list live data from firebase data.
-    fun getPantries() {
+    private fun getPantries() {
         repository.getPantries()
             .addSnapshotListener { querySnapshot, _ ->
                 val list: MutableList<PantryData> = mutableListOf()
                 for (doc in querySnapshot!!) {
                     if (doc.get("name") != null) {
-                        list.add(PantryData(doc))
+                        list.add(createPantryDataFromSnapshot(doc))
                     }
                 }
                 pantryList.value = list
             }
-    }
-
-    //get details of a pantry (ie: foodList)
-    fun getSinglePantryFoods(pantryName: String) {
-        repository.getSinglePantryFoods(pantryName,singlePantryFoods)
     }
 
     // Push a new pantry to firebase.
@@ -67,15 +67,29 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         return true
     }
 
-    // Upload a file to firebase. Returns the unique name of the file.
-    fun uploadFileToStorage(filePath: String): String {
-        return repository.uploadFileToStorage(filePath)
-    }
-
     // Delete a pantry from firebase.
     fun deletePantry(pantryName: String) {
         repository.deletePantry(pantryName)
     }
+
+    fun addFood(pantryName: String, foodData: Map<String, Any?>) {
+        // todo if a food already exists
+        repository.addFood(pantryName, foodData)
+    }
+
+
+
+
+//    //get details of a pantry (ie: foodList)
+//    fun getSinglePantryFoods(pantryName: String) {
+//        repository.getSinglePantryFoods(pantryName,singlePantryFoods)
+//    }
+
+
+
+
+
+
 
     //Recipes Fragment
 
@@ -112,10 +126,10 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         repository.deleteRecipe(recipeName)
     }
 
-    //get details of a recipe
-    fun getSingleRecipe(recipeName: String) {
-        repository.getSingleRecipe(recipeName,singleRecipe)
-    }
+//    //get details of a recipe
+//    fun getSingleRecipe(recipeName: String) {
+//        repository.getSingleRecipe(recipeName,singleRecipe)
+//    }
 
 
     //get food previews from the nutritionix api
@@ -140,17 +154,17 @@ class ViewModel(application: Application): AndroidViewModel(application) {
             }
     }
 
-    //get details of a single food
-    fun getSingleFood(foodName: String) {
-        Log.d("vmaddfood",foodName)
-        repository.getSingleFood(foodName,singleFood)
-        Log.d("vmaddfood",singleFood.value.toString())
-    }
-
-    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>): Boolean{
-        repository.addFoodToPantry(pantryName,foodAndAmount,singlePantryFoods)
-        return true
-    }
+//    //get details of a single food
+//    fun getSingleFood(foodName: String) {
+//        Log.d("vmaddfood",foodName)
+//        repository.getSingleFood(foodName,singleFood)
+//        Log.d("vmaddfood",singleFood.value.toString())
+//    }
+//
+//    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>): Boolean{
+//        repository.addFoodToPantry(pantryName,foodAndAmount,singlePantryFoods)
+//        return true
+//    }
 
     fun addFoodToFirebase(foodData: Map<String, Any?>): Boolean {
         // Check for existing pantry with duplicate name.

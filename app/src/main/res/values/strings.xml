@@ -35,4 +35,5 @@
     <string name="delete_item_delete_button">Delete</string>
     <string name="delete_item_cancel_button">Cancel</string>
     <string name="add_food_menu_item_desc">Add New Food</string>
+    <string name="add_custom_food_menu_item">Custom</string>
 </resources>

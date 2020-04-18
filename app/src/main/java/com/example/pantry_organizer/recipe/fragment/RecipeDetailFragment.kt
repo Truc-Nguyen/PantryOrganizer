@@ -45,7 +45,7 @@ class RecipeDetailFragment: Fragment() {
         val recipeName = bundle!!.getString("RecipeName", "Recipe")
 
         // get single recipe through viewmodel
-        viewModel.getSingleRecipe(recipeName)
+  //      viewModel.getSingleRecipe(recipeName)
         viewModel.singleRecipe.observe(this, Observer{
 
             val activity = this.activity as AppCompatActivity

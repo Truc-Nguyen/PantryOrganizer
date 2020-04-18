@@ -37,14 +37,12 @@ class AddOnlineFoodFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
 
         val recyclerView = food_preview_recycler_view
-        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        var foodPreviewAdapter = FoodPreviewAdapter(foodPreviewList)
+        var foodPreviewAdapter = FoodPreviewAdapter(foodPreviewList, viewModel)
         recyclerView.adapter = foodPreviewAdapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)
-
 
         online_search_button.setOnClickListener {
             Log.d("Online Food", "Button Clicked")
@@ -81,11 +79,5 @@ class AddOnlineFoodFragment: Fragment() {
             }
 
         })
-
-
-
-
-
-
     }
 }

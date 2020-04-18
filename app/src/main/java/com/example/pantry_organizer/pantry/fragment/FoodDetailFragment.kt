@@ -41,7 +41,7 @@ class FoodDetailFragment: Fragment() {
         val foodName = bundle!!.getString("FoodName", "food")
 
         // get single recipe through viewmodel
-        viewModel.getSingleFood(foodName)
+      //  viewModel.getSingleFood(foodName)
         viewModel.singleFood.observe(this, Observer{
 
             val activity = this.activity as AppCompatActivity

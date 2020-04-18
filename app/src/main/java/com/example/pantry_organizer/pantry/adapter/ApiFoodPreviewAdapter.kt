@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.ApiFoodPreview
+import com.example.pantry_organizer.global.viewModel.ViewModel
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -23,7 +24,7 @@ interface OnFoodItemClickListener{
     fun onFoodItemClicked(food: ApiFoodPreview)
 }
 
-class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?): RecyclerView.Adapter<FoodPreviewViewHolder>() {
+class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?, val viewModel: ViewModel): RecyclerView.Adapter<FoodPreviewViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodPreviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return FoodPreviewViewHolder(inflater, parent)
@@ -57,6 +58,8 @@ class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?): Recycler
                 }
 
                 confirm_button.setOnClickListener {
+
+                    viewModel.getFoodNutrients(list[position].tag_name)
 
                     val myToast = Toast.makeText(context,"Added " + amount.text.toString() +" of item " + foodName + " to pantry", Toast.LENGTH_SHORT)
                     //call function to add this food to pantry
