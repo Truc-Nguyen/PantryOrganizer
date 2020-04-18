@@ -35,6 +35,8 @@ fun createPantryDataFromSnapshot(fbDoc: QueryDocumentSnapshot): PantryData {
     val location = fbDoc["location"] as String
     val imageLink = fbDoc["imageLink"] as String?
 
+
+
     // Extract food list data in this pantry.
     val foodList = ArrayList<FoodData>()
     if (fbDoc.contains("foodList")) {

@@ -1,17 +1,19 @@
 package com.example.pantry_organizer.pantry.activity
 
 import android.os.Bundle
-import android.view.Menu
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.example.pantry_organizer.R
+import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
-import com.example.pantry_organizer.global.adapter.ViewPagerAdapter
-import com.example.pantry_organizer.pantry.fragment.AddCustomFoodFragment
-import com.example.pantry_organizer.pantry.fragment.AddOnlineFoodFragment
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropSquareTransformation
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_add_food.*
 
 class AddFoodActivity: AbstractPantryAppActivity() {
     private lateinit var pantryName: String
+    var foodData: FoodData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,23 +21,62 @@ class AddFoodActivity: AbstractPantryAppActivity() {
 
         // Extract the extras from intent.
         pantryName = intent.extras!!.getString("pantryName")!!
+        val query = intent.extras!!.getString("query")!!
 
         // Support bar attributes.
-        supportActionBar?.title = "Stock Pantry"
-        supportActionBar?.subtitle = pantryName
+        supportActionBar?.title = query
+        supportActionBar?.subtitle = "Back"
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Initialize online search fragment to the activity frame layout.
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.addFood_frameLayout, AddOnlineFoodFragment())
-        transaction.commit()
-    }
+        // Turn off the add food button until the data has been fetched.
+        addFoodDetail_addFoodConfirm_button.isEnabled = false
 
-    // Inflate custom food activity app bar menu.
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.add_custom_food_menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        // Request and update the nutritional food data for the query.
+        viewModel.getApiFoodNutrition(query)
+        viewModel.apiFoodNutritionData.observe(this, Observer { liveData ->
+            // Construct food data from api data.
+            foodData = FoodData(liveData.foods[0])
+
+            // Update view object data.
+            addFoodDetailCalories_textView.text = foodData!!.calories.toString()
+            addFoodDetailServingSize_textView.text = "${foodData!!.servingQty} ${foodData!!.servingUnit}"
+            addFoodDetailFat_textView.text = foodData!!.fat.toString()
+            addFoodDetailSugar_textView.text = foodData!!.sugar.toString()
+            addFoodDetailCarbs_textView.text = foodData!!.carbs.toString()
+            addFoodDetailProtein_textView.text = foodData!!.protein.toString()
+
+            // Update image view foodData.
+            if (foodData!!.imageLink == null) {
+                addFoodDetail_imageView.setImageResource(R.drawable.no_image_icon)
+            } else {
+                Picasso.get()
+                    .load(foodData!!.imageLink)
+                    .error(R.drawable.no_image_icon)
+                    .transform(CropSquareTransformation())
+                    .transform(RoundedCornersTransformation(5, 0))
+                    .placeholder(R.drawable.loading_icon).into(addFoodDetail_imageView)
+            }
+
+            // Enable the add food button.
+            addFoodDetail_addFoodConfirm_button.isEnabled = true
+        })
+
+        // Add to pantry button listener.
+        addFoodDetail_addFoodConfirm_button.setOnClickListener {
+            // Add the food data to the pantry.
+            viewModel.addFood(pantryName, foodData!!.getDataMap())
+            Toast.makeText(this, "Added $query to $pantryName!", Toast.LENGTH_LONG).show()
+
+            // Return to food search list.
+            onBackPressed()
+        }
+
+        // Cancel button listener.
+        addFoodDetail_addFoodCancel_button.setOnClickListener {
+            // Return to food search list.
+            onBackPressed()
+        }
     }
 
     // Return to previous activity.
@@ -43,5 +84,4 @@ class AddFoodActivity: AbstractPantryAppActivity() {
         onBackPressed()
         return true
     }
-
 }

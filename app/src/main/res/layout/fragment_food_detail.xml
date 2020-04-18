@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/food_detail_imageView"
+        android:id="@+id/addFoodDetail_imageView"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:contentDescription="TODO"
@@ -17,7 +17,7 @@
 
 
     <TextView
-        android:id="@+id/food_detail_calories"
+        android:id="@+id/addFoodDetailCalories_textView"
         android:hint="Calories"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/food_detail_serving_size"
+        android:id="@+id/addFoodDetailServingSize_textView"
         android:hint="Serving Size"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/food_detail_fat"
+        android:id="@+id/addFoodDetailFat_textView"
         android:hint="Fat Content (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/food_detail_sugar"
+        android:id="@+id/addFoodDetailSugar_textView"
         android:hint="Sugar Content (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/food_detail_carbs"
+        android:id="@+id/addFoodDetailCarbs_textView"
         android:hint="Carbohydrates (g)"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
         android:layout_marginBottom="10dp"
         />
     <TextView
-        android:id="@+id/food_detail_protein"
+        android:id="@+id/addFoodDetailProtein_textView"
         android:hint="Protein Content (g)"
         android:inputType="text"
         android:layout_width="match_parent"

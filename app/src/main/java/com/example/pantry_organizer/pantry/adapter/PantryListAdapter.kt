@@ -30,11 +30,10 @@ class PantryListAdapter(private val list: ArrayList<PantryData>?): RecyclerView.
 
         // Set click listener for starting food list activity for this pantry.
         holder.itemView.setOnClickListener {
-            val activity = it.context
-            val intent = Intent(activity, PantryFoodListActivity::class.java)
+            val intent = Intent(it.context, PantryFoodListActivity::class.java)
             intent.putExtra("pantryName", pantryData.name)
             intent.putExtra("pantryIndex", position)
-            activity.startActivity(intent)
+            it.context.startActivity(intent)
         }
     }
 

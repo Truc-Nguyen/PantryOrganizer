@@ -68,6 +68,44 @@ class Repository {
             .update("foodList", FieldValue.arrayUnion(foodData))
     }
 
+    // Define retrofit service.
+    private val service = ApiClient.makeRetrofitService()
+
+    // Co-routine for fetching an api search list on the query.
+    fun getApiSearchList(resBody: MutableLiveData<ApiFoodDataPayload>, query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = service.getFoodBySearch(query)
+
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        resBody.value = response.body()
+                    }
+                } catch (e: HttpException) {
+                    println("Http error")
+                }
+            }
+        }
+    }
+
+    // Co-routine for fetching api nutrition data on the query.
+    fun getApiFoodNutritionData(resBody: MutableLiveData<ApiFoodNutritionPayload>, query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = service.getFoodNutrients(query)
+
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        resBody.value = response.body()
+                    }
+                } catch (e: HttpException) {
+                    println("Http error")
+                }
+            }
+        }
+    }
+
+
 //    //Get single pantry, called in view model to get food list
 //    fun getSinglePantryFoods(pantryName: String,resBody:MutableLiveData<List<List<String>>>){
 //        CoroutineScope(Dispatchers.IO).launch{
@@ -210,43 +248,6 @@ class Repository {
             .collection("foodList")
     }
 
-    //create api client
-    val service = ApiClient.makeRetrofitService()
-
-    fun getFoodPreviews(resBody: MutableLiveData<ApiFoodPreviewPackage>, food: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = service.getFoodBySearch(food)
-
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        resBody.value = response.body()
-                    }
-                } catch (e: HttpException) {
-                    println("Http error")
-                }
-            }
-        }
-    }
-
-    fun getFoodNutrients(resBody: MutableLiveData<ApiFoodNutritionPackage>, food: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = service.getFoodNutrients(food)
-            Log.d("aoeu", food)
-            Log.d("aoeu", response.toString())
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        resBody.value = response.body()
-                        Log.d("aoeu", resBody.value.toString())
-                    }
-                } catch (e: HttpException) {
-                    Log.d("aoeu", "failed")
-                    println("Http error")
-                }
-            }
-        }
-    }
 
 }
 

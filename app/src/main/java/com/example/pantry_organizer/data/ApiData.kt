@@ -2,27 +2,22 @@ package com.example.pantry_organizer.data
 
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
-data class ApiFoodPreviewPackage (val common: List<ApiFoodPreview>)
+data class ApiFoodDataPayload(val common: List<ApiFoodData>)
 
-data class ApiFoodPreview(
+data class ApiFoodData(
     val food_name: String,
     val serving_unit: String,
-    val tag_name: String,
     val serving_quantity: String,
-    val common_type: String,
-    val tag_id: String,
-    val photo: Photo,
-    val locale: String)
+    val photo: Photo)
 
-data class Photo( //there are other fields here, but I have chosen to ignore them for the time being
+data class Photo(
     val thumb: String?,
     val highres: String?
 )
 
-data class ApiFoodNutritionPackage(val foods: List<ApiFoodNutrition>)
+data class ApiFoodNutritionPayload(val foods: List<ApiFoodNutritionData>)
 
-//
-data class ApiFoodNutrition(
+data class ApiFoodNutritionData(
     val serving_qty: String?,
     val serving_unit: String?,
     val nf_calories: Double?,
@@ -59,7 +54,7 @@ data class FireBaseFood(
         fbDoc.get("food_name") as String?
     )
 
-    constructor(apiFood: ApiFoodNutrition):
+    constructor(apiFood: ApiFoodNutritionData):
             this(
                 apiFood.serving_qty,
                 apiFood.serving_unit,

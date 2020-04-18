@@ -3,7 +3,6 @@ package com.example.pantry_organizer.pantry.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +10,6 @@ import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.adapter.PantryFoodListAdapter
-import com.example.pantry_organizer.pantry.fragment.AddOnlineFoodFragment
 import kotlinx.android.synthetic.main.activity_pantry_food_list.*
 
 class PantryFoodListActivity: AbstractPantryAppActivity() {
@@ -57,7 +55,7 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.addFood_menuItem -> {
-                val intent = Intent(this, AddFoodActivity::class.java)
+                val intent = Intent(this, ApiFoodSearchActivity::class.java)
                 intent.putExtra("pantryName", pantryName)
                 startActivity(intent)
                 true

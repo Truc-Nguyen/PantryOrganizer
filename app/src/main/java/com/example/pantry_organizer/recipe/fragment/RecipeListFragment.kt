@@ -12,12 +12,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.RecipeData
-import com.example.pantry_organizer.global.viewModel.ViewModel
+import com.example.pantry_organizer.global.viewModel.AppViewModel
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import androidx.fragment.app.Fragment
 
 class RecipeListFragment: Fragment() {
-    lateinit var viewModel: ViewModel
+    lateinit var viewModel: AppViewModel
     private var recipeList: ArrayList<RecipeData> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,7 +26,7 @@ class RecipeListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d("recipelistfrag", "created")
-        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
 
         // Set up the recycler view to show pantry list.
         val recyclerView = recipe_recycler_view

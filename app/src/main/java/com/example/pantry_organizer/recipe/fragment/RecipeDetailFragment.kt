@@ -1,29 +1,25 @@
 package com.example.pantry_organizer.recipe.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.global.viewModel.ViewModel
+import com.example.pantry_organizer.global.viewModel.AppViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
-import kotlinx.android.synthetic.main.activity_add_pantry.*
-import kotlinx.android.synthetic.main.adapter_pantry_list_item.*
 import kotlinx.android.synthetic.main.fragment_recipe_detail.*
 
 
 class RecipeDetailFragment: Fragment() {
-    lateinit var viewModel: ViewModel
+    lateinit var viewModel: AppViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,7 +34,7 @@ class RecipeDetailFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
 
         //retrieve arguments from previous fragment
         val bundle = this.arguments

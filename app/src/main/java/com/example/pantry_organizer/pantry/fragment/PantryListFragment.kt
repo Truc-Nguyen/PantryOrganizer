@@ -17,24 +17,24 @@ import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
-import com.example.pantry_organizer.global.viewModel.ViewModel
+import com.example.pantry_organizer.global.viewModel.AppViewModel
 import com.example.pantry_organizer.pantry.adapter.PantryListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 import kotlinx.android.synthetic.main.fragment_pantry_list.*
 
 class PantryListFragment: Fragment() {
-    lateinit var viewModel: ViewModel
-    private var pantryList= ArrayList<PantryData>()
+    lateinit var viewModel: AppViewModel
+    private var pantryList = ArrayList<PantryData>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_pantry_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
 
         // Set up the recycler view to show pantry list.
-        val recyclerView = pantry_recycler_view
+        val recyclerView = pantry_recyclerView
         val adapter = PantryListAdapter(pantryList)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)

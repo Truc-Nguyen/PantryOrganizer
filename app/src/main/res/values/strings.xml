@@ -35,5 +35,18 @@
     <string name="delete_item_delete_button">Delete</string>
     <string name="delete_item_cancel_button">Cancel</string>
     <string name="add_food_menu_item_desc">Add New Food</string>
-    <string name="add_custom_food_menu_item">Custom</string>
+    <string name="add_custom_food_menu_item">Create Custom</string>
+
+    <string name="api_food_search_hint">Search Foods</string>
+    <string name="api_food_search_button">Search</string>
+
+    <string name="food_detail_calories_label">Calories</string>
+    <string name="food_detail_serving_size_label">Serving Size</string>
+    <string name="food_detail_fat_label">Fat (g)</string>
+    <string name="food_detail_sugar_label">Sugars (g)</string>
+    <string name="food_detail_carbs_label">Carbohydrates (g)</string>
+    <string name="food_detail_protein_label">Protein (g)</string>
+
+    <string name="add_food_confirm_button">Add to Pantry</string>
+    <string name="add_food_cancel_button">Cancel</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.example.pantry_organizer.pantry.fragment
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,28 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.ApiFoodNutrition
 import com.example.pantry_organizer.data.FireBaseFood
-import com.example.pantry_organizer.data.PantryData
-import com.example.pantry_organizer.data.Photo
 //import com.example.pantry_organizer.data.Photo
-import com.example.pantry_organizer.global.viewModel.ViewModel
-import com.example.pantry_organizer.home.activity.HomeActivity
-import com.example.pantry_organizer.pantry.activity.AddCustomFoodCameraActivity
-import kotlinx.android.synthetic.main.activity_add_pantry.*
-import kotlinx.android.synthetic.main.activity_custom_food.*
+import com.example.pantry_organizer.global.viewModel.AppViewModel
 import kotlinx.android.synthetic.main.fragment_add_custom_food.*
-import kotlinx.android.synthetic.main.fragment_add_online_food.*
-import kotlinx.android.synthetic.main.fragment_food_list.*
-import kotlinx.android.synthetic.main.fragment_login.*
 
 class AddCustomFoodFragment: Fragment() {
 
-    lateinit var viewModel: ViewModel
+    lateinit var viewModel: AppViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //enable menu functions
@@ -44,7 +29,7 @@ class AddCustomFoodFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
 //        custom_food_picture_button.setOnClickListener {
 //            val intent = Intent(activity, AddCustomFoodCameraActivity::class.java)
 //            activity!!.startActivity(intent)
@@ -116,12 +101,12 @@ class AddCustomFoodFragment: Fragment() {
                 if (viewModel.addFoodToFirebase(foodData.getDataMap())) {
                     // Push successful.
                     Toast.makeText(this.context, "$name added to firebase", Toast.LENGTH_LONG).show()
-                    if (viewModel.addFoodToPantry(currentPantry,foodNameAndAmount)){
-                        Toast.makeText(this.context, "$name added to pantry food list", Toast.LENGTH_LONG).show()
-                        // Return to previous activity.
-                        this.activity!!.onBackPressed()
-                    }
-                } else {
+//                    if (viewModel.addFoodToPantry(currentPantry,foodNameAndAmount)){
+//                        Toast.makeText(this.context, "$name added to pantry food list", Toast.LENGTH_LONG).show()
+//                        // Return to previous activity.
+//                        this.activity!!.onBackPressed()
+//                    }
+//                } else {
                     // Pantry with this name already exists.
                     Toast.makeText(this.context, "$name already exists.", Toast.LENGTH_LONG).show()
                 }
