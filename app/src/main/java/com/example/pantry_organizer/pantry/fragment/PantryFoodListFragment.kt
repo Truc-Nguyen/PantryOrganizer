@@ -11,12 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.PantryData
-import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.global.viewModel.ViewModel
-import com.example.pantry_organizer.home.activity.HomeActivity
 import com.example.pantry_organizer.pantry.activity.AddFoodActivity
 import com.example.pantry_organizer.pantry.adapter.PantryFoodListAdapter
 import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
@@ -40,32 +36,21 @@ class PantryFoodListFragment: Fragment() {
         //retrieve arguments from previous fragment
         val bundle = this.arguments
         pantryName = bundle!!.getString("PantryName", "pantry")
-//        viewModel.getSinglePantryFoods(pantryName!!)
-
         return inflater.inflate(R.layout.fragment_food_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("foodlistfrag", "created")
-
         //update page title
         val activity = this.activity as AppCompatActivity
         activity.supportActionBar?.title = pantryName
-
-        Log.d("foodlistfrag", "pantry name: $pantryName")
-        Log.d("foodlistfrag", "initial foods: $singlePantryFoods")
-        //retrieve current pantry location
-
         viewModel.getSinglePantryFoods(pantryName!!)
 
         //Stuff commented out currently does not work, do not delete
 
         // Set up the recycler view to show food list.
         val recyclerView = food_recycler_view
-        val adapter =
-            PantryFoodListAdapter(
-                singlePantryFoods
-            )
+        val owner = viewLifecycleOwner
+        val adapter = PantryFoodListAdapter(singlePantryFoods,viewModel,owner)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)
 
@@ -76,8 +61,6 @@ class PantryFoodListFragment: Fragment() {
                 mutable.clear()
                 mutable.addAll(liveData)
                 singlePantryFoods = mutable
-//            singlePantryFoods.clear()
-//            singlePantryFoods.addAll(liveData)
                 Log.d("foodlistfrag", "singlepantry foods: $singlePantryFoods")
                 adapter.notifyDataSetChanged()
             })

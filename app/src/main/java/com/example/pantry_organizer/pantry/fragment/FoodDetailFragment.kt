@@ -56,22 +56,22 @@ class FoodDetailFragment: Fragment() {
             food_detail_sugar.text = it.nf_sugars.toString()
 
 
-//            //upload image
-//            if (it.photo!!.highres == null) { //.highres!!
-//                food_detail_imageView.setImageResource(R.drawable.no_image_icon)
-//            } else {
-//                val imageRef = Firebase.storage.reference.child(it.photo.highres!!) //.highres!!
-//
-//                imageRef.downloadUrl.addOnSuccessListener {
-//                    Picasso.get()
-//                        .load(it)
-//                        .transform(CropSquareTransformation())
-//                        .transform(RoundedCornersTransformation(100, 0))
-//                        .placeholder(R.drawable.loading_icon).into(food_detail_imageView)
-//                }.addOnFailureListener {
-//                    food_detail_imageView.setImageResource(R.drawable.no_image_icon)
-//                }
-//            }
+            //upload image
+            if (it.photo != null) {
+                food_detail_imageView.setImageResource(R.drawable.no_image_icon)
+            } else {
+                val imageRef = Firebase.storage.reference.child(it.photo!!)
+
+                imageRef.downloadUrl.addOnSuccessListener {
+                    Picasso.get()
+                        .load(it)
+                        .transform(CropSquareTransformation())
+                        .transform(RoundedCornersTransformation(100, 0))
+                        .placeholder(R.drawable.loading_icon).into(food_detail_imageView)
+                }.addOnFailureListener {
+                    food_detail_imageView.setImageResource(R.drawable.no_image_icon)
+                }
+            }
 
         })
     }
