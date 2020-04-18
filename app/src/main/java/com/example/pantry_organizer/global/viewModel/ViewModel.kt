@@ -19,12 +19,12 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     // Live data objects.
     val pantryList: MutableLiveData<List<PantryData>> = MutableLiveData()
     var foodPreviewList: MutableLiveData<ApiFoodPreviewPackage> = MutableLiveData()
-    var foodNutrients: MutableLiveData<ApiFoodNutritionPackage> = MutableLiveData()
+    var apiFoodNutrients: MutableLiveData<ApiFoodNutritionPackage> = MutableLiveData()
     val recipeList: MutableLiveData<List<RecipeData>> = MutableLiveData()
     var singleRecipe: MutableLiveData<RecipeData> = MutableLiveData()
-    var singleFood: MutableLiveData<ApiFoodNutrition> = MutableLiveData()
+    var singleFood: MutableLiveData<FireBaseFood> = MutableLiveData()
     val singlePantryFoods: MutableLiveData<List<String>> = MutableLiveData()
-    var foodList: MutableLiveData<List<ApiFoodNutrition>> = MutableLiveData()
+    var foodList: MutableLiveData<List<FireBaseFood>> = MutableLiveData()
 
     init {
         getPantries()
@@ -124,17 +124,16 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     }
 
     // get food nutrient information from the nutritionix api
-    fun getFoodNutrients(query: String){
-        repository.getFoodNutrients(foodNutrients, query)
+    fun getFoodNutrientsFromApi(query: String){
+        repository.getFoodNutrientsFromApi(apiFoodNutrients, query)
     }
     //Foods fragments
-
     fun getFoods() {
         repository.getFoods()
             .addSnapshotListener { querySnapshot, _ ->
-                val list: MutableList<ApiFoodNutrition> = mutableListOf()
+                val list: MutableList<FireBaseFood> = mutableListOf()
                 for (doc in querySnapshot!!) {
-                    list.add(ApiFoodNutrition(doc))
+                    list.add(FireBaseFood(doc))
                 }
                 foodList.value = list
             }

@@ -12,7 +12,7 @@ data class ApiFoodPreview(
     val serving_quantity: String,
     val common_type: String,
     val tag_id: String,
-//    val photo: Photo,
+    val photo: Photo,
     val locale: String)
 
 data class Photo( //there are other fields here, but I have chosen to ignore them for the time being
@@ -23,7 +23,6 @@ data class Photo( //there are other fields here, but I have chosen to ignore the
 data class ApiFoodNutritionPackage(val foods: List<ApiFoodNutrition>)
 
 data class ApiFoodNutrition(
-
     val serving_qty: String?,
     val serving_unit: String?,
     val nf_calories: Double?,
@@ -34,19 +33,43 @@ data class ApiFoodNutrition(
     val photo: Photo?,
     val food_name: String?
 )
-{
+
+
+data class FireBaseFood(
+    val serving_qty: String?,
+    val serving_unit: String?,
+    val nf_calories: Double?,
+    val nf_total_fat: Double?,
+    val nf_total_carbohydrate: Double?,
+    val nf_sugars: Double?,
+    val nf_protein: Double?,
+    val photo: String?,
+    val food_name: String?){
     // Convenience constructor using a firebase document object.
     constructor(fbDoc: QueryDocumentSnapshot):
+    this(
+        fbDoc.get("serving_qty") as String?,
+        fbDoc.get("serving_unit") as String?,
+        fbDoc.get("nf_calories") as Double?,
+        fbDoc.get("nf_total_fat") as Double?,
+        fbDoc.get("nf_total_carbohydrate") as Double?,
+        fbDoc.get("nf_sugars") as Double?,
+        fbDoc.get("nf_protein") as Double?,
+        fbDoc.get("photo") as String?,
+        fbDoc.get("food_name") as String?
+    )
+
+    constructor(apiFood: ApiFoodNutrition):
             this(
-                fbDoc.get("serving_qty") as String?,
-                fbDoc.get("serving_unit") as String?,
-                fbDoc.get("nf_calories") as Double?,
-                fbDoc.get("nf_total_fat") as Double?,
-                fbDoc.get("nf_total_carbohydrate") as Double?,
-                fbDoc.get("nf_sugars") as Double?,
-                fbDoc.get("nf_protein") as Double?,
-                fbDoc.get("photo") as Photo?,
-                fbDoc.get("food_name") as String?
+                apiFood.serving_qty,
+                apiFood.serving_unit,
+                apiFood.nf_calories,
+                apiFood.nf_total_fat,
+                apiFood.nf_total_carbohydrate,
+                apiFood.nf_sugars,
+                apiFood.nf_protein,
+                apiFood.photo?.thumb,
+                apiFood.food_name
             )
 
     // Convenience method for returning a map of this object.

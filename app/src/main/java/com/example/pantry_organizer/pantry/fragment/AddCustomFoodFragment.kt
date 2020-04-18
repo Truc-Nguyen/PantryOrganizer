@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.ApiFoodNutrition
+import com.example.pantry_organizer.data.FireBaseFood
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.data.Photo
 //import com.example.pantry_organizer.data.Photo
@@ -92,7 +93,7 @@ class AddCustomFoodFragment: Fragment() {
                 //get current pantry location
                 //retrieve arguments from previous fragment
                 val bundle = this.arguments
-                val currentPantry=bundle!!.getString("EnterPantry","none")
+                val currentPantry = bundle!!.getString("EnterPantry","none")
                 val photoFilename = bundle!!.getString("PhotoFilename","")
                 Log.d("addcustomfood","current pantry: $currentPantry")
 
@@ -105,14 +106,16 @@ class AddCustomFoodFragment: Fragment() {
 
 
                 // Create new food database entry
-               val foodData = ApiFoodNutrition(
+               val foodData = FireBaseFood(
                    servingSize,
                    servingUnit,
                    calories,
                    fat,
                    carbs,
                    sugar,
-                   protein, Photo(photoFilename,photoFilename),name
+                   protein,
+                   photoFilename,
+                   name
                    )
                 // Attempt to push the new pantry to firebase.
                 if (viewModel.addFoodToFirebase(foodData.getDataMap())) {

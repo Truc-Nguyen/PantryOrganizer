@@ -2,6 +2,7 @@ package com.example.pantry_organizer.pantry.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,10 +42,10 @@ class AddOnlineFoodFragment: Fragment() {
 
         val recyclerView = food_preview_recycler_view
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        var foodPreviewAdapter = FoodPreviewAdapter(foodPreviewList)
+        val owner = viewLifecycleOwner
+        var foodPreviewAdapter = FoodPreviewAdapter(foodPreviewList,viewModel, owner)
         recyclerView.adapter = foodPreviewAdapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)
-
 
         online_search_button.setOnClickListener {
             Log.d("Online Food", "Button Clicked")
@@ -59,11 +60,6 @@ class AddOnlineFoodFragment: Fragment() {
             }
         }
 
-        add_online_food_item.setOnClickListener {
-            val myToast = Toast.makeText(this.context,"Add Online Food To Pantry", Toast.LENGTH_SHORT)
-            myToast.show()
-        }
-
         online_return_to_pantry.setOnClickListener {
             val intent = Intent(activity, HomeActivity::class.java)
             activity!!.startActivity(intent)
@@ -72,10 +68,12 @@ class AddOnlineFoodFragment: Fragment() {
         viewModel!!.foodPreviewList.observe(this, Observer{
             val queryResults = viewModel.foodPreviewList.value!!.common
             if(queryResults.isNotEmpty()) {
+                Log.d("ONline Add", viewModel.foodPreviewList.value!!.common.toString())
                 foodPreviewList.clear()
                 foodPreviewList.addAll(viewModel.foodPreviewList.value!!.common)
                 foodPreviewAdapter.notifyDataSetChanged()
             }else{
+                Log.d("ONline Add", "Failure")
                 val myToast = Toast.makeText(this.context,"No Results Found", Toast.LENGTH_SHORT)
                 myToast.show()
             }

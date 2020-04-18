@@ -175,11 +175,11 @@ class Repository {
     }
 
     // Get single food as a document reference
-    fun getSingleFood(foodName: String,resBody:MutableLiveData<ApiFoodNutrition>){
+    fun getSingleFood(foodName: String,resBody:MutableLiveData<FireBaseFood>){
         CoroutineScope(Dispatchers.IO).launch{
             val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("foodList").document(foodName).get().await()
             withContext(Dispatchers.Main){
-                val food = ApiFoodNutrition(
+                val food = FireBaseFood(
                     snapshot.get("serving_qty").toString(),
                     snapshot.get("serving_unit").toString(),
                     snapshot.get("nf_calories").toString().toDouble(),
@@ -187,7 +187,8 @@ class Repository {
                     snapshot.get("nf_total_carbohydrate").toString().toDouble(),
                     snapshot.get("nf_sugars").toString().toDouble(),
                     snapshot.get("nf_protein").toString().toDouble(),
-                    snapshot.get("photo") as Photo,
+//                    snapshot.get("photo") as Photo,
+                    snapshot.get("photo").toString(),
                     snapshot.get("food_name").toString()
                 )
                 resBody.value = food
@@ -221,14 +222,18 @@ class Repository {
         }
     }
 
-    fun getFoodNutrients(resBody: MutableLiveData<ApiFoodNutritionPackage>, food: String) {
+    fun getFoodNutrientsFromApi(resBody: MutableLiveData<ApiFoodNutritionPackage>, food: String) {
         CoroutineScope(Dispatchers.IO).launch {
+            Log.d("In Api", "In Api")
             val response = service.getFoodNutrients(food)
 
             withContext(Dispatchers.Main) {
                 try {
                     if (response.isSuccessful) {
+                        Log.d("In Api", "Response Successful")
                         resBody.value = response.body()
+                    }else{
+                        Log.d("In Api", "Response Failed")
                     }
                 } catch (e: HttpException) {
                     println("Http error")
