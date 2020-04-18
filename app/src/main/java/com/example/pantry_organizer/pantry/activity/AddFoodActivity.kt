@@ -37,10 +37,11 @@ class AddFoodActivity: AbstractCameraImageCapture() {
         bundle.putString("PhotoFilename",fbsFilename)
         val customFoodFragment = AddCustomFoodFragment()
         customFoodFragment.arguments = bundle
-        val test = AddOnlineFoodFragment()
+        val onlineFoodFragment = AddOnlineFoodFragment()
+        onlineFoodFragment.arguments = bundle
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(test, "Search Online")
+        viewPagerAdapter.addFragment(onlineFoodFragment, "Search Online")
         viewPagerAdapter.addFragment(customFoodFragment, "Custom Food")
 
         addFood_viewPager?.adapter = viewPagerAdapter

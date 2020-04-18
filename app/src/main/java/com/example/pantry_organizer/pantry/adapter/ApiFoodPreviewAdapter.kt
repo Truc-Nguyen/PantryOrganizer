@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.ApiFoodPreview
+import com.example.pantry_organizer.data.FireBaseFood
 import com.example.pantry_organizer.global.viewModel.ViewModel
 import com.squareup.picasso.Picasso
 
@@ -18,7 +20,7 @@ import com.squareup.picasso.Picasso
 //    fun onFoodItemClicked(food: ApiFoodPreview)
 //}
 
-class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?, private val viewModel: ViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<FoodPreviewViewHolder>() {
+class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?, private val viewModel: ViewModel, private val owner: LifecycleOwner, private val fragment: Fragment): RecyclerView.Adapter<FoodPreviewViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodPreviewViewHolder {
         val inflater = LayoutInflater.from(parent.context) //        inflater
         return FoodPreviewViewHolder(inflater, parent)
@@ -51,18 +53,31 @@ class FoodPreviewAdapter(private val list: ArrayList<ApiFoodPreview>?, private v
                 }
 
                 confirmButton.setOnClickListener {
-                    val myToast = Toast.makeText(
-                        context,
-                        "Added " + amount.text.toString() + " of item " + foodName + " to pantry",
-                        Toast.LENGTH_SHORT
-                    )
+                    val myToast = Toast.makeText(context, "Added " + amount.text.toString() + " of item " + foodName + " to pantry", Toast.LENGTH_SHORT)
                     //call function to add this food to pantry
                     Log.d("Food Query Sent", "Sent")
                     viewModel.getFoodNutrientsFromApi(foodName)
                     viewModel!!.apiFoodNutrients.observe(owner, Observer {
                         Log.d("Food Query Status", "test")
                         val queryResults = viewModel.apiFoodNutrients.value!!.foods
+                        val foodAmount = amount.text.toString()
                         if (queryResults.isNotEmpty()) {
+                            // Create new food database entry
+                            val bundle = fragment.arguments
+                            val currentPantry = bundle!!.getString("EnterPantry","none")
+                            val foodData = FireBaseFood(queryResults[0])
+                            val foodNameAndAmount: String = "$foodName,$foodAmount"
+                            // Attempt attempt to add the food to the data base
+                            //Will need to add code to check whether food already exists in database and update the amount if it does
+                            if (viewModel.addFoodToFirebase(foodData.getDataMap())) {
+                                // Push successful.
+                                Toast.makeText(fragment.context, "$foodName added to firebase", Toast.LENGTH_LONG).show()
+                                if (viewModel.addFoodToPantry(currentPantry,foodNameAndAmount)){
+                                    Toast.makeText(fragment.context, "$foodName added to pantry food list", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+
                             Log.d("Food Query Status", queryResults.toString())
                             // add to firebase along with amount
                         } else {

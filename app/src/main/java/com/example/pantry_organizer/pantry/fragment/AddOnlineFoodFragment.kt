@@ -43,7 +43,7 @@ class AddOnlineFoodFragment: Fragment() {
         val recyclerView = food_preview_recycler_view
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         val owner = viewLifecycleOwner
-        var foodPreviewAdapter = FoodPreviewAdapter(foodPreviewList,viewModel, owner)
+        var foodPreviewAdapter = FoodPreviewAdapter(foodPreviewList,viewModel, owner, this)
         recyclerView.adapter = foodPreviewAdapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)
 

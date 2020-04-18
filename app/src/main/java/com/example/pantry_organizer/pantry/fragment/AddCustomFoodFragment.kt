@@ -89,21 +89,16 @@ class AddCustomFoodFragment: Fragment() {
                 var protein = 0.0
                 if (enter_food_protein.text.toString() != "") protein = enter_food_protein.text.toString().toDouble()
 
-
                 //get current pantry location
                 //retrieve arguments from previous fragment
                 val bundle = this.arguments
                 val currentPantry = bundle!!.getString("EnterPantry","none")
                 val photoFilename = bundle!!.getString("PhotoFilename","")
                 Log.d("addcustomfood","current pantry: $currentPantry")
-
                 Log.d("addcustomfood","name: $name")
                 Log.d("addcustomfood","amount: $amount")
                 val foodNameAndAmount: String = "$name,$amount"
-
                 Log.d("addcustomfood","added to pantry foodlist")
-
-
 
                 // Create new food database entry
                val foodData = FireBaseFood(
@@ -121,20 +116,15 @@ class AddCustomFoodFragment: Fragment() {
                 if (viewModel.addFoodToFirebase(foodData.getDataMap())) {
                     // Push successful.
                     Toast.makeText(this.context, "$name added to firebase", Toast.LENGTH_LONG).show()
-
                     if (viewModel.addFoodToPantry(currentPantry,foodNameAndAmount)){
                         Toast.makeText(this.context, "$name added to pantry food list", Toast.LENGTH_LONG).show()
-
                         // Return to previous activity.
                         this.activity!!.onBackPressed()
-
                     }
-
                 } else {
                     // Pantry with this name already exists.
                     Toast.makeText(this.context, "$name already exists.", Toast.LENGTH_LONG).show()
                 }
-
                 true
             }
             else -> super.onOptionsItemSelected(item)

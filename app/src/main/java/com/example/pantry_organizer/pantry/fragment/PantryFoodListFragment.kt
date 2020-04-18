@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,6 +73,14 @@ class PantryFoodListFragment: Fragment() {
             val intent = Intent(activity, AddFoodActivity::class.java)
             intent.putExtra("AddFoodToPantry",pantryName)
             activity!!.startActivity(intent)
+        }
+
+        food_list_back_button.setOnClickListener {
+            val fragmentManager: FragmentManager? = fragmentManager
+            val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+            val fragment = PantryListFragment()
+            fragmentTransaction.replace(R.id.home_frameLayout, fragment)
+            fragmentTransaction.commit()
         }
     }
 }
