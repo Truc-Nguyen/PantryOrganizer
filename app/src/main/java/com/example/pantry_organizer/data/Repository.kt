@@ -185,7 +185,8 @@ class Repository {
                     snapshot.get("nf_calories").toString().toDouble(),
                     snapshot.get("nf_total_fat").toString().toDouble(),
                     snapshot.get("nf_total_carbohydrate").toString().toDouble(),
-                    snapshot.get("nf_sugars").toString().toDouble(),
+//                    snapshot.get("nf_sugars").toString().toDouble(),
+                    0.0, // changed this because milk returns null and I can't
                     snapshot.get("nf_protein").toString().toDouble(),
 //                    snapshot.get("photo") as Photo,
                     snapshot.get("photo").toString(),
