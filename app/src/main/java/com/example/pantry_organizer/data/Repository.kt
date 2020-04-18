@@ -191,6 +191,8 @@ class Repository {
                     snapshot.get("photo").toString(),
                     snapshot.get("food_name").toString()
                 )
+                Log.d("repogetsinglefood", food.food_name!!)
+                Log.d("repogetsinglefoodphoto", food.photo!!)
                 resBody.value = food
             }
         }

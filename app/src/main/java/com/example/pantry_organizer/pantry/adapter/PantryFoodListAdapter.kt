@@ -39,22 +39,34 @@ class PantryFoodListViewHolder(inflater: LayoutInflater, parent: ViewGroup, priv
 
         //retrieve Firebasefood
         viewModel.getSingleFood(list[0])
-        viewModel.singleFood.observe(owner, Observer {
-            if (it.photo != null) {
+        Log.d("foodadapter", viewModel.singleFood.value.toString())
+        viewModel!!.singleFood!!.observe(owner, Observer {
+            Log.d("foodadapter",it.photo)
+            // Update image view data.
+            if (it.photo == null) {
                 foodImageView.setImageResource(R.drawable.no_image_icon)
-            } else {
-                val imageRef = Firebase.storage.reference.child(it.photo!!)
-
-                imageRef.downloadUrl.addOnSuccessListener {
-                    Picasso.get()
-                        .load(it)
-                        .transform(CropSquareTransformation())
-                        .transform(RoundedCornersTransformation(100, 0))
-                        .placeholder(R.drawable.loading_icon).into(foodImageView)
-                }.addOnFailureListener {
-                    foodImageView.setImageResource(R.drawable.no_image_icon)
-                }
             }
+
+            //Functionality for displaying photos not working yet
+
+
+//            else {
+//                val imageRef = Firebase.storage.reference.child(it.photo!!)
+//                imageRef.downloadUrl.addOnSuccessListener {
+//                    Picasso.get()
+//                        .load(it)
+//                        .transform(CropSquareTransformation())
+//                        .transform(RoundedCornersTransformation(25, 0))
+//                        .placeholder(R.drawable.loading_icon).into(foodImageView)
+//                }.addOnFailureListener {
+//                    foodImageView.setImageResource(R.drawable.no_image_icon)
+//                }
+//            }
+
+//            val picasso = Picasso.get()
+//            Log.d("foodadapter",it.photo.toString())
+//            val trackImgUrl = it!!.photo!!
+//            picasso.load(trackImgUrl).into(foodImageView)
         })
 
         return list[0]

@@ -55,23 +55,25 @@ class FoodDetailFragment: Fragment() {
             food_detail_protein.text = it.nf_protein.toString()
             food_detail_sugar.text = it.nf_sugars.toString()
 
+            //Functionality for displaying photos not working yet
 
-            //upload image
-            if (it.photo != null) {
+//            if (it.photo == null) {
                 food_detail_imageView.setImageResource(R.drawable.no_image_icon)
-            } else {
-                val imageRef = Firebase.storage.reference.child(it.photo!!)
-
-                imageRef.downloadUrl.addOnSuccessListener {
-                    Picasso.get()
-                        .load(it)
-                        .transform(CropSquareTransformation())
-                        .transform(RoundedCornersTransformation(100, 0))
-                        .placeholder(R.drawable.loading_icon).into(food_detail_imageView)
-                }.addOnFailureListener {
-                    food_detail_imageView.setImageResource(R.drawable.no_image_icon)
-                }
-            }
+//            } else {
+//                val imageRef = Firebase.storage.reference.child(it.photo!!)
+//                imageRef.downloadUrl.addOnSuccessListener {
+//                    Picasso.get()
+//                        .load(it)
+//                        .transform(CropSquareTransformation())
+//                        .transform(RoundedCornersTransformation(25, 0))
+//                        .placeholder(R.drawable.loading_icon).into(food_detail_imageView)
+//                }.addOnFailureListener {
+//                    food_detail_imageView.setImageResource(R.drawable.no_image_icon)
+//                }
+//            }
+//            val picasso = Picasso.get()
+//            val trackImgUrl = it.photo
+//            picasso.load(trackImgUrl).into(food_detail_imageView)
 
         })
     }
