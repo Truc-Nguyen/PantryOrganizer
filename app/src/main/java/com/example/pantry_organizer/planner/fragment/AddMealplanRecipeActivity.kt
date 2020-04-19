@@ -32,7 +32,7 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Turn off the add food button until the data has been fetched.
-        addFoodDetail_addFoodConfirm_button.isEnabled = false
+        addRecipeDetail_addRecipeConfirm_button.isEnabled = false
 
         // Request and update the nutritional food data for the query.
        // viewModel.getApiFoodNutrition(query)
@@ -62,7 +62,7 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
 //            }
 
             // Enable the add food button.
-            addFoodDetail_addFoodConfirm_button.isEnabled = true
+            addRecipeDetail_addRecipeConfirm_button.isEnabled = true
 //        })
 
         // Add to pantry button listener.
@@ -76,7 +76,7 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
         }
 
         // Cancel button listener.
-        addFoodDetail_addFoodCancel_button.setOnClickListener {
+        addRecipeDetail_addRecipeCancel_button.setOnClickListener {
             // Return to recipe search list.
             onBackPressed()
         }

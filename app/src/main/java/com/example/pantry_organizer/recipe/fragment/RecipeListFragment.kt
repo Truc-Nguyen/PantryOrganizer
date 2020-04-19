@@ -30,10 +30,7 @@ class RecipeListFragment: Fragment() {
 
         // Set up the recycler view to show pantry list.
         val recyclerView = recipe_recycler_view
-        val adapter =
-            RecipeListAdapter(
-                recipeList
-            )
+        val adapter = RecipeListAdapter(recipeList)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.context)
 

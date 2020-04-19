@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_api_food_search.*
 import kotlinx.android.synthetic.main.activity_mealplan_recipe_search.*
 
 class MealplanRecipeSearchActivity: AbstractPantryAppActivity() {
-    private lateinit var pantryName: String
+    private lateinit var weekDay: String
     private var mealplanRecipeSearchList = ArrayList<RecipeData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class MealplanRecipeSearchActivity: AbstractPantryAppActivity() {
 
         // Support bar attributes.
         supportActionBar?.title = "Add to Pantry"
-        supportActionBar?.subtitle = pantryName
+        supportActionBar?.subtitle = date
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

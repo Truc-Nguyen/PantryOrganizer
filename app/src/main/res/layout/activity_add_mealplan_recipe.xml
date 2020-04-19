@@ -97,13 +97,13 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/add_food_icon"
+                android:src="@drawable/recipe_icon"
                 android:layout_gravity="center"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/add_food_confirm_button"
+                android:text="Add to Meal Plan"
                 android:textColor="@color/white"
                 android:textSize="7pt"
                 android:background="@drawable/button_green"/>

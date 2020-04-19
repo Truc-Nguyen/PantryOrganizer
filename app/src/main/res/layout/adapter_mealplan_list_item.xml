@@ -4,13 +4,15 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="12dp"
-    android:layout_marginBottom="24dp">
+    android:layout_marginBottom="24dp"
+    android:id="@+id/adapter_mealplan_layout">
+
 
 
     <TextView
         android:id="@+id/adapter_mealplan_date"
         android:text="Date"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

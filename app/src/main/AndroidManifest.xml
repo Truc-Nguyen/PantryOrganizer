@@ -34,7 +34,9 @@
         <activity android:name=".pantry.activity.ApiFoodSearchActivity" />
         <activity android:name=".pantry.activity.PantryFoodListActivity" />
         <activity android:name=".pantry.activity.AddFoodActivity" />
-
+        <activity android:name=".planner.fragment.AddMealplanRecipeActivity" />
+        <activity android:name=".planner.fragment.MealplanDetailActivity" />
+        <activity android:name=".planner.fragment.MealplanRecipeSearchActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
