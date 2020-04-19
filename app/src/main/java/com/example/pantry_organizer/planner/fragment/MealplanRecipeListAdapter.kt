@@ -26,7 +26,9 @@ class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerV
             override fun onClick(view: View?) {
                 //store date string
                 val bundle = Bundle()
-                bundle.putString("MealplanRecipe",recipe)
+
+                //do not change label, matches that used in RecipeListFragment
+                bundle.putString("RecipeName",recipe)
 
                 //start recipe detail fragment
                 val activity = view!!.context as AppCompatActivity

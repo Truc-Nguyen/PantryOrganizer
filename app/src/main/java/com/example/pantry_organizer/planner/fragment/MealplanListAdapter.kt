@@ -1,6 +1,7 @@
 package com.example.pantry_organizer.planner.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.MealplanData
 import com.example.pantry_organizer.data.RecipeData
+import com.example.pantry_organizer.pantry.activity.AddFoodActivity
+import com.example.pantry_organizer.pantry.activity.PantryFoodListActivity
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
@@ -30,23 +33,12 @@ class MealplanListAdapter(private val list: ArrayList<MealplanData>?): RecyclerV
 
     override fun onBindViewHolder(holder: MealplanListViewHolder, position: Int) {
         val mealplanDate: String = holder.bind(list!![position])
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                //store date string
-                val bundle = Bundle()
-                bundle.putString("MealplanDate",mealplanDate)
-
-                //start recipe detail fragment
-                val activity = view!!.context as AppCompatActivity
-                val fragment = MealplanDetailFragment()
-                fragment.setArguments(bundle)
-
-                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
-                //need to replace home_frameLayout with frame layout of mealplan detail view
-                ft.replace(R.id.home_frameLayout, fragment)
-                ft.commit()
-            }
-        })
+        // Set click listener for viewing nutritional data for this food.
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, MealplanDetailActivity::class.java)
+            intent.putExtra("MealplanDate", mealplanDate)
+            it.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
