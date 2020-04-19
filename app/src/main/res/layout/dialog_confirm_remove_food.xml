@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/deleteItemMessage_layout"
+        android:id="@+id/removeFoodMessage_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/trash_icon"
+            android:src="@drawable/cancel_icon"
             android:tint="@color/black"
             android:adjustViewBounds="true"
             android:layout_gravity="center"
@@ -28,10 +28,9 @@
             android:layout_marginTop="5dp"/>
 
         <TextView
-            android:id="@+id/deleteItemMessage_textView"
+            android:id="@+id/removeFoodMessage_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_item_message"
             android:textSize="8pt"
             android:gravity="center_horizontal"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,33 +39,62 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/removeFoodQuantity_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="20dp"
+        app:layout_constraintTop_toBottomOf="@id/removeFoodMessage_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_food_quantity_label"
+            android:layout_gravity="center"
+            android:textSize="8pt"
+            android:layout_marginHorizontal="20dp"/>
+
+        <EditText
+            android:id="@+id/removeFoodQuantity_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_food_quantity_hint"
+            android:inputType="number"
+            android:gravity="center"
+            android:ems="5"
+            android:background="@drawable/edit_text_border"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginVertical="30dp"
-        app:layout_constraintTop_toBottomOf="@id/deleteItemMessage_layout"
+        app:layout_constraintTop_toBottomOf="@id/removeFoodQuantity_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <Button
-            android:id="@+id/deleteItemCancel_button"
+            android:id="@+id/removeFoodCancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:paddingVertical="15dp"
-            android:text="@string/delete_item_cancel_button"
+            android:text="@string/remove_food_cancel_button"
             android:textColor="@color/white"
             android:textSize="7pt"
             android:background="@drawable/button_gray"/>
 
         <Button
-            android:id="@+id/deleteItemConfirm_button"
+            android:id="@+id/removeFoodConfirm_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:paddingVertical="15dp"
-            android:text="@string/delete_item_delete_button"
+            android:text="@string/remove_food_confirm_button"
             android:textColor="@color/white"
             android:textSize="7pt"
             android:background="@drawable/button_red"/>

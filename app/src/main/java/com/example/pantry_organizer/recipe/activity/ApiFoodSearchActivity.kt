@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.pantry.activity
+package com.example.pantry_organizer.recipe.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.ApiFoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
-import com.example.pantry_organizer.pantry.adapter.ApiSearchAdapter
+import com.example.pantry_organizer.recipe.adapter.ApiSearchAdapter
 import kotlinx.android.synthetic.main.activity_api_food_search.*
 
 class ApiFoodSearchActivity: AbstractPantryAppActivity() {
-    private lateinit var pantryName: String
+    private lateinit var recipeName: String
     private var apiSearchList = ArrayList<ApiFoodData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,17 +21,17 @@ class ApiFoodSearchActivity: AbstractPantryAppActivity() {
         setContentView(R.layout.activity_api_food_search)
 
         // Extract the extras from intent.
-        pantryName = intent.extras!!.getString("pantryName")!!
+        recipeName = intent.extras!!.getString("recipeName")!!
 
         // Support bar attributes.
-        supportActionBar?.title = "Add to Pantry"
-        supportActionBar?.subtitle = pantryName
+        supportActionBar?.title = "Add to Recipe"
+        supportActionBar?.subtitle = recipeName
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Set up the recycler view to show api food search.
         val recyclerView = apiFoodSearch_recyclerView
-        val adapter = ApiSearchAdapter(apiSearchList, pantryName)
+        val adapter = ApiSearchAdapter(apiSearchList, recipeName)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
@@ -71,7 +71,7 @@ class ApiFoodSearchActivity: AbstractPantryAppActivity() {
         return when (item.itemId) {
             R.id.add_custom_menuItem -> {
                 val intent = Intent(this, AddCustomFoodActivity::class.java)
-                intent.putExtra("pantryName", pantryName)
+                intent.putExtra("recipeName", recipeName)
                 startActivity(intent)
                 true
             }

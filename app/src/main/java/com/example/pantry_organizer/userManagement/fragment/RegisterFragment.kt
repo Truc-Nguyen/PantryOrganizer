@@ -32,6 +32,9 @@ class RegisterFragment: UserManagementFragment() {
         // Register button click listener.
         register_button.setOnClickListener {
             toggleEnabledComponents()
+            registerEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border, null)
+            registerPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border, null)
+            registerConfirmPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border, null)
             registerWarning_layout.visibility = View.INVISIBLE
 
             // Harvest user input.
@@ -45,18 +48,24 @@ class RegisterFragment: UserManagementFragment() {
             // Sanitize input.
             if (email == "") {
                 toggleEnabledComponents()
+                registerEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printRegisterWarning("Email cannot be blank.")
                 return@setOnClickListener
             } else if (!emailRegex.matches(email)) {
                 toggleEnabledComponents()
+                registerEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printRegisterWarning("Invalid email entered.")
                 return@setOnClickListener
             } else if (password.length < 6) {
                 toggleEnabledComponents()
+                registerPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
+                registerConfirmPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printRegisterWarning("Password must be at least 6 characters.")
                 return@setOnClickListener
             } else if (password != confirmPassword) {
                 toggleEnabledComponents()
+                registerPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
+                registerConfirmPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printRegisterWarning("Passwords do not match.")
                 return@setOnClickListener
             }
@@ -70,6 +79,7 @@ class RegisterFragment: UserManagementFragment() {
                         activity!!.startActivity(intent)
                     } else {
                         toggleEnabledComponents()
+                        registerEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                         printRegisterWarning("This email has already been registered.")
                     }
                 }

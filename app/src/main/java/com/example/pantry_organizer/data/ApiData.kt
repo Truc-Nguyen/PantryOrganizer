@@ -1,9 +1,6 @@
 package com.example.pantry_organizer.data
 
-import com.google.firebase.firestore.QueryDocumentSnapshot
-
 data class ApiFoodDataPayload(val common: List<ApiFoodData>)
-
 data class ApiFoodData(
     val food_name: String,
     val serving_unit: String,
@@ -16,7 +13,6 @@ data class Photo(
 )
 
 data class ApiFoodNutritionPayload(val foods: List<ApiFoodNutritionData>)
-
 data class ApiFoodNutritionData(
     val serving_qty: String?,
     val serving_unit: String?,
@@ -28,58 +24,3 @@ data class ApiFoodNutritionData(
     val photo: Photo?,
     val food_name: String?
 )
-
-
-data class FireBaseFood(
-    val serving_qty: String?,
-    val serving_unit: String?,
-    val nf_calories: Double?,
-    val nf_total_fat: Double?,
-    val nf_total_carbohydrate: Double?,
-    val nf_sugars: Double?,
-    val nf_protein: Double?,
-    val photo: String?,
-    val food_name: String?){
-    // Convenience constructor using a firebase document object.
-    constructor(fbDoc: QueryDocumentSnapshot):
-    this(
-        fbDoc.get("serving_qty") as String?,
-        fbDoc.get("serving_unit") as String?,
-        fbDoc.get("nf_calories") as Double?,
-        fbDoc.get("nf_total_fat") as Double?,
-        fbDoc.get("nf_total_carbohydrate") as Double?,
-        fbDoc.get("nf_sugars") as Double?,
-        fbDoc.get("nf_protein") as Double?,
-        fbDoc.get("photo") as String?,
-        fbDoc.get("food_name") as String?
-    )
-
-    constructor(apiFood: ApiFoodNutritionData):
-            this(
-                apiFood.serving_qty,
-                apiFood.serving_unit,
-                apiFood.nf_calories,
-                apiFood.nf_total_fat,
-                apiFood.nf_total_carbohydrate,
-                apiFood.nf_sugars,
-                apiFood.nf_protein,
-                apiFood.photo?.thumb,
-                apiFood.food_name
-            )
-
-    // Convenience method for returning a map of this object.
-    fun getDataMap(): Map<String, Any?> {
-        return hashMapOf<String, Any?>(
-            "serving_qty" to serving_qty,
-            "serving_unit" to serving_unit,
-            "nf_calories" to nf_calories,
-            "nf_total_fat" to nf_total_fat,
-            "nf_total_carbohydrate" to nf_total_carbohydrate,
-            "nf_sugars" to nf_sugars,
-            "nf_protein" to nf_protein,
-            "photo" to photo,
-            "food_name" to food_name
-        )
-    }
-
-}

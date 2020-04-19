@@ -9,7 +9,7 @@
     app:cardCornerRadius="3dp"
     app:cardUseCompatPadding="true"
     android:elevation="10dp"
-    tools:context=".home.activity.HomeActivity">
+    tools:context=".pantry.activity.PantryFoodListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,9 +18,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/adapter_recipeList_recipeImage_imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/adapter_pantryFoodList_foodImage_imageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_margin="3dp"
             android:layout_gravity="center_vertical"/>
 
@@ -32,7 +32,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/adapter_recipeList_recipeName_textView"
+                android:id="@+id/adapter_pantryFoodList_foodName_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10pt"
@@ -40,26 +40,16 @@
                 android:layout_marginBottom="5dp"/>
 
             <TextView
-                android:id="@+id/adapter_recipeList_recipeCalories_textView"
+                android:id="@+id/adapter_pantryFoodList_foodServingSize_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="6pt" />
 
             <TextView
-                android:id="@+id/adapter_recipeList_recipeFoodCount_textView"
+                android:id="@+id/adapter_pantryFoodList_foodQuantity_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="6pt" />
-
-            <RatingBar
-                android:id="@+id/adapter_recipeList_recipeRating_ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:isIndicator="true"
-                android:layout_gravity="left"
-                android:theme="@style/RatingBar"
-                style="?android:attr/ratingBarStyleSmall"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -30,13 +30,18 @@
         </activity>
         <activity android:name=".home.activity.HomeActivity" />
         <activity android:name=".pantry.activity.AddPantryActivity" />
-        <activity android:name=".recipe.fragment.AddRecipeActivity" />
+        <activity android:name=".recipe.activity.AddRecipeActivity" />
         <activity android:name=".pantry.activity.ApiFoodSearchActivity" />
         <activity android:name=".pantry.activity.PantryFoodListActivity" />
         <activity android:name=".pantry.activity.AddFoodActivity" />
         <activity android:name=".planner.fragment.AddMealplanRecipeActivity" />
         <activity android:name=".planner.fragment.MealplanDetailActivity" />
         <activity android:name=".planner.fragment.MealplanRecipeSearchActivity" />
+        <activity android:name=".recipe.activity.RecipeFoodListActivity" />
+        <activity android:name=".recipe.activity.ApiFoodSearchActivity" />
+        <activity android:name=".recipe.activity.AddCustomFoodActivity" />
+        <activity android:name=".recipe.activity.AddFoodActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.pantry.adapter
+package com.example.pantry_organizer.recipe.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,13 +11,13 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 
-class PantryFoodListAdapter(private val list: ArrayList<FoodData>?): RecyclerView.Adapter<PantryFoodListViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PantryFoodListViewHolder {
+class RecipeFoodListAdapter(private val list: ArrayList<FoodData>?): RecyclerView.Adapter<RecipeFoodListViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeFoodListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return PantryFoodListViewHolder(inflater, parent)
+        return RecipeFoodListViewHolder(inflater, parent)
     }
 
-    override fun onBindViewHolder(holder: PantryFoodListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecipeFoodListViewHolder, position: Int) {
         // Extract the food data from the position in the list.
         val foodData = list!![position]
 
@@ -43,14 +43,14 @@ class PantryFoodListAdapter(private val list: ArrayList<FoodData>?): RecyclerVie
     }
 }
 
-class PantryFoodListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_pantry_food_list_item, parent, false)) {
+class RecipeFoodListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_recipe_food_list_item, parent, false)) {
     fun bind(foodData: FoodData?) {
         // Get view objects.
-        val foodNameView: TextView = itemView.findViewById(R.id.adapter_pantryFoodList_foodName_textView)
-        val foodServingSizeView: TextView = itemView.findViewById(R.id.adapter_pantryFoodList_foodServingSize_textView)
-        val foodQtyView: TextView = itemView.findViewById(R.id.adapter_pantryFoodList_foodQuantity_textView)
-        val foodImageView: ImageView = itemView.findViewById(R.id.adapter_pantryFoodList_foodImage_imageView)
+        val foodNameView: TextView = itemView.findViewById(R.id.adapter_recipeFoodList_foodName_textView)
+        val foodServingSizeView: TextView = itemView.findViewById(R.id.adapter_recipeFoodList_foodServingSize_textView)
+        val foodQtyView: TextView = itemView.findViewById(R.id.adapter_recipeFoodList_foodQuantity_textView)
+        val foodImageView: ImageView = itemView.findViewById(R.id.adapter_recipeFoodList_foodImage_imageView)
 
         // Update view object data.
         foodNameView.text = foodData?.name

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".pantry.activity.AddPantryActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".recipe.activity.AddRecipeActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,10 +24,9 @@
             android:paddingBottom="?attr/actionBarSize">
 
             <TextView
-                android:id="@+id/addRecipe_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recipe"
+                android:text="@string/add_recipe_name_label"
                 android:layout_marginStart="5dp"
                 android:paddingTop="15dp"/>
 
@@ -36,31 +36,15 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_border"
                 android:layout_marginTop="5dp"
-                android:hint="Name"/>
+                android:hint="@string/add_recipe_name_hint"/>
 
             <TextView
-                android:id="@+id/addIngredients_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="List Ingredients:"
-                android:layout_marginStart="5dp"
-                android:paddingTop="15dp"/>
-
-            <EditText
-                android:id="@+id/addRecipe_recipeIngredients_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_border"
-                android:layout_marginTop="5dp"
-                android:hint="(eg. 2 cups rice, 1tbsp soy sauce, 1 egg, etc.)"/>
-
-            <TextView
-                android:id="@+id/addPantry_recipeImage_textView"
+                android:id="@+id/addRecipe_recipeImage_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="5dp"
-                android:text="Directions" />
+                android:text="@string/add_recipe_image_label" />
 
             <ImageView
                 android:id="@+id/addRecipe_recipeImage_imageView"
@@ -71,8 +55,6 @@
                 android:scaleType="fitCenter"
                 android:background="@drawable/edit_text_border"
                 android:layout_marginTop="5dp"/>
-
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

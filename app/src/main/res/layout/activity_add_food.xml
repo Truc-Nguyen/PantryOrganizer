@@ -14,6 +14,7 @@
         app:layout_constraintBottom_toTopOf="@id/addFoodDetail_addFoodButton_layout">
 
         <LinearLayout
+            android:id="@+id/addFoodDetailData_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -21,6 +22,7 @@
 
             <ImageView
                 android:id="@+id/addFoodDetail_imageView"
+                android:src="@drawable/loading_icon"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="20dp"
@@ -38,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:text="@string/food_detail_loading_label"
                 android:textSize="13pt"
                 android:textStyle="bold"/>
 
@@ -53,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:text="@string/food_detail_loading_label"
                 android:textSize="13pt"
                 android:textStyle="bold"/>
 
@@ -68,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:text="@string/food_detail_loading_label"
                 android:textSize="13pt"
                 android:textStyle="bold"/>
 
@@ -83,6 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:text="@string/food_detail_loading_label"
                 android:textSize="13pt"
                 android:textStyle="bold"/>
 
@@ -99,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:text="@string/food_detail_loading_label"
                 android:textSize="13pt"
                 android:textStyle="bold"/>
 
@@ -114,6 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:text="@string/food_detail_loading_label"
                 android:textSize="13pt"
                 android:textStyle="bold"/>
 
@@ -124,58 +132,96 @@
         android:id="@+id/addFoodDetail_addFoodButton_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:id="@+id/addFoodDetail_addFoodCancel_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:paddingTop="25dp"
-            android:orientation="vertical"
-            android:background="@drawable/button_red">
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/cancel_icon"
-                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_food_quantity_label"
+                android:layout_gravity="center"
+                android:textSize="8pt"
+                android:layout_marginHorizontal="20dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/add_food_cancel_button"
-                android:textColor="@color/white"
-                android:textSize="7pt"
-                android:background="@drawable/button_red"/>
+            <EditText
+                android:id="@+id/addFoodDetailQuantity_editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_food_quantity_hint"
+                android:inputType="number"
+                android:gravity="center"
+                android:ems="5"
+                android:background="@drawable/edit_text_border"
+                android:layout_margin="10dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/addFoodDetail_addFoodConfirm_button"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:paddingTop="25dp"
-            android:orientation="vertical"
-            android:background="@drawable/button_green">
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/add_food_icon"
-                android:layout_gravity="center"/>
+            <LinearLayout
+                android:id="@+id/addFoodDetail_addFoodCancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingTop="25dp"
+                android:orientation="vertical"
+                android:background="@drawable/button_red">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/add_food_confirm_button"
-                android:textColor="@color/white"
-                android:textSize="7pt"
-                android:background="@drawable/button_green"/>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cancel_icon"
+                    android:layout_gravity="center"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/add_food_cancel_button"
+                    android:textColor="@color/white"
+                    android:textSize="7pt"
+                    android:background="@drawable/button_red"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addFoodDetail_addFoodConfirm_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingTop="25dp"
+                android:orientation="vertical"
+                android:background="@drawable/button_green">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/add_food_icon"
+                    android:layout_gravity="center"/>
+
+                <Button
+                    android:id="@+id/addFoodDetail_addFoodConfirm_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/add_pantry_food_confirm_button"
+                    android:textColor="@color/white"
+                    android:textSize="7pt"
+                    android:background="@drawable/button_green"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

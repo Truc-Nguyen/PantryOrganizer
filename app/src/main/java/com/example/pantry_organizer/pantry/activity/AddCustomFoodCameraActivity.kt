@@ -10,7 +10,7 @@ import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.PantryData
 import com.example.pantry_organizer.global.activity.AbstractCameraImageCapture
 import kotlinx.android.synthetic.main.activity_add_pantry.*
-import kotlinx.android.synthetic.main.activity_custom_food.*
+import kotlinx.android.synthetic.main.activity_add_custom_food.*
 
 class AddCustomFoodCameraActivity: AbstractCameraImageCapture() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class AddCustomFoodCameraActivity: AbstractCameraImageCapture() {
 
         // Push the URI into firebase storage and publish the cloud filename as photoImagePath.
         if (requestCode == REQUEST_CAMERA_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            pushImage(customFood_imageView)
+            pushImage(addFood_customImage_imageView)
         }
 
         //store image fbsFilename and navigate back to

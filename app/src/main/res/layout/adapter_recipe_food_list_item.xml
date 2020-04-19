@@ -9,7 +9,7 @@
     app:cardCornerRadius="3dp"
     app:cardUseCompatPadding="true"
     android:elevation="10dp"
-    tools:context=".pantry.activity.PantryFoodListActivity">
+    tools:context=".recipe.activity.RecipeFoodListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/adapter_pantryFoodList_foodImage_imageView"
+            android:id="@+id/adapter_recipeFoodList_foodImage_imageView"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="3dp"
@@ -27,20 +27,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="30dp"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/adapter_pantryFoodList_foodName_textView"
+                android:id="@+id/adapter_recipeFoodList_foodName_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10pt"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
-                android:id="@+id/adapter_pantryFoodList_foodQuantity_textView"
+                android:id="@+id/adapter_recipeFoodList_foodServingSize_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="6pt" />
+
+            <TextView
+                android:id="@+id/adapter_recipeFoodList_foodQuantity_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="6pt" />

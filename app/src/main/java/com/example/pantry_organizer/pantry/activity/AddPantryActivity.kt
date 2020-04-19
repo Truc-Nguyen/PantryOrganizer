@@ -52,8 +52,6 @@ class AddPantryActivity: AbstractCameraImageCapture() {
                 }
 
                 // Create new pantry data entry.
-//                val pantryData = PantryData(name, location, fbsFilename)
-                val newFoodList : List<List<String>> = emptyList()
                 val pantryData = PantryData(name, location, fbsFilename, null)
 
                 // Attempt to push the new pantry to firebase.

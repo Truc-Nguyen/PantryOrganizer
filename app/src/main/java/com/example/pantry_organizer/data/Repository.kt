@@ -1,6 +1,5 @@
 package com.example.pantry_organizer.data
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.pantry_organizer.api.ApiClient
 import com.google.firebase.auth.FirebaseAuth
@@ -18,11 +17,13 @@ import java.util.*
 
 class Repository {
     // Set firebase instances.
-    val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
-    val fbs = Firebase.storage.reference
-    val userID = auth.currentUser?.uid
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+    private val fbs = Firebase.storage.reference
+    private val userID = auth.currentUser?.uid
 
+
+    // GLOBAL //
     // Upload a file into firebase storage.
     fun uploadFileToStorage(filePath: String): String {
         // Generate a unique file name for this file.
@@ -34,6 +35,8 @@ class Repository {
         return fbsFilename
     }
 
+
+    // PANTRY //
     // Get pantry list from firebase.
     fun getPantries(): CollectionReference {
         return db.collection("userData")
@@ -59,15 +62,66 @@ class Repository {
             .delete()
     }
 
-    // Push food to firebase.
-    fun addFood(pantryName: String, foodData: Map<String, Any?> ) {
-        db.collection("userData")
+    // Push food to pantry in firebase.
+    fun addFoodToPantry(pantryName: String, foodData: FoodData) {
+        // Create a reference to the pantry firebase document.
+        val pantryDocRef = db.collection("userData")
             .document(userID!!)
             .collection("pantryList")
             .document(pantryName)
-            .update("foodList", FieldValue.arrayUnion(foodData))
+
+        // Inspect the pantry data.
+        pantryDocRef.get().addOnSuccessListener {
+            // Check if the food already exists in the pantry.
+            if (it.contains("foodList")) {
+                for (dbFood in it["foodList"] as List<Map<String, Any?>>) {
+                    if (dbFood["name"] == foodData.name) {
+                        // Food already exists in pantry. Update the quantity.
+                        foodData.quantity += dbFood["quantity"] as Long
+
+                        // Delete the old food data.
+                        pantryDocRef.update("foodList", FieldValue.arrayRemove(dbFood))
+                    }
+                }
+            }
+
+            // Add the food data to the pantry.
+            pantryDocRef.update("foodList", FieldValue.arrayUnion(foodData.getDataMap()))
+        }
     }
 
+    // Remove a quantity of an existing food from the specified pantry in firebase.
+    fun removeFoodQtyFromPantry(pantryName: String, foodData: FoodData, quantity: Int) {
+        // Create a reference to the pantry firebase document.
+        val pantryDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("pantryList")
+            .document(pantryName)
+
+        // Inspect the pantry data.
+        pantryDocRef.get().addOnSuccessListener {
+            // Check if the food already exists in the pantry.
+            if (it.contains("foodList")) {
+                for (dbFood in it["foodList"] as List<Map<String, Any?>>) {
+                    if (dbFood["name"] == foodData.name) {
+                        // Update the food quantity.
+                        foodData.quantity = dbFood["quantity"] as Long - quantity
+
+                        // Delete the old food data.
+                        pantryDocRef.update("foodList", FieldValue.arrayRemove(dbFood))
+
+                        // Add the new food data with the updated quantity only if the quantity is non-zero.
+                        if (foodData.quantity > 0) {
+                            pantryDocRef.update("foodList", FieldValue.arrayUnion(foodData.getDataMap()))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // API //
     // Define retrofit service.
     private val service = ApiClient.makeRetrofitService()
 
@@ -75,7 +129,6 @@ class Repository {
     fun getApiSearchList(resBody: MutableLiveData<ApiFoodDataPayload>, query: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val response = service.getFoodBySearch(query)
-
             withContext(Dispatchers.Main) {
                 try {
                     if (response.isSuccessful) {
@@ -104,89 +157,17 @@ class Repository {
             }
         }
     }
-
-
-//    //Get single pantry, called in view model to get food list
-//    fun getSinglePantryFoods(pantryName: String,resBody:MutableLiveData<List<List<String>>>){
-//        CoroutineScope(Dispatchers.IO).launch{
-//            val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("pantryList").document(pantryName).get().await()
-//            withContext(Dispatchers.Main){
-//                var pantryFoodList = snapshot.get("foodList") as List<List<String>>?
-//                Log.d("repogetsinglepantry",pantryFoodList.toString())
-////                if (pantryFoodList == null) {
-////                    pantryFoodList = emptyList()
-////                }
-//                resBody.value = pantryFoodList
-//            }
-//        }
-//    }
-
-
-
-
-
-    fun addFoodToFirebase(foodData: Map<String, Any?>){
-        Log.d("repoaddfood","entered")
-        db.collection("userData")
-            .document(userID!!)
-            .collection("foodList")
-            .document(foodData["food_name"] as String)
-            .set(foodData)
-        Log.d("repoaddfood","finished")
-    }
-
-//    fun addFoodToPantry(pantryName: String, foodAndAmount: List<String>, resBody: MutableLiveData<List<List<String>>>) {
-//        var updatedFoodList: List<List<String>> = emptyList()
-//        Log.d("repoaddfood",foodAndAmount[0])
-//        Log.d("repoaddfood",foodAndAmount[1])
-//
-//        CoroutineScope(Dispatchers.IO).launch{
-//            //get initial food list
-//            val snapshot: DocumentSnapshot = db.collection("userData")
-//                    .document(userID!!).collection("pantryList")
-//                    .document(pantryName).get().await()
-//            withContext(Dispatchers.Main){
-//                var tempFoodList = snapshot.get("foodList") as MutableList<List<String>>
-//                Log.d("repoaddfood","before adding: " + tempFoodList.toString())
-//                tempFoodList.add(foodAndAmount)
-//
-//                updatedFoodList = tempFoodList.toList()
-////                val updatedPantry = PantryData(
-////                    snapshot.get("name").toString(),
-////                    snapshot.get("location").toString(),
-////                    snapshot.get("imageLink").toString(),
-////                    updatedFoodList
-////                )
-//                Log.d("repoaddfood","after adding: " + updatedFoodList.toString())
-//
-//                snapshot.reference.update("foodList",updatedFoodList)
-//
-//                resBody.value = updatedFoodList
-//            }
-//        }
-
-//            val listDoc = listTask.result
-//            var list : MutableList<Pair<_root_ide_package_.com.example.pantry_organizer.data.ApiFoodNutrition, Int>>
-//            list = listDoc!!.get("foodList") as MutableList<Pair<_root_ide_package_.com.example.pantry_organizer.data.ApiFoodNutrition, Int>>
-//            list.add(foodAndAmount)
-//
-//            val newList = list.toList()
-//            fbs.child("userData").child(userID!!).child("pantryList").child(pantryName).child("foodList")
-//
-//    }
-
-
-
-    //Recipe fragment code
-
-    //get all recipes from firebase
+    
+    
+    // RECIPE //
+    // Get recipe list from firebase.
     fun getRecipes(): CollectionReference {
         return db.collection("userData")
             .document(userID!!)
             .collection("recipeList")
     }
 
-    // Push a new recipe to firebase.
+    // Push new recipe to firebase.
     fun addRecipe(recipeData: Map<String, Any?>){
         db.collection("userData")
             .document(userID!!)
@@ -197,57 +178,69 @@ class Repository {
 
     // Delete a recipe from firebase.
     fun deleteRecipe(recipeName: String) {
-        val recipe = db.collection("userData")
+        db.collection("userData")
             .document(userID!!)
             .collection("recipeList")
             .document(recipeName)
             .delete()
-
     }
 
-//    // Get single recipe as a document reference
-//   fun getSingleRecipe(recipeName: String,resBody:MutableLiveData<RecipeData>){
-//       CoroutineScope(Dispatchers.IO).launch{
-//           val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("recipeList").document(recipeName).get().await()
-//           withContext(Dispatchers.Main){
-//               val recipe = RecipeData(
-//                   snapshot.get("name").toString(),
-//                   snapshot.get("ingredientsList").toString(),
-//                   snapshot.get("imageLink").toString()
-//               )
-//               resBody.value = recipe
-//           }
-//        }
-//    }
-//
-//    // Get single food as a document reference
-//    fun getSingleFood(foodName: String,resBody:MutableLiveData<ApiFoodNutrition>){
-//        CoroutineScope(Dispatchers.IO).launch{
-//            val snapshot: DocumentSnapshot = db.collection("userData").document(userID!!).collection("foodList").document(foodName).get().await()
-//            withContext(Dispatchers.Main){
-//                val food = ApiFoodNutrition(
-//                    snapshot.get("serving_qty").toString(),
-//                    snapshot.get("serving_unit").toString(),
-//                    snapshot.get("nf_calories").toString().toDouble(),
-//                    snapshot.get("nf_total_fat").toString().toDouble(),
-//                    snapshot.get("nf_total_carbohydrate").toString().toDouble(),
-//                    snapshot.get("nf_sugars").toString().toDouble(),
-//                    snapshot.get("nf_protein").toString().toDouble(),
-//                    snapshot.get("photo") as Photo,
-//                    snapshot.get("food_name").toString()
-//                )
-//                resBody.value = food
-//            }
-//        }
-//    }
-
-    // Get all food data objects from firebase.
-    fun getFoods(): CollectionReference {
-        return db.collection("userData")
+    // Push food to recipe in firebase.
+    fun addFoodToRecipe(recipeName: String, foodData: FoodData) {
+        // Create a reference to the recipe firebase document.
+        val recipeDocRef = db.collection("userData")
             .document(userID!!)
-            .collection("foodList")
+            .collection("recipeList")
+            .document(recipeName)
+
+        // Inspect the recipe data.
+        recipeDocRef.get().addOnSuccessListener {
+            // Check if the food already exists in the recipe.
+            if (it.contains("foodList")) {
+                for (dbFood in it["foodList"] as List<Map<String, Any?>>) {
+                    if (dbFood["name"] == foodData.name) {
+                        // Food already exists in recipe. Update the quantity.
+                        foodData.quantity += dbFood["quantity"] as Long
+
+                        // Delete the old food data.
+                        recipeDocRef.update("foodList", FieldValue.arrayRemove(dbFood))
+                    }
+                }
+            }
+
+            // Add the food data to the recipe.
+            recipeDocRef.update("foodList", FieldValue.arrayUnion(foodData.getDataMap()))
+        }
     }
 
+    // Remove a quantity of an existing food from the specified recipe in firebase.
+    fun removeFoodQtyFromRecipe(recipeName: String, foodData: FoodData, quantity: Int) {
+        // Create a reference to the recipe firebase document.
+        val recipeDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeName)
 
+        // Inspect the recipe data.
+        recipeDocRef.get().addOnSuccessListener {
+            // Check if the food already exists in the recipe.
+            if (it.contains("foodList")) {
+                for (dbFood in it["foodList"] as List<Map<String, Any?>>) {
+                    if (dbFood["name"] == foodData.name) {
+                        // Update the food quantity.
+                        foodData.quantity = dbFood["quantity"] as Long - quantity
+
+                        // Delete the old food data.
+                        recipeDocRef.update("foodList", FieldValue.arrayRemove(dbFood))
+
+                        // Add the new food data with the updated quantity only if the quantity is non-zero.
+                        if (foodData.quantity > 0) {
+                            recipeDocRef.update("foodList", FieldValue.arrayUnion(foodData.getDataMap()))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 

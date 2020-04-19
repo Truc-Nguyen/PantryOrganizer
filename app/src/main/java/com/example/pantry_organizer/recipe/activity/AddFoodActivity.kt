@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.pantry.activity
+package com.example.pantry_organizer.recipe.activity
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -15,7 +15,7 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_add_food.*
 
 class AddFoodActivity: AbstractPantryAppActivity() {
-    private lateinit var pantryName: String
+    private lateinit var recipeName: String
     var foodData: FoodData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class AddFoodActivity: AbstractPantryAppActivity() {
         setContentView(R.layout.activity_add_food)
 
         // Extract the extras from intent.
-        pantryName = intent.extras!!.getString("pantryName")!!
+        recipeName = intent.extras!!.getString("recipeName")!!
         val query = intent.extras!!.getString("query")!!
 
         // Support bar attributes.
@@ -34,6 +34,7 @@ class AddFoodActivity: AbstractPantryAppActivity() {
 
         // Turn off the button layout until the data has been fetched.
         addFoodDetail_addFoodButton_layout.visibility = View.INVISIBLE
+        addFoodDetail_addFoodConfirm_text.text = resources.getString(R.string.add_recipe_food_confirm_button)
 
         // Request and update the nutritional food data for the query.
         viewModel.getApiFoodNutrition(query)
@@ -89,7 +90,7 @@ class AddFoodActivity: AbstractPantryAppActivity() {
                 addFoodDetailData_layout.paddingBottom + addFoodDetail_addFoodButton_layout.height)
         })
 
-        // Add to pantry button listener.
+        // Add to recipe button listener.
         addFoodDetail_addFoodConfirm_button.setOnClickListener {
             // Reset quantity field color.
             addFoodDetailQuantity_editText.background = resources.getDrawable(R.drawable.edit_text_border, null)
@@ -113,9 +114,9 @@ class AddFoodActivity: AbstractPantryAppActivity() {
             // Update the food quantity.
             foodData?.quantity = addFoodDetailQuantity_editText.text.toString().toLong()
 
-            // Add the food data to the pantry.
-            viewModel.addFoodToPantry(pantryName, foodData!!)
-            Toast.makeText(this, "Added $query to $pantryName!", Toast.LENGTH_LONG).show()
+            // Add the food data to the recipe.
+            viewModel.addFoodToRecipe(recipeName, foodData!!)
+            Toast.makeText(this, "Added $query to $recipeName!", Toast.LENGTH_LONG).show()
 
             // Return to food search list.
             onBackPressed()

@@ -3,25 +3,85 @@ package com.example.pantry_organizer.data
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
 data class RecipeData(
-    val name: String = "",
-    val ingredientsList: String = "",
-    val imageLink: String?
-)
+    val name: String,
+    val imageLink: String?,
+    val recipeImageLink: String?,
+    val rating: Double,
+    val foodList: List<FoodData>?)
 {
-
-    // Convenience constructor using a firebase document object.
-    constructor(fbDoc: QueryDocumentSnapshot):
-            this(
-                fbDoc.get("name") as String,
-                fbDoc.get("ingredientsList") as String,
-                fbDoc.get("imageLink") as String?)
-
     // Convenience method for returning a map of this object.
     fun getDataMap(): Map<String, Any?> {
-        return hashMapOf<String, Any?>(
+        // Construct a list of maps of the food data in this pantry.
+        val foodMapList = ArrayList<Map<String, Any?>>()
+        if (foodList != null) {
+            for (food in foodList) {
+                foodMapList.add(food.getDataMap())
+            }
+        }
+
+        // Return a map of this pantry's data.
+        return hashMapOf(
             "name" to name,
-            "ingredientsList" to ingredientsList,
-            "imageLink" to imageLink
+            "imageLink" to imageLink,
+            "recipeImageLink" to recipeImageLink,
+            "rating" to rating,
+            "foodList" to foodMapList
         )
     }
+
+    // Get the number of unique food types in this recipe.
+    fun getFoodTypeCount(): Int {
+        return foodList?.size ?: 1
+    }
+
+    // Get the total food count in this recipe.
+    fun getFoodTotalCount(): Long {
+        var total = 0L
+        if (foodList != null) {
+            for (food in foodList) {
+                total += food.quantity
+            }
+        }
+
+        return total
+    }
+
+    // Get the caloric content of this recipe.
+    fun getFoodCalories(): Double {
+        var total = 0.0
+        if (foodList != null) {
+            for (food in foodList) {
+                total += food.calories ?: 0.0
+            }
+        }
+
+        return total
+    }
+}
+
+// Create recipe data object from a firebase query snapshot.
+fun createRecipeDataFromSnapshot(fbDoc: QueryDocumentSnapshot): RecipeData {
+    // Extract basic recipe data.
+    val name = fbDoc["name"] as String
+    val imageLink = fbDoc["imageLink"] as String?
+    val recipeImageLink = fbDoc["recipeImageLink"] as String?
+    val rating = fbDoc["rating"] as Double
+
+    // Extract food list data in this recipe.
+    val foodList = ArrayList<FoodData>()
+    if (fbDoc.contains("foodList")) {
+        val foodListData = fbDoc["foodList"] as List<Map<String, Any?>>
+        for (food in foodListData) {
+            foodList.add(FoodData(food))
+        }
+    }
+
+    // Return the constructed pantry data.
+    return RecipeData(
+        name,
+        imageLink,
+        recipeImageLink,
+        rating,
+        foodList
+    )
 }

@@ -48,11 +48,14 @@ class PantryListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
         // Get view objects.
         val pantryNameView: TextView = itemView.findViewById(R.id.adapter_pantryList_pantryName_textView)
         val pantryLocationView: TextView = itemView.findViewById(R.id.adapter_pantryList_pantryLocation_textView)
+        val pantryFoodCountView: TextView = itemView.findViewById(R.id.adapter_pantryList_pantryFoodCount_textView)
         val pantryImageView: ImageView = itemView.findViewById(R.id.adapter_pantryList_pantryImage_imageView)
 
         // Update view object data.
         pantryNameView.text = pantryData?.name
         pantryLocationView.text = pantryData?.location
+        pantryFoodCountView.text =
+            "${pantryData?.getFoodTypeCount()} Food Types / ${pantryData?.getFoodTotalCount()} Total"
 
         // Update image view data.
         if (pantryData?.imageLink == null) {

@@ -12,7 +12,7 @@ import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
 import com.example.pantry_organizer.planner.fragment.PlanningListFragment
-import com.example.pantry_organizer.recipe.fragment.AddRecipeActivity
+import com.example.pantry_organizer.recipe.activity.AddRecipeActivity
 import com.example.pantry_organizer.recipe.fragment.RecipeListFragment
 import com.example.pantry_organizer.shopping.fragment.ShoppingListFragment
 import com.example.pantry_organizer.userManagement.activity.UserManagementActivity

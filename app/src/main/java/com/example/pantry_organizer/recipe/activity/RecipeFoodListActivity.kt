@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.pantry.activity
+package com.example.pantry_organizer.recipe.activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -20,32 +20,32 @@ import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
-import com.example.pantry_organizer.pantry.adapter.PantryFoodListAdapter
-import kotlinx.android.synthetic.main.activity_pantry_food_list.*
+import com.example.pantry_organizer.recipe.adapter.RecipeFoodListAdapter
+import kotlinx.android.synthetic.main.activity_recipe_food_list.*
 import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
 
-class PantryFoodListActivity: AbstractPantryAppActivity() {
-    private lateinit var pantryName: String
-    private var pantryIndex = 0
+class RecipeFoodListActivity: AbstractPantryAppActivity() {
+    private lateinit var recipeName: String
+    private var recipeIndex = 0
     private var foodList = ArrayList<FoodData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantry_food_list)
+        setContentView(R.layout.activity_recipe_food_list)
 
         // Extract the extras from intent.
-        pantryName = intent.extras!!.getString("pantryName")!!
-        pantryIndex = intent.extras!!.getInt("pantryIndex")
+        recipeName = intent.extras!!.getString("recipeName")!!
+        recipeIndex = intent.extras!!.getInt("recipeIndex")
 
         // Support bar attributes.
-        supportActionBar?.title = pantryName
+        supportActionBar?.title = recipeName
         supportActionBar?.subtitle = "Home"
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Set up recycler view to show food list in this pantry.
-        val recyclerView = pantry_food_recycler_view
-        val adapter = PantryFoodListAdapter(foodList)
+        // Set up recycler view to show food list in this recipe.
+        val recyclerView = recipe_food_recycler_view
+        val adapter = RecipeFoodListAdapter(foodList)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
@@ -53,15 +53,15 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
         val swipeController = SwipeController(this, 175f, object: SwipeControllerActions() {
             override fun setOnDeleteClicked(position: Int) {
                 // Build an alert dialog for deleting this item.
-                val removeFoodQuantityConfirmDialog = LayoutInflater.from(this@PantryFoodListActivity).inflate(
+                val removeFoodQuantityConfirmDialog = LayoutInflater.from(this@RecipeFoodListActivity).inflate(
                     R.layout.dialog_confirm_remove_food, null)
-                val dialogBuilder = AlertDialog.Builder(this@PantryFoodListActivity)
+                val dialogBuilder = AlertDialog.Builder(this@RecipeFoodListActivity)
                     .setView(removeFoodQuantityConfirmDialog)
                 val dialog = dialogBuilder.show()
 
                 // Update the remove food message.
                 val messageView: TextView = dialog.findViewById(R.id.removeFoodMessage_textView)
-                val message = "Are you sure you want to remove ${foodList[position].name} from $pantryName?"
+                val message = "Are you sure you want to remove ${foodList[position].name} from $recipeName?"
                 messageView.text = message
 
                 // User confirms deletion.
@@ -77,7 +77,7 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
                     // Sanitize input.
                     val input = qtyView.text.toString()
                     if (input == "") {
-                        Toast.makeText(this@PantryFoodListActivity, "Please enter a valid quantity.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@RecipeFoodListActivity, "Please enter a valid quantity.", Toast.LENGTH_LONG).show()
                         qtyView.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                         return@setOnClickListener
                     }
@@ -89,8 +89,8 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
                     confirmButton.isEnabled = false
                     cancelButton.isEnabled = false
 
-                    // Delete the selected pantry.
-                    viewModel.removeFoodQtyFromPantry(pantryName, foodList[position], qtyToRemove)
+                    // Delete the selected recipe.
+                    viewModel.removeFoodQtyFromRecipe(recipeName, foodList[position], qtyToRemove)
 
                     dialog.dismiss()
                 }
@@ -110,10 +110,10 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
             }
         })
 
-        // Attach observer to pantry data.
-        viewModel.pantryList.observe(this, Observer { liveData ->
+        // Attach observer to recipe data.
+        viewModel.recipeList.observe(this, Observer { liveData ->
             foodList.clear()
-            foodList.addAll(liveData[pantryIndex].foodList as Collection<FoodData>)
+            foodList.addAll(liveData[recipeIndex].foodList as Collection<FoodData>)
             adapter.notifyDataSetChanged()
         })
     }
@@ -129,7 +129,7 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
         return when (item.itemId) {
             R.id.addFood_menuItem -> {
                 val intent = Intent(this, ApiFoodSearchActivity::class.java)
-                intent.putExtra("pantryName", pantryName)
+                intent.putExtra("recipeName", recipeName)
                 startActivity(intent)
                 true
             }

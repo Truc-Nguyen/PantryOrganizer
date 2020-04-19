@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.pantry.adapter
+package com.example.pantry_organizer.recipe.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,12 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.ApiFoodData
-import com.example.pantry_organizer.pantry.activity.AddFoodActivity
+import com.example.pantry_organizer.recipe.activity.AddFoodActivity
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 
-class ApiSearchAdapter(private val list: ArrayList<ApiFoodData>?, private val pantryName: String)
+class ApiSearchAdapter(private val list: ArrayList<ApiFoodData>?, private val recipeName: String)
     :RecyclerView.Adapter<ApiSearchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApiSearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class ApiSearchAdapter(private val list: ArrayList<ApiFoodData>?, private val pa
         // Set click listener for viewing nutritional data for this food.
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, AddFoodActivity::class.java)
-            intent.putExtra("pantryName", pantryName)
+            intent.putExtra("recipeName", recipeName)
             intent.putExtra("query", apiFoodData.food_name)
             it.context.startActivity(intent)
         }

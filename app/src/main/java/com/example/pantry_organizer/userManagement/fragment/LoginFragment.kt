@@ -31,6 +31,8 @@ class LoginFragment: UserManagementFragment() {
         // Login button click listener.
         login_button.setOnClickListener {
             toggleEnabledComponents()
+            loginEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border, null)
+            loginPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border, null)
             loginWarning_layout.visibility = View.INVISIBLE
 
             // Harvest user input.
@@ -42,14 +44,19 @@ class LoginFragment: UserManagementFragment() {
             // Sanitize input.
             if (email == "") {
                 toggleEnabledComponents()
+                loginEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printLoginWarning("Email cannot be blank.")
                 return@setOnClickListener
             } else if (!emailRegex.matches(email)) {
                 toggleEnabledComponents()
+
+                loginEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printLoginWarning("Invalid email entered.")
                 return@setOnClickListener
             } else if (password.length < 6) {
                 toggleEnabledComponents()
+                loginEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
+                loginPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                 printLoginWarning("Invalid email or password entered.")
                 return@setOnClickListener
             }
@@ -63,6 +70,8 @@ class LoginFragment: UserManagementFragment() {
                         activity!!.startActivity(intent)
                     } else {
                         toggleEnabledComponents()
+                        loginEmail_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
+                        loginPassword_layout.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                         printLoginWarning("Invalid email or password entered.")
                     }
                 }

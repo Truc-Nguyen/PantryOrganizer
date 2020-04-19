@@ -27,6 +27,10 @@
     <string name="add_pantry_name_hint">Description</string>
     <string name="add_pantry_location_hint">Physical Location</string>
 
+    <string name="add_recipe_name_label">Recipe Name</string>
+    <string name="add_recipe_image_label">Image</string>
+    <string name="add_recipe_name_hint">Description</string>
+
     <string name="create_menu_item_desc">CREATE</string>
     <string name="add_pantry_menu_item_desc">Add New Pantry</string>
     <string name="add_recipe_menu_item_desc">Add New Recipe</string>
@@ -37,9 +41,11 @@
     <string name="add_food_menu_item_desc">Add New Food</string>
     <string name="add_custom_food_menu_item">Create Custom</string>
 
-    <string name="api_food_search_hint">Search Foods</string>
+    <string name="api_food_search_hint">Search Food Database</string>
     <string name="api_food_search_button">Search</string>
+    <string name="api_food_searching_button">Searching</string>
 
+    <string name="food_detail_loading_label">…</string>
     <string name="food_detail_calories_label">Calories</string>
     <string name="food_detail_serving_size_label">Serving Size</string>
     <string name="food_detail_fat_label">Fat (g)</string>
@@ -47,6 +53,12 @@
     <string name="food_detail_carbs_label">Carbohydrates (g)</string>
     <string name="food_detail_protein_label">Protein (g)</string>
 
-    <string name="add_food_confirm_button">Add to Pantry</string>
+    <string name="add_food_quantity_label">Enter Quantity:</string>
+    <string name="add_food_quantity_hint">Qty</string>
+    <string name="add_pantry_food_confirm_button">Add to Pantry</string>
+    <string name="add_recipe_food_confirm_button">Add to Recipe</string>
     <string name="add_food_cancel_button">Cancel</string>
+
+    <string name="remove_food_confirm_button">Remove</string>
+    <string name="remove_food_cancel_button">Cancel</string>
 </resources>

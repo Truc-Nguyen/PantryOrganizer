@@ -43,7 +43,8 @@ class PantryListFragment: Fragment() {
         val swipeController = SwipeController(activity!!, 175f, object: SwipeControllerActions() {
             override fun setOnDeleteClicked(position: Int) {
                 // Build an alert dialog for deleting this item.
-                val deletePantryConfirmDialog = LayoutInflater.from(activity!!).inflate(R.layout.dialog_confirm_delete, null)
+                val deletePantryConfirmDialog = LayoutInflater.from(activity!!).inflate(
+                        R.layout.dialog_confirm_delete, null)
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setView(deletePantryConfirmDialog)
                 val dialog = dialogBuilder.show()
