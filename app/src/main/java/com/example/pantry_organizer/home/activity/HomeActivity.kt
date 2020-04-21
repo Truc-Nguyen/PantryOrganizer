@@ -11,7 +11,7 @@ import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
-import com.example.pantry_organizer.planner.fragment.PlanningListFragment
+import com.example.pantry_organizer.planner.fragment.fragment.PlanningListFragment
 import com.example.pantry_organizer.recipe.activity.AddRecipeActivity
 import com.example.pantry_organizer.recipe.fragment.RecipeListFragment
 import com.example.pantry_organizer.shopping.fragment.ShoppingListFragment
@@ -36,7 +36,8 @@ class HomeActivity: AbstractPantryAppActivity() {
             when (item.itemId) {
                 R.id.pantry_navMenu -> swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
                 R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), RecipeListFragment(), R.menu.add_recipe_menu)
-                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), PlanningListFragment(), null)
+                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav),
+                    PlanningListFragment(), null)
                 R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), ShoppingListFragment(), null)
             }
             true

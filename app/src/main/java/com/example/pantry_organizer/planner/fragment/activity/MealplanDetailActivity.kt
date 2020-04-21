@@ -1,31 +1,23 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.activity
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
-import com.example.pantry_organizer.global.viewModel.AppViewModel
-import com.example.pantry_organizer.pantry.activity.ApiFoodSearchActivity
-import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
-import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
+import com.example.pantry_organizer.planner.fragment.adapter.MealplanRecipeListAdapter
+//import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+//import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
-import kotlinx.android.synthetic.main.fragment_food_detail.*
+//import kotlinx.android.synthetic.main.fragment_food_detail.*
 import kotlinx.android.synthetic.main.activity_mealplan_detail.*
-import kotlinx.android.synthetic.main.fragment_recipe_list.*
 
 
 class MealplanDetailActivity: AbstractPantryAppActivity() {
@@ -47,7 +39,10 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
 
         //display recipes using MealplanRecipeListAdapter
         val recyclerView = mealplan_recyclerView
-        val adapter = MealplanRecipeListAdapter(recipes)
+        val adapter =
+            MealplanRecipeListAdapter(
+                recipes
+            )
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 

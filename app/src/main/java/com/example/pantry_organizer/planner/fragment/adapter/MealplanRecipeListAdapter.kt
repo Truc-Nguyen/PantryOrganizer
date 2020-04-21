@@ -1,23 +1,22 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.adapter
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+//import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
 
 class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerView.Adapter<MealplanRecipeListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealplanRecipeListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return MealplanRecipeListViewHolder(inflater, parent)
+        return MealplanRecipeListViewHolder(
+            inflater,
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: MealplanRecipeListViewHolder, position: Int) {
@@ -31,14 +30,14 @@ class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerV
                 bundle.putString("RecipeName",recipe)
 
                 //start recipe detail fragment
-                val activity = view!!.context as AppCompatActivity
-                val fragment = RecipeDetailFragment()
-                fragment.setArguments(bundle)
-
-                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
-                //need to replace home_frameLayout with frame layout of mealplan detail view
-                ft.replace(R.id.home_frameLayout, fragment)
-                ft.commit()
+//                val activity = view!!.context as AppCompatActivity
+//                val fragment = RecipeDetailFragment()
+//                fragment.setArguments(bundle)
+//
+//                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
+//                //need to replace home_frameLayout with frame layout of mealplan detail view
+//                ft.replace(R.id.home_frameLayout, fragment)
+//                ft.commit()
             }
         })
     }
