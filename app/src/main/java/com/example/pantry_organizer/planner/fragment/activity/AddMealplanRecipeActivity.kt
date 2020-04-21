@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.activity
 
 import android.os.Bundle
 import android.widget.Toast

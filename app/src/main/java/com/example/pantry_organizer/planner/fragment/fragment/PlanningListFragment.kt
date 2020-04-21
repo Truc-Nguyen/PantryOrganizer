@@ -1,26 +1,18 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.global.adapter.ViewPagerAdapter
 import com.example.pantry_organizer.global.viewModel.AppViewModel
 
 import kotlinx.android.synthetic.main.fragment_planning_week.*
-import kotlinx.android.synthetic.main.fragment_recipe_list.*
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -52,9 +44,11 @@ class PlanningListFragment: Fragment() {
         var nextWeekBundle = Bundle()
         nextWeekBundle.putString("weekMonday", nextMondayFormatted)
 
-        val currentWeek = WeekViewFragment()
+        val currentWeek =
+            WeekViewFragment()
         currentWeek.arguments = currentWeekBundle
-        val nextWeek = WeekViewFragment()
+        val nextWeek =
+            WeekViewFragment()
         nextWeek.arguments = nextWeekBundle
 
         val viewPagerAdapter = ViewPagerAdapter(activity!!.supportFragmentManager)

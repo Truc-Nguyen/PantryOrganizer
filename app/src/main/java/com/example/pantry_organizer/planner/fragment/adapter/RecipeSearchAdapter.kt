@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,12 +7,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.RecipeData
+import com.example.pantry_organizer.planner.fragment.activity.AddMealplanRecipeActivity
 
 class RecipeSearchAdapter(private val list: ArrayList<RecipeData>?, private val date: String)
     :RecyclerView.Adapter<MealplanRecipeSearchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealplanRecipeSearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return MealplanRecipeSearchViewHolder(inflater, parent)
+        return MealplanRecipeSearchViewHolder(
+            inflater,
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: MealplanRecipeSearchViewHolder, position: Int) {

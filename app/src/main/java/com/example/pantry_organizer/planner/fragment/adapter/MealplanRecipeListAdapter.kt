@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.adapter
 
 import android.content.Context
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-//import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
 
 class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerView.Adapter<MealplanRecipeListViewHolder>() {
 

@@ -1,15 +1,12 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.activity
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.ApiFoodData
 import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
-import com.example.pantry_organizer.pantry.adapter.ApiSearchAdapter
-import kotlinx.android.synthetic.main.activity_api_food_search.*
+import com.example.pantry_organizer.planner.fragment.adapter.RecipeSearchAdapter
 import kotlinx.android.synthetic.main.activity_mealplan_recipe_search.*
 
 class MealplanRecipeSearchActivity: AbstractPantryAppActivity() {
@@ -31,7 +28,11 @@ class MealplanRecipeSearchActivity: AbstractPantryAppActivity() {
 
         // Set up the recycler view to show api food search.
         val recyclerView = mealplanRecipeSearch_recyclerView
-        val adapter = RecipeSearchAdapter(mealplanRecipeSearchList, date)
+        val adapter =
+            RecipeSearchAdapter(
+                mealplanRecipeSearchList,
+                date
+            )
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 

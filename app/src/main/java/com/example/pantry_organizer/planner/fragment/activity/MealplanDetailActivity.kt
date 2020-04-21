@@ -1,15 +1,10 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.activity
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +20,6 @@ import com.example.pantry_organizer.pantry.activity.ApiFoodSearchActivity
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 //import kotlinx.android.synthetic.main.fragment_food_detail.*
 import kotlinx.android.synthetic.main.activity_mealplan_detail.*
-import kotlinx.android.synthetic.main.fragment_recipe_list.*
 
 
 class MealplanDetailActivity: AbstractPantryAppActivity() {

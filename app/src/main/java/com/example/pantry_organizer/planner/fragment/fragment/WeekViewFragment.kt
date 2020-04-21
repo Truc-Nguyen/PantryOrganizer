@@ -1,4 +1,4 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.fragment
 
 import android.os.Build
 import android.os.Bundle
@@ -8,20 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.MealplanData
-import com.example.pantry_organizer.data.RecipeData
-import com.example.pantry_organizer.global.adapter.ViewPagerAdapter
 import com.example.pantry_organizer.global.viewModel.AppViewModel
-import com.example.pantry_organizer.pantry.adapter.PantryFoodListAdapter
-import kotlinx.android.synthetic.main.activity_add_food.*
-import kotlinx.android.synthetic.main.activity_pantry_food_list.*
+import com.example.pantry_organizer.planner.fragment.adapter.MealplanListAdapter
 import kotlinx.android.synthetic.main.fragment_week_view.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class WeekViewFragment(): Fragment() {
@@ -74,7 +68,10 @@ class WeekViewFragment(): Fragment() {
         viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
 
         val recyclerView = week_view_recycler_view
-        val adapter = MealplanListAdapter(dayListMeals)
+        val adapter =
+            MealplanListAdapter(
+                dayListMeals
+            )
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this.activity)
     }

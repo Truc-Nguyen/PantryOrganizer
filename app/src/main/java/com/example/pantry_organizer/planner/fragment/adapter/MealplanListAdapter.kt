@@ -1,31 +1,18 @@
-package com.example.pantry_organizer.planner.fragment
+package com.example.pantry_organizer.planner.fragment.adapter
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.MealplanData
-import com.example.pantry_organizer.data.RecipeData
-import com.example.pantry_organizer.pantry.activity.AddFoodActivity
-import com.example.pantry_organizer.pantry.activity.PantryFoodListActivity
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import com.squareup.picasso.Picasso
-import jp.wasabeef.picasso.transformations.CropSquareTransformation
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
+import com.example.pantry_organizer.planner.fragment.activity.MealplanDetailActivity
 import java.time.LocalDate
 
 
@@ -33,7 +20,10 @@ class MealplanListAdapter(private val list: ArrayList<MealplanData>?): RecyclerV
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealplanListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return MealplanListViewHolder(inflater, parent)
+        return MealplanListViewHolder(
+            inflater,
+            parent
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
