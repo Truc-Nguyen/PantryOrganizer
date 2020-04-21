@@ -20,10 +20,10 @@ import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
 import com.example.pantry_organizer.global.viewModel.AppViewModel
 import com.example.pantry_organizer.pantry.activity.ApiFoodSearchActivity
-import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
-import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
+//import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+//import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
-import kotlinx.android.synthetic.main.fragment_food_detail.*
+//import kotlinx.android.synthetic.main.fragment_food_detail.*
 import kotlinx.android.synthetic.main.activity_mealplan_detail.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 

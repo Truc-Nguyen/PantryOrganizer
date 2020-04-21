@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+//import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
 
 class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerView.Adapter<MealplanRecipeListViewHolder>() {
 
@@ -32,13 +32,13 @@ class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerV
 
                 //start recipe detail fragment
                 val activity = view!!.context as AppCompatActivity
-                val fragment = RecipeDetailFragment()
-                fragment.setArguments(bundle)
-
-                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
-                //need to replace home_frameLayout with frame layout of mealplan detail view
-                ft.replace(R.id.home_frameLayout, fragment)
-                ft.commit()
+//                val fragment = RecipeDetailFragment()
+//                fragment.setArguments(bundle)
+//
+//                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
+//                //need to replace home_frameLayout with frame layout of mealplan detail view
+//                ft.replace(R.id.home_frameLayout, fragment)
+//                ft.commit()
             }
         })
     }
