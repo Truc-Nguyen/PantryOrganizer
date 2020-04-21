@@ -51,7 +51,7 @@ data class RecipeData(
         var total = 0.0
         if (foodList != null) {
             for (food in foodList) {
-                total += food.calories ?: 0.0
+                total += food.calories ?: 0.0 * food.quantity
             }
         }
 
