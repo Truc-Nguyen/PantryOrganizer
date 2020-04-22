@@ -21,8 +21,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     val dateRecipeList = MutableLiveData<List<RecipeData>>()
     val shoppingList = MutableLiveData<List<ShoppingData>>()
     val weekMeals = MutableLiveData<ArrayList<MutableLiveData<List<RecipeData>>>>()
-
-
+    val ingredientsList = MutableLiveData<List<FoodData>>()
 
     init {
         getPantries()
@@ -133,7 +132,12 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         return true
     }
 
-    // Delete a recipe from firebase.
+    fun getRecipeIngredients(recipeName: String) {
+        repository.getRecipeIngredients(recipeName, ingredientsList)
+    }
+
+
+        // Delete a recipe from firebase.
     fun deleteRecipe(recipeName: String) {
         repository.deleteRecipe(recipeName)
     }
@@ -168,20 +172,22 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    fun addDate(mealplanData: Map<String, Any?>): Boolean {
+    fun addDate(mealplanData: Map<String, Any?>) {
         // Check for existing recipe with duplicate name.
         Log.d("mealplandate",mealplanData["date"].toString())
+        var dateExists = false
         if (dateList.value != null) {
             for (date in dateList.value!!) {
                 Log.d("datse", date.date)
                 if (date.date == mealplanData["date"]) {
-                    return false
+                    dateExists =  true
                 }
             }
         }
         // Push the new recipe data to firebase.
-        repository.addDate(mealplanData)
-        return true
+        if(!dateExists){
+            repository.addDate(mealplanData)
+        }
     }
 
     fun addRecipeToDate (date: String, recipeName: String){
@@ -189,7 +195,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun removeRecipeFromDate(date: String, recipeData: RecipeData) {
-        repository.removeRecipeFromDate(date,recipeData)
+        repository.removeRecipeFromDate(date,recipeData,dateRecipeList)
     }
 
     fun getRecipesForDate(date: String) {

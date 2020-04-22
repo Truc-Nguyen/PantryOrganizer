@@ -190,6 +190,26 @@ class Repository {
             .delete()
     }
 
+    fun getRecipeIngredients(recipeName: String, ingredients: MutableLiveData<List<FoodData>>){
+        val recipeDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeName)
+
+
+        recipeDocRef.get().addOnSuccessListener {
+            val foodMapList = it["foodList"]
+            val foodList: MutableList<FoodData> = mutableListOf()
+            if(foodMapList != null){
+                for(food in foodMapList as List<Map<String,Any>>){
+                    foodList.add(FoodData(food))
+                }
+            }
+            ingredients.value = foodList
+        }
+    }
+
+
     // Push food to recipe in firebase.
     fun addFoodToRecipe(recipeName: String, foodData: FoodData) {
         // Create a reference to the recipe firebase document.
@@ -267,7 +287,6 @@ class Repository {
 
     fun addRecipeToDate (date: String, recipeName: String) {
         // Create a reference to the date firebase document
-//        var tmp: RecipeData? = null
         val recipeDocRef = db.collection("userData")
             .document(userID!!)
             .collection("recipeList")
@@ -275,12 +294,11 @@ class Repository {
 
         recipeDocRef.get().addOnSuccessListener { snapshot ->
             val tmp = RecipeData(
-                    snapshot["name"] as String,
-            snapshot["imageLink"] as String?,
-            snapshot["recipeImageLink"] as String?,
-            snapshot["rating"] as Double,
-            snapshot["foodList"] as List<FoodData>?
-            )
+                snapshot["name"] as String,
+                snapshot["imageLink"] as String?,
+                snapshot["recipeImageLink"] as String?,
+                snapshot["rating"] as Double,
+                snapshot["foodList"] as List<FoodData>?)
 
             val foodMapList = tmp.foodList
             val foodList: MutableList<FoodData> = mutableListOf()
@@ -289,6 +307,7 @@ class Repository {
                     foodList.add(FoodData(food))
                 }
             }
+
             val test = RecipeData(
                 tmp.name,
                 tmp.imageLink,
@@ -296,7 +315,6 @@ class Repository {
                 tmp.rating,
                 foodList
             )
-
 
             Log.d("viewmodeltmp",tmp.name)
             // Inspect the date data.
@@ -306,44 +324,72 @@ class Repository {
                 .document(date)
 
             dateDocRef.get().addOnSuccessListener {
+                var recipeNotOnDay = true
+                val recipeMapList = it.get("recipes")
 
-//                //new code
-//                val recipeMapList = it["recipes"]
-//                val recipeList: MutableList<RecipeData> = mutableListOf()
-//                if(recipeMapList != null){
-//                    for(recipe in recipeMapList as List<Map<String,Any>>){
-//                        recipeList.add(RecipeData(recipe))
-//                    }
-//                }
-//                recipeList.add(tmp)
-//                val newDate = MealplanData(it["date"] as String, recipeList)
-//                dateDocRef.set(newDate)
-//                // new code
-
-
-                dateDocRef.update("recipes", FieldValue.arrayUnion(test.getDataMap()))
+                val recipeList: MutableList<RecipeData> = mutableListOf()
+                if(recipeMapList != null){
+                    for(recipe in recipeMapList as List<Map<String,Any>>){
+                        recipeList.add(RecipeData(recipe))
+                    }
+                }
+                for (recipe in recipeList){
+                    if (recipe.name == test.name){
+                        recipeNotOnDay = false
+                    }
+                }
+                if(recipeNotOnDay){
+                    dateDocRef.update("recipes", FieldValue.arrayUnion(test.getDataMap()))
+                }
             }
         }
 
     }
-    fun removeRecipeFromDate(date: String, recipeData: RecipeData) {
-        // Create a reference to the date firebase document.
+    fun removeRecipeFromDate(date: String, recipeData: RecipeData, resBody: MutableLiveData<List<RecipeData>>) {
+        // Create a reference to the recipe firebase document.
+        val foodMapList = recipeData.foodList
+        val foodList: MutableList<FoodData> = mutableListOf()
+        if(foodMapList != null){
+            for(food in foodMapList as List<Map<String,Any>>){
+                foodList.add(FoodData(food))
+            }
+        }
+        val test = RecipeData(
+            recipeData.name,
+            recipeData.imageLink,
+            recipeData.recipeImageLink,
+            recipeData.rating,
+            foodList
+        )
+
+        Log.d("viewmodeltmp",recipeData.name)
+        // Inspect the date data.
         val dateDocRef = db.collection("userData")
             .document(userID!!)
-            .collection("mealplanDates")
+            .collection("Dates")
             .document(date)
 
-        // Inspect the date data.
         dateDocRef.get().addOnSuccessListener {
-            // Check if the recipe already exists in the date.
-            if (it.contains("recipes")) {
-                for (dbRecipe in it["recipes"] as List<Map<String, Any?>>) {
-                    if (dbRecipe["name"] == recipeData.name) {
-                        // Delete the old recipe data.
-                        dateDocRef.update("recipes", FieldValue.arrayRemove(dbRecipe))
+            dateDocRef.update("recipes", FieldValue.arrayRemove(test.getDataMap())).addOnSuccessListener {
+                val updatedDateDocRef = db.collection("userData")
+                    .document(userID!!)
+                    .collection("Dates")
+                    .document(date)
+                updatedDateDocRef.get().addOnSuccessListener {
+                    val recipeMapList = it.get("recipes")
+                    Log.d("recipes maplist",it.get("recipes").toString())
+                    val recipeList: MutableList<RecipeData> = mutableListOf()
+                    if(recipeMapList != null){
+                        for(recipe in recipeMapList as List<Map<String,Any>>){
+                            recipeList.add(RecipeData(recipe))
+                        }
+                        resBody.value = recipeList.toList()
+                        Log.d("recipes resbody",resBody.value!!.size.toString())
                     }
                 }
+
             }
+
         }
     }
     fun getRecipesForDate(date: String, resBody: MutableLiveData<List<RecipeData>>) {
@@ -372,51 +418,12 @@ class Repository {
         }
     }
 
-//    fun getRecipesForWeek(week: ArrayList<String>, resBody: MutableLiveData<List<MealplanData>>){
-//        val list: List<MealplanData> = mutableListOf()
-//        for(day in week){
-//            getRecipesForDate(day, resBody)
-//        }
-//    }
-
-//    private fun getRecipesForDate(date: String, resBody: MutableLiveData<List<MealplanData>>) {
-//        // Create a reference to the date firebase document.
-//        val parsedDate = date.split("/") //MM/DD/YYYY
-//
-//        val dateDocRef = db.collection("userData")
-//            .document(userID!!)
-//            .collection("Dates")
-//            .document(date)
-//        dateDocRef.get().addOnSuccessListener {
-//            //update resbody with recipes
-//            if (it["recipes"] != null){
-//                val list: MutableList<RecipeData> = mutableListOf()
-//                for (recipe in it.get("recipes") as List<Map<String,Any>>){
-//                    list.add(RecipeData(recipe))
-//                }
-//                resBody.value = list
-//            }
-//            else {
-//                resBody.value = emptyList()
-//            }
-//
-//        }
-//    }
-
     //get shopping list from firebase
     fun getShoppingList(): CollectionReference {
         return db.collection("userData")
             .document(userID!!)
             .collection("shoppingList")
     }
-
-//    fun addPantry(pantryData: Map<String, Any?>){
-//        db.collection("userData")
-//            .document(userID!!)
-//            .collection("pantryList")
-//            .document(pantryData["name"] as String)
-//            .set(pantryData)
-//    }
 
     // Push food to shopping list in firebase.
     @RequiresApi(Build.VERSION_CODES.N)

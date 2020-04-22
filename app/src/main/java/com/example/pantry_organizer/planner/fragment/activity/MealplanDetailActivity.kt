@@ -74,13 +74,24 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
                 val dialogBuilder = AlertDialog.Builder(this@MealplanDetailActivity)
                     .setView(deleteMealplanRecipeConfirmDialog)
                 val dialog = dialogBuilder.show()
-
                 // User confirms deletion.
                 dialog.deleteItemConfirm_button.setOnClickListener{
                     dialog.dismiss()
                     // Delete the selected recipe from a meal plan
                     // implement delete function of recipe from a date
-                    viewModel.removeRecipeFromDate(date!!,recipes[position])
+                    viewModel.removeRecipeFromDate(date,recipes[position])
+                    viewModel.dateRecipeList.observe(this@MealplanDetailActivity, Observer { liveData ->
+                        Log.d("observer","change")
+                        recipes.clear()
+                        if (liveData != null){
+                            recipes.addAll(liveData.toList())
+                        }
+                        Log.d("recipes", recipes.toString())
+                        adapter.notifyDataSetChanged()
+                        Log.d("observer in delete",recipes.toString())
+//                        adapter.notifyDataSetChanged()
+                        adapter.notifyItemRemoved(position)
+                    })
                 }
 
                 // User selects cancel.
@@ -103,6 +114,7 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
     override fun onResume(){
         super.onResume()
         viewModel.getRecipesForDate(date!!)
+
     }
 
     // Inflate the app menu.
