@@ -34,6 +34,8 @@
     <string name="create_menu_item_desc">CREATE</string>
     <string name="add_pantry_menu_item_desc">Add New Pantry</string>
     <string name="add_recipe_menu_item_desc">Add New Recipe</string>
+    <string name="add_item_menu_item_desc">Add New Item</string>
+    <string name="add_meal_menu_item_desc">Add New Meal</string>
 
     <string name="delete_item_message">Are you sure you want to delete this item?</string>
     <string name="delete_item_delete_button">Delete</string>

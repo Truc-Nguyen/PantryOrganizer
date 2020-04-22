@@ -6,7 +6,7 @@ data class MealplanData(
     //Using a string to represent date since the firebase date object appears to store things as a number of milliseconds, which seems odd
     //when making a new date object, use the following
     //    val currentDate = LocalDateTime.now()
-    //    val currentDateAsString = currentDate.format(DateTimeFormatter.ofPattern("M/d/y"))
+    //    val currentDateAsString = currentDate.format(DateTimeFormatter.ofPattern("M.d.y"))
     val date: String,
     val recipes: List<String>?
 )

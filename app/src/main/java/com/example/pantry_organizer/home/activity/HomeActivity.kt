@@ -2,22 +2,29 @@ package com.example.pantry_organizer.home.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
+import com.example.pantry_organizer.data.ShoppingData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.pantry.activity.AddPantryActivity
 import com.example.pantry_organizer.pantry.fragment.PantryListFragment
 import com.example.pantry_organizer.planner.fragment.fragment.PlanningListFragment
+import com.example.pantry_organizer.planner.fragment.fragment.ShoppingListFragment
 import com.example.pantry_organizer.recipe.activity.AddRecipeActivity
 import com.example.pantry_organizer.recipe.fragment.RecipeListFragment
-import com.example.pantry_organizer.shopping.fragment.ShoppingListFragment
 import com.example.pantry_organizer.userManagement.activity.UserManagementActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
 import kotlinx.android.synthetic.main.dialog_sign_out.*
 
 class HomeActivity: AbstractPantryAppActivity() {
@@ -31,14 +38,13 @@ class HomeActivity: AbstractPantryAppActivity() {
         // Initialize fragment on home activity to pantry fragment.
         swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
 
-        // Define navigation menu button listeners.
+//         Define navigation menu button listeners.
         appNav_appBar.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.pantry_navMenu -> swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
                 R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), RecipeListFragment(), R.menu.add_recipe_menu)
-                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav),
-                    PlanningListFragment(), null)
-                R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), ShoppingListFragment(), null)
+                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), PlanningListFragment(), R.menu.add_planning_menu)
+                R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), ShoppingListFragment(), R.menu.add_shopping_menu)
             }
             true
         }
@@ -84,7 +90,68 @@ class HomeActivity: AbstractPantryAppActivity() {
                 startActivity(Intent(this, AddRecipeActivity::class.java))
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            R.id.addMeal_menuItem -> {
+                Log.d("Test", "addMeal")
+                true
+            }else->{
+                false
+            }
+//            R.id.addItem_menuItem -> {
+//                Log.d("Test", "addShopping")
+//                val removeFoodQuantityConfirmDialog = LayoutInflater.from(this).inflate(
+//                    R.layout.dialog_confirm_remove_food, null)
+//                val dialogBuilder = android.app.AlertDialog.Builder(this)
+//                    .setView(removeFoodQuantityConfirmDialog)
+//                val dialog = dialogBuilder.show()
+//
+//                // Update the remove food message.
+//                val messageView: TextView = dialog.findViewById(R.id.removeFoodMessage_textView)
+//                val message = "Enter the food name and quantity to add to the list"
+//                messageView.text = message
+
+                // User confirms addition.
+//                dialog.removeFoodConfirm_button.setOnClickListener{
+//                    // Define views.
+//                    val qtyView: EditText = dialog.findViewById(R.id.addItemQuantity_editText)
+//                    val nameView: EditText = dialog.findViewById(R.id.addItemName_editText)
+//                    val confirmButton: Button = dialog.findViewById(R.id.removeItemConfirm_button)
+//                    val cancelButton: Button = dialog.findViewById(R.id.removeItemCancel_button)
+//
+//                    // Reset quantity field color.
+//                    qtyView.background = resources.getDrawable(R.drawable.edit_text_border, null)
+//
+//                    // Sanitize input.
+//                    val qtyInput = qtyView.text.toString()
+//                    val nameInput = nameView.text.toString()
+//                    if (qtyInput == "" || nameInput == "") {
+//                        Toast.makeText(this, "Please enter a valid quantity and name.", Toast.LENGTH_LONG).show()
+//                        qtyView.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
+//                        return@setOnClickListener
+//                    }
+//
+//                    // Extract the quantity of item to add.
+//                    val item = ShoppingData(nameInput, qtyInput.toLong())
+//
+//
+//                    // Disable the buttons once a request has been made.
+//                    confirmButton.isEnabled = false
+//                    cancelButton.isEnabled = false
+//
+//                    // Delete the selected pantry.
+//                    viewModel.addShoppingListItem(item, qtyToRemove)
+//
+//                    dialog.dismiss()
+//                }
+//
+//                // User selects cancel.
+//                dialog.removeFoodCancel_button.setOnClickListener {
+//                    dialog.dismiss()
+//                }
+//            }
+//
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
         }
     }
 

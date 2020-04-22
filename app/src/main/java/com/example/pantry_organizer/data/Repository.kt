@@ -247,6 +247,77 @@ class Repository {
     //removeRecipeFromDate
     //getRecipesForDate
 
+    //get shopping list from firebase
+    fun getShoppingList(): CollectionReference {
+        return db.collection("userData")
+            .document(userID!!)
+            .collection("shoppingList")
+    }
+
+//    fun addPantry(pantryData: Map<String, Any?>){
+//        db.collection("userData")
+//            .document(userID!!)
+//            .collection("pantryList")
+//            .document(pantryData["name"] as String)
+//            .set(pantryData)
+//    }
+
+    // Push food to shopping list in firebase.
+    fun addShoppingListItem(shoppingData: ShoppingData) {
+        // Create a reference to the shopping firebase document.
+        val shoppingDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("shoppingList")
+            .document()
+
+        // Inspect the pantry data.
+        shoppingDocRef.get().addOnSuccessListener {
+            // Check if the food already exists in the shopping list.
+            if (it.contains("shoppingList")) {
+                for (dbItem in it["shoppingList"] as List<Map<String, Any?>>) {
+                    if (dbItem["name"] == shoppingData.name) {
+                        // Food already exists in pantry. Update the quantity.
+                        shoppingData.quantity += dbItem["quantity"] as Long
+                        // Delete the old food data.
+                        shoppingDocRef.update("foodList", FieldValue.arrayRemove(dbItem))
+                    }
+                }
+            }
+            // Add the food data to the pantry.
+            shoppingDocRef.update("shoppingList", FieldValue.arrayUnion(shoppingData.getDataMap()))
+        }
+    }
+
+    // Remove a quantity of an existing food from the shopping list in firebase.
+    fun removeItemQtyFromShoppingList(itemData: ShoppingData, quantity: Int) {
+        // Create a reference to the recipe firebase document.
+        val recipeDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("shoppingList")
+            .document()
+
+        // Inspect the recipe data.
+        recipeDocRef.get().addOnSuccessListener {
+            // Check if the item already exists in the shopping list
+            if (it.contains("shoppingList")) {
+                for (dbItem in it["shoppingList"] as List<Map<String, Any?>>) {
+                    if (dbItem["name"] == itemData.name) {
+                        // Update the item quantity.
+                        itemData.quantity = dbItem["quantity"] as Long - quantity
+
+                        // Delete the old food data.
+                        recipeDocRef.update("shoppingList", FieldValue.arrayRemove(dbItem))
+
+                        // Add the new shopping data with the updated quantity only if the quantity is non-zero.
+                        if (itemData.quantity > 0) {
+                            recipeDocRef.update("shoppingList", FieldValue.arrayUnion(itemData.getDataMap()))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
 }
