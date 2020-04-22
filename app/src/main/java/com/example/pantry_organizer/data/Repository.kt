@@ -271,12 +271,13 @@ class Repository {
 
         recipeDocRef.get().addOnSuccessListener { snapshot ->
             val tmp = RecipeData(
-                snapshot["name"] as String,
-                snapshot["imageLink"] as String?,
-                snapshot["recipeImageLink"] as String?,
-                snapshot["rating"] as Double,
-                snapshot["foodList"] as List<FoodData>?
+                    snapshot["name"] as String,
+            snapshot["imageLink"] as String?,
+            snapshot["recipeImageLink"] as String?,
+            snapshot["rating"] as Double,
+            snapshot["foodList"] as List<FoodData>?
             )
+
             Log.d("viewmodeltmp",tmp.name)
             // Inspect the date data.
             val dateDocRef = db.collection("userData")
@@ -293,8 +294,10 @@ class Repository {
                 list.add(tmp)
 
                 // Add the recipe data to the date.
-                dateDocRef.update("recipes", list ) //as List<Map<String,Any>>
+//                dateDocRef.set("recipes" to list ) //as List<Map<String,Any>>
                 //Log.d("viewmodeldateobj", it["recipes"].toString())
+
+                dateDocRef.update("recipes", FieldValue.arrayUnion(tmp))
             }
         }
 
