@@ -33,6 +33,7 @@ class MealplanListAdapter(private val list: ArrayList<MealplanData>?): RecyclerV
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, MealplanDetailActivity::class.java)
             intent.putExtra("MealplanDate", mealplanDate)
+            intent.putExtra("DateIndex",position)
             it.context.startActivity(intent)
         }
     }
@@ -51,6 +52,8 @@ class MealplanListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
         val mealplanDateView: TextView = itemView.findViewById(R.id.adapter_mealplan_date)
         val mealplanWeedayView: TextView = itemView.findViewById(R.id.adapter_mealplan_weekday)
         val mealplanRecipesView: TextView = itemView.findViewById(R.id.adapter_mealplan_recipes)
+        //parse mealplanDateView; currently stored as string in format: ""M/d/y""
+//        val parsedDate = mealplanData.date.split(".")
         //parse mealplanDateView; currently stored as string in format: ""M.d.y""
         val parsedDate = mealplanData.date.split(".")
         val date = LocalDate.of(parsedDate[2].toInt(), parsedDate[0].toInt(), parsedDate[1].toInt())
@@ -72,7 +75,7 @@ class MealplanListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
         var recipeString = ""
         if(mealplanData.recipes != null) {
             for (recipe in mealplanData.recipes?.indices){
-                    var currentRecipe = mealplanData.recipes!![recipe]
+                    var currentRecipe = mealplanData.recipes!![recipe].name
                     if(currentRecipe.length > maxRecipeLength){  //if recipe is too long, truncate
                         currentRecipe = currentRecipe.take(maxRecipeLength - 3) + "..."
                     }

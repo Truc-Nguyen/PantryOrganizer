@@ -1,5 +1,6 @@
 package com.example.pantry_organizer.data
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.pantry_organizer.api.ApiClient
 import com.google.firebase.auth.FirebaseAuth
@@ -243,9 +244,104 @@ class Repository {
         }
     }
 
-    //addRecipeToDate
-    //removeRecipeFromDate
-    //getRecipesForDate
+    // MEALPLAN //
+    // Get dates list from firebase.
+    fun getDates(): CollectionReference {
+        return db.collection("userData")
+            .document(userID!!)
+            .collection("Dates")
+    }
+
+    // Push new date to firebase.
+    fun addDate(mealPlanData: Map<String, Any?>){
+        db.collection("userData")
+            .document(userID!!)
+            .collection("Dates")
+            .document(mealPlanData["date"] as String)
+            .set(mealPlanData)
+    }
+
+    fun addRecipeToDate (date: String, recipeName: String) {
+        // Create a reference to the date firebase document
+//        var tmp: RecipeData? = null
+        val recipeDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeName)
+
+        recipeDocRef.get().addOnSuccessListener { snapshot ->
+            val tmp = RecipeData(
+                snapshot["name"] as String,
+                snapshot["imageLink"] as String?,
+                snapshot["recipeImageLink"] as String?,
+                snapshot["rating"] as Double,
+                snapshot["foodList"] as List<FoodData>?
+            )
+            Log.d("viewmodeltmp",tmp.name)
+            // Inspect the date data.
+            val dateDocRef = db.collection("userData")
+                .document(userID!!)
+                .collection("Dates")
+                .document(date)
+
+            dateDocRef.get().addOnSuccessListener {
+                Log.d("viewmodeldateobj", it["recipes"].toString())
+                val list: MutableList<RecipeData> = mutableListOf()
+                for (recipe in it.get("recipes") as List<Map<String,Any>>){
+                    list.add(RecipeData(recipe))
+                }
+                list.add(tmp)
+
+                // Add the recipe data to the date.
+                dateDocRef.update("recipes", list ) //as List<Map<String,Any>>
+                //Log.d("viewmodeldateobj", it["recipes"].toString())
+            }
+        }
+
+    }
+    fun removeRecipeFromDate(date: String, recipeData: RecipeData) {
+        // Create a reference to the date firebase document.
+        val dateDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("mealplanDates")
+            .document(date)
+
+        // Inspect the date data.
+        dateDocRef.get().addOnSuccessListener {
+            // Check if the recipe already exists in the date.
+            if (it.contains("recipes")) {
+                for (dbRecipe in it["recipes"] as List<Map<String, Any?>>) {
+                    if (dbRecipe["name"] == recipeData.name) {
+                        // Delete the old recipe data.
+                        dateDocRef.update("recipes", FieldValue.arrayRemove(dbRecipe))
+                    }
+                }
+            }
+        }
+    }
+    fun getRecipesForDate(date: String, resBody: MutableLiveData<List<RecipeData>>) {
+        // Create a reference to the date firebase document.
+        val parsedDate = date.split("/") //MM/DD/YYYY
+
+        val dateDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("Dates")
+            .document(date)
+        dateDocRef.get().addOnSuccessListener {
+            //update resbody with recipes
+            if (it["recipes"] != null){
+                val list: MutableList<RecipeData> = mutableListOf()
+                for (recipe in it.get("recipes") as List<Map<String,Any>>){
+                    list.add(RecipeData(recipe))
+                }
+                resBody.value = list
+            }
+            else {
+                resBody.value = emptyList()
+            }
+
+        }
+    }
 
     //get shopping list from firebase
     fun getShoppingList(): CollectionReference {

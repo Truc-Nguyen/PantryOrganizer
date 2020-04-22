@@ -7,10 +7,15 @@ data class MealplanData(
     //when making a new date object, use the following
     //    val currentDate = LocalDateTime.now()
     //    val currentDateAsString = currentDate.format(DateTimeFormatter.ofPattern("M.d.y"))
+
     val date: String,
     val recipes: List<RecipeData>?
-)
-{
+) {
+    constructor(map: Map<String, Any?>): this(
+        map["date"] as String,
+        map["recipes"] as List<RecipeData>?
+    )
+
     // Convenience method for returning a map of this object.
     fun getDataMap(): Map<String, Any?> {
         // Construct a list of maps of the recipe data for this date.
@@ -28,17 +33,6 @@ data class MealplanData(
         )
     }
 
-    // Get the total recipe count for this date
-    fun getRecipeTotalCount(): Long {
-        var total = 0L
-        if (recipes != null) {
-            for (recipe in recipes) {
-                total += 1
-            }
-        }
-
-        return total
-    }
 }
 
 // Create mealplan data object from a firebase query snapshot.

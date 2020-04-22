@@ -1,19 +1,20 @@
 package com.example.pantry_organizer.planner.fragment.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
+import com.example.pantry_organizer.data.RecipeData
+import com.example.pantry_organizer.pantry.activity.PantryFoodListActivity
+import com.example.pantry_organizer.recipe.activity.RecipeFoodListActivity
 
-class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerView.Adapter<MealplanRecipeListViewHolder>() {
+class MealplanRecipeListAdapter(private val list: ArrayList<RecipeData>?): RecyclerView.Adapter<MealplanRecipeListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealplanRecipeListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,26 +22,22 @@ class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerV
     }
 
     override fun onBindViewHolder(holder: MealplanRecipeListViewHolder, position: Int) {
-        val recipe: String = holder.bind(list!![position])
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                //store date string
-                val bundle = Bundle()
+//        Log.d("tf",(list!![position]. is HashMap<String, Any>).toString())
+//        val recipeData: RecipeData = RecipeData(list!![position].getDataMap())
+        val recipeData = list!![position]
 
-                //do not change label, matches that used in RecipeListFragment
-                bundle.putString("RecipeName",recipe)
+        val test1 = recipeData.name
+        val test2 = recipeData.rating
+        Log.d("test1",test1.toString())
+        Log.d("test2",test2.toString())
+        holder.bind(recipeData)
 
-                //start recipe detail fragment
-                val activity = view!!.context as AppCompatActivity
-//                val fragment = RecipeDetailFragment()
-//                fragment.setArguments(bundle)
-//
-//                val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
-//                //need to replace home_frameLayout with frame layout of mealplan detail view
-//                ft.replace(R.id.home_frameLayout, fragment)
-//                ft.commit()
-            }
-        })
+        holder.itemView.setOnClickListener{
+            val intent = Intent(it.context, RecipeFoodListActivity::class.java)
+            intent.putExtra("pantryName", recipeData.name as String)
+            it.context.startActivity(intent)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -50,10 +47,10 @@ class MealplanRecipeListAdapter(private val list: ArrayList<String>?): RecyclerV
 
 class MealplanRecipeListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
 RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_mealplan_receipe_list_item, parent, false)) {
-    fun bind(mealplanRecipe: String): String {
-        val mealplanRecipeText: TextView = itemView.findViewById(R.id.mealplan_recipe_name)
-        mealplanRecipeText.text = mealplanRecipe
 
-        return mealplanRecipe
+    fun bind(mealplanRecipe: RecipeData) {
+        val mealplanRecipeText: TextView = itemView.findViewById(R.id.mealplan_recipe_name)
+        mealplanRecipeText.text = mealplanRecipe.name as String
+
     }
 }

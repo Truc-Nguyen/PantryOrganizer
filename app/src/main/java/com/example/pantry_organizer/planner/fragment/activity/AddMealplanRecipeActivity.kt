@@ -1,10 +1,13 @@
 package com.example.pantry_organizer.planner.fragment.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.FoodData
+import com.example.pantry_organizer.data.MealplanData
+import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
@@ -67,11 +70,52 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
 
         // Add to pantry button listener.
         addRecipeDetail_addRecipeConfirm_button.setOnClickListener {
-            // Add the recipe data to list of strings for a mealplanData
-//            viewModel.addFood(pantryName, foodData!!.getDataMap())
-            Toast.makeText(this, "Added $recipeName to $mealplanDate!", Toast.LENGTH_LONG).show()
 
-            // Return to food search list.
+            val mealPlanData = MealplanData(mealplanDate, emptyList())
+
+            //todo: check if mealplan data object exists in firebase
+            // Attempt to push the new recipe to firebase.
+            //date not yet in firebase
+            viewModel.getDates()
+
+            viewModel.dateList.observe(this, Observer {
+                var test = false
+                val test1 = viewModel.dateList.value
+                for (i in 0 until viewModel.dateList.value!!.size){
+                    if(test1!![i].date == mealplanDate) {
+                        test = true
+                    }
+                }
+
+//                if(test){
+//                    Log.d("addmealplan","addDate succeeded")
+//                    viewModel.addRecipeToDate(mealplanDate,recipeName)
+//                    // Push successful.
+//                    Toast.makeText(this, "First recipe added to $mealplanDate.", Toast.LENGTH_LONG).show()
+//                }else{
+                    viewModel.addDate(mealPlanData.getDataMap())
+                    viewModel.dateList.observe(this, Observer{
+                        viewModel.addRecipeToDate(mealplanDate,recipeName)
+                        Toast.makeText(this, "First recipe added to $mealplanDate.", Toast.LENGTH_LONG).show()
+                    })
+//                }
+
+//                Log.d("datelist", "changed")
+//                if (viewModel.addDate(mealPlanData.getDataMap())) {
+//                    Log.d("addmealplan","addDate succeeded")
+//                    viewModel.addRecipeToDate(mealplanDate,recipeName)
+//                    // Push successful.
+//                    Toast.makeText(this, "First recipe added to $mealplanDate.", Toast.LENGTH_LONG).show()
+//                }
+                //date is already in firebase
+//                else {
+//                    viewModel.addRecipeToDate(mealplanDate,recipeName)
+//                    Toast.makeText(this, "$recipeName added to $mealplanDate.", Toast.LENGTH_LONG).show()
+//                }
+            })
+
+
+            // Return to previous activity.
             onBackPressed()
         }
 
