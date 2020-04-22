@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ import com.example.pantry_organizer.global.adapter.SwipeControllerActions
 import com.example.pantry_organizer.shopping.fragment.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
-import kotlinx.android.synthetic.main.dialog_confirm_remove_item.*
 
 class ShoppingListFragment: Fragment() {
     lateinit var viewModel: AppViewModel
@@ -54,7 +52,6 @@ class ShoppingListFragment: Fragment() {
 
         // Attach observer to shopping list data.
         viewModel.shoppingList.observe(activity!!, Observer { liveData ->
-            Log.d("Shopping List", "LiveData Changed")
             shoppingList.clear()
             shoppingList.addAll(liveData)
             adapter.notifyDataSetChanged()
@@ -65,24 +62,24 @@ class ShoppingListFragment: Fragment() {
             override fun setOnDeleteClicked(position: Int) {
                 // Build an alert dialog for deleting this item.
                 val deleteShoppingListItemConfirmDialog = LayoutInflater.from(activity!!).inflate(
-                    R.layout.dialog_confirm_remove_item, null
+                    R.layout.dialog_add_item_to_shopping, null
                 )
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setView(deleteShoppingListItemConfirmDialog)
                 val dialog = dialogBuilder.show()
 
                 // Update the remove food message.
-                val messageView: TextView = dialog.findViewById(R.id.removeItemMessage_textView)
+                val messageView: TextView = dialog.findViewById(R.id.removeFoodMessage_textView)
                 val message =
                     "Are you sure you want to remove ${shoppingList[position].name} from you list?"
                 messageView.text = message
 
                 // User confirms deletion.
-                dialog.removeItemConfirm_button.setOnClickListener {
+                dialog.removeFoodConfirm_button.setOnClickListener {
                     // Define views.
-                    val qtyView: EditText = dialog.findViewById(R.id.removeItemQuantity_editText)
-                    val confirmButton: Button = dialog.findViewById(R.id.removeItemConfirm_button)
-                    val cancelButton: Button = dialog.findViewById(R.id.removeItemCancel_button)
+                    val qtyView: EditText = dialog.findViewById(R.id.removeFoodQuantity_editText)
+                    val confirmButton: Button = dialog.findViewById(R.id.removeFoodConfirm_button)
+                    val cancelButton: Button = dialog.findViewById(R.id.removeFoodCancel_button)
 
                     // Reset quantity field color.
                     qtyView.background = resources.getDrawable(R.drawable.edit_text_border, null)
@@ -100,7 +97,7 @@ class ShoppingListFragment: Fragment() {
                         return@setOnClickListener
                     }
 
-                    // Extract the quantity of item to remove.
+                    // Extract the quantity of food to remove.
                     val qtyToRemove = input.toInt()
 
                     // Disable the buttons once a request has been made.
@@ -114,7 +111,7 @@ class ShoppingListFragment: Fragment() {
                 }
 
                 // User selects cancel.
-                dialog.removeItemCancel_button.setOnClickListener {
+                dialog.removeFoodCancel_button.setOnClickListener {
                     dialog.dismiss()
                 }
             }

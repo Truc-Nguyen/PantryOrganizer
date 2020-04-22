@@ -48,18 +48,18 @@ class WeekViewFragment(): Fragment() {
         val testList2 = listOf("Potato", "Tomato")
         val testList3 = listOf("Potato")
 
-        val test1 = MealplanData(testDate1, testList1)
-        val test2 = MealplanData(testDate2, testList2)
-        val test3 = MealplanData(testDate3, testList3)
+//        val test1 = MealplanData(testDate1, testList1)
+//        val test2 = MealplanData(testDate2, testList2)
+//        val test3 = MealplanData(testDate3, testList3)
 
         Log.d("Daylist", dayList.size.toString())
 
         for(i in 0..6){
             dayListMeals.add(MealplanData(dayList[i], null))
         }
-        dayListMeals[2] = MealplanData(dayList[2], testList1)
-        dayListMeals[4] = MealplanData(dayList[4], testList2)
-        dayListMeals[6] = MealplanData(dayList[6], testList3)
+//        dayListMeals[2] = MealplanData(dayList[2], testList1)
+//        dayListMeals[4] = MealplanData(dayList[4], testList2)
+//        dayListMeals[6] = MealplanData(dayList[6], testList3)
 
         return inflater.inflate(R.layout.fragment_week_view, container, false)
     }
