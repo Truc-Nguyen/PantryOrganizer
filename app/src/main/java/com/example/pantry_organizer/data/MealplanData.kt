@@ -7,51 +7,23 @@ data class MealplanData(
     //when making a new date object, use the following
     //    val currentDate = LocalDateTime.now()
     //    val currentDateAsString = currentDate.format(DateTimeFormatter.ofPattern("M.d.y"))
-
     val date: String,
-    val recipes: List<RecipeData>?
-) {
-    constructor(map: Map<String, Any?>): this(
-        map["date"] as String,
-        map["recipes"] as List<RecipeData>?
-    )
+    val recipes: List<String>?
+)
+{
+
+    // Convenience constructor using a firebase document object.
+//    constructor(fbDoc: QueryDocumentSnapshot):
+//            this(
+//                fbDoc.get("date") as String,
+//                fbDoc.get("recipes") as List<String>
+//            )
 
     // Convenience method for returning a map of this object.
     fun getDataMap(): Map<String, Any?> {
-        // Construct a list of maps of the recipe data for this date.
-        val recipeMapList = ArrayList<Map<String, Any?>>()
-        if (recipes != null) {
-            for (recipe in recipes) {
-                recipeMapList.add(recipe.getDataMap())
-            }
-        }
-
-        // Return a map of this date's data.
-        return hashMapOf(
-            "date" to date,
-            "recipes" to recipeMapList
+        return hashMapOf<String, Any?>(
+            "name" to date,
+            "recipes" to recipes
         )
     }
-
-}
-
-// Create mealplan data object from a firebase query snapshot.
-fun createMealplanDataFromSnapshot(fbDoc: QueryDocumentSnapshot): MealplanData {
-    // Extract basic mealplan data.
-    val date = fbDoc["date"] as String
-
-    // Extract recipe list data in this pantry.
-    val recipes = ArrayList<RecipeData>()
-    if (fbDoc.contains("recipes")) {
-        val recipeListData = fbDoc["recipes"] as List<Map<String, Any?>>
-        for (recipe in recipeListData) {
-            recipes.add(RecipeData(recipe))
-        }
-    }
-
-    // Return the constructed mealplan data.
-    return MealplanData(
-        date,
-        recipes
-    )
 }

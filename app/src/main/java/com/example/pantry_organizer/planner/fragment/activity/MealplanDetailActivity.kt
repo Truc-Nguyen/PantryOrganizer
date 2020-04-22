@@ -4,22 +4,15 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
-import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
 import com.example.pantry_organizer.planner.fragment.adapter.MealplanRecipeListAdapter
-//import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
-//import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
-import com.example.pantry_organizer.data.RecipeData
-import com.example.pantry_organizer.pantry.activity.ApiFoodSearchActivity
 //import com.example.pantry_organizer.recipe.fragment.RecipeDetailFragment
 //import com.example.pantry_organizer.recipe.fragment.RecipeListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
@@ -28,17 +21,15 @@ import kotlinx.android.synthetic.main.activity_mealplan_detail.*
 
 
 class MealplanDetailActivity: AbstractPantryAppActivity() {
-    private var recipes = ArrayList<RecipeData>()
-    private lateinit var date: String
-    private var index = 0
+    var recipes: ArrayList<String> = ArrayList()
+    var date: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mealplan_detail)
 
         //retrieve arguments from previous fragment
-        date = intent.extras!!.getString("MealplanDate")!!
-        index = intent.extras!!.getInt("DateIndex")!!
+        date = intent.extras!!.getString("MealplanDate")
 
         // Support bar attributes.
         supportActionBar?.title = date
@@ -48,29 +39,22 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
 
         //display recipes using MealplanRecipeListAdapter
         val recyclerView = mealplan_recyclerView
-        val adapter = MealplanRecipeListAdapter(recipes)
+        val adapter =
+            MealplanRecipeListAdapter(
+                recipes
+            )
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
-        Log.d("date",date)
 
-        //retrieve recipes corresponding to date from firebase using getSingleMealplan
-        viewModel.getRecipesForDate(date!!)
-        Log.d("recipes", recipes.toString())
-        viewModel.dateRecipeList.observe(this, Observer { liveData ->
-            Log.d("observer","change")
-            recipes.clear()
-            if (liveData != null){
+        //todo: retrieve recipes corresponding to date from firebase using getSingleMealplan
+//        viewModel.getRecipesFromMealplan(date)
 
-                recipes.addAll(liveData.toList())
-            }
-            adapter.notifyDataSetChanged()
-        })
-//        viewModel.dateList.observe(this, Observer { liveData ->
+        //todo: set an observer on mealplan recipe list
+//        viewModel.recipesFromMealplan.observe(this, Observer { liveData ->
 //            recipes.clear()
-//            recipes.addAll(liveData[index].recipes as Collection<RecipeData>)
+//            recipes.addAll(liveData)
 //            adapter.notifyDataSetChanged()
 //        })
-
 
 
         // implement swipe to delete
@@ -86,8 +70,8 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
                 dialog.deleteItemConfirm_button.setOnClickListener{
                     dialog.dismiss()
                     // Delete the selected recipe from a meal plan
-                    // implement delete function of recipe from a date
-                    viewModel.removeRecipeFromDate(date!!,recipes[position])
+                    //todo: implement delete function of recipe from a date
+//                    viewModel.deleteRecipeFromMealplan(recipes[position])
                 }
 
                 // User selects cancel.

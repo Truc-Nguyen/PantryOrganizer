@@ -10,14 +10,6 @@ data class RecipeData(
     val rating: Double,
     val foodList: List<FoodData>?)
 {
-    constructor(map: Map<String, Any?>): this(
-        map["name"] as String,
-        map["imageLink"] as String?,
-        map["recipeImageLink"] as String?,
-        map["rating"] as Double,
-        map["foodList"] as List<FoodData>?
-    )
-
     // Convenience method for returning a map of this object.
     fun getDataMap(): Map<String, Any?> {
         // Construct a list of maps of the food data in this pantry.

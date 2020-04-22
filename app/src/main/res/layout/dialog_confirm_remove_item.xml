@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/addItemMessage_layout"
+        android:id="@+id/removeItemMessage_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -17,8 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cancel_icon"
+            android:tint="@color/black"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"/>
+
         <TextView
-            android:id="@+id/addItemMessage_textView"
+            android:id="@+id/removeItemMessage_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
@@ -29,58 +39,28 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addItemName_layout"
+        android:id="@+id/removeItemQuantity_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingVertical="20dp"
-        app:layout_constraintTop_toBottomOf="@id/addItemMessage_layout"
+        app:layout_constraintTop_toBottomOf="@id/removeItemMessage_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter Food Name"
+            android:text="@string/add_food_quantity_label"
             android:layout_gravity="center"
             android:textSize="8pt"
             android:layout_marginHorizontal="20dp"/>
 
         <EditText
-            android:id="@+id/addItemName_editText"
+            android:id="@+id/removeItemQuantity_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Name"
-            android:inputType="text"
-            android:gravity="center"
-            android:ems="5"
-            android:background="@drawable/edit_text_border"
-            android:layout_margin="10dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/addItemQuantity_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="20dp"
-        app:layout_constraintTop_toBottomOf="@id/addItemName_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantity"
-            android:layout_gravity="center"
-            android:textSize="8pt"
-            android:layout_marginHorizontal="20dp"/>
-
-        <EditText
-            android:id="@+id/addItemQuantity_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Qty"
+            android:hint="@string/add_food_quantity_hint"
             android:inputType="number"
             android:gravity="center"
             android:ems="5"
@@ -93,30 +73,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/addItemQuantity_layout"
+        app:layout_constraintTop_toBottomOf="@id/removeItemQuantity_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <Button
-            android:id="@+id/addItemCancel_button"
+            android:id="@+id/removeItemCancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:paddingVertical="15dp"
-            android:text="Cancel"
+            android:text="@string/remove_food_cancel_button"
             android:textColor="@color/white"
             android:textSize="7pt"
             android:background="@drawable/button_gray"/>
 
         <Button
-            android:id="@+id/addItemConfirm_button"
+            android:id="@+id/removeItemConfirm_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:paddingVertical="15dp"
-            android:text="Confirm"
+            android:text="@string/remove_food_confirm_button"
             android:textColor="@color/white"
             android:textSize="7pt"
-            android:background="@drawable/button_green"/>
+            android:background="@drawable/button_red"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

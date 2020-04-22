@@ -15,14 +15,11 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     val apiSearchList = MutableLiveData<ApiFoodDataPayload>()
     val apiFoodNutritionData = MutableLiveData<ApiFoodNutritionPayload>()
     val recipeList = MutableLiveData<List<RecipeData>>()
-    val dateList = MutableLiveData<List<MealplanData>>()
-    val dateRecipeList = MutableLiveData<List<RecipeData>>()
     val shoppingList = MutableLiveData<List<ShoppingData>>()
 
     init {
         getPantries()
         getRecipes()
-        getDates()
         getShoppingList()
     }
 
@@ -139,67 +136,15 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         repository.removeFoodQtyFromRecipe(recipeName, foodData, quantity)
     }
 
-    // MEALPLAN //
-
-
-    // Populate pantry list live data from firebase data.
-    fun getDates() {
-        repository.getDates()
-            .addSnapshotListener { querySnapshot, _ ->
-                val list: MutableList<MealplanData> = mutableListOf()
-                for (doc in querySnapshot!!) {
-                    if (doc.get("date") != null) {
-//                        Log.d("View loop ", )
-                        list.add(createMealplanDataFromSnapshot(doc))
-                    }
-                }
-                Log.d("View Get Dates Res", list.toString())
-                dateList.value = list
-            }
-    }
-
-
-    fun addDate(mealplanData: Map<String, Any?>): Boolean {
-        // Check for existing recipe with duplicate name.
-        Log.d("mealplandate",mealplanData["date"].toString())
-        if (dateList.value != null) {
-            for (date in dateList.value!!) {
-                Log.d("datse", date.date)
-                if (date.date == mealplanData["date"]) {
-                    return false
-                }
-            }
-        }
-        // Push the new recipe data to firebase.
-        repository.addDate(mealplanData)
-        return true
-    }
-
-    fun addRecipeToDate (date: String, recipeName: String){
-        repository.addRecipeToDate(date,recipeName)
-    }
-
-    fun removeRecipeFromDate(date: String, recipeData: RecipeData) {
-        repository.removeRecipeFromDate(date,recipeData)
-    }
-
-    fun getRecipesForDate(date: String) {
-        repository.getRecipesForDate(date,dateRecipeList)
-//        Log.d("viewmodelgetrecipes", dateRecipeList.value!![0].toString())
-    }
-
-
-    //Add a quantity of a specific item to the shopping list
-    fun addShoppingListItem(shoppingData: Map<String, Any?>): Boolean {
+    //Add a item/quantity pair to the shopping list
+    fun addShoppingListItem(shoppingData: ShoppingData): Boolean {
         // Push the new item data to firebase.
-        repository.addShoppingListItem(ShoppingData(shoppingData))
+        repository.addShoppingListItem(shoppingData)
         return true
     }
 
     //Remove a quantity of an existing item form the shopping list
     fun removeShoppingListItem(itemData: ShoppingData, quantity: Int): Boolean {
-        // Check for existing pantry with duplicate name.
-        // Push the new pantry data to firebase.
         repository.removeItemQtyFromShoppingList(itemData, quantity)
         return true
     }
