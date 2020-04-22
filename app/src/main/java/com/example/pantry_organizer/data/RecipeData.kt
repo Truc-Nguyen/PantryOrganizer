@@ -1,6 +1,7 @@
 package com.example.pantry_organizer.data
 
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import kotlin.math.roundToInt
 
 data class RecipeData(
     val name: String,
@@ -55,7 +56,7 @@ data class RecipeData(
             }
         }
 
-        return total
+        return (total * 100).roundToInt() / 100.0
     }
 }
 

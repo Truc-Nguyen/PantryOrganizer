@@ -45,7 +45,7 @@ class RecipeFoodListActivity: AbstractPantryAppActivity() {
 
         // Set up recycler view to show food list in this recipe.
         val recyclerView = recipe_food_recycler_view
-        val adapter = RecipeFoodListAdapter(foodList)
+        val adapter = RecipeFoodListAdapter(foodList, recipeName)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 

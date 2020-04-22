@@ -55,7 +55,7 @@ class RecipeListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
 
         // Update view object data.
         recipeNameView.text = recipeData?.name
-        recipeCaloriesView.text = "${recipeData?.getFoodCalories()} Calories}"
+        recipeCaloriesView.text = "${recipeData?.getFoodCalories()} Calories"
         recipeFoodCountView.text =
             "${recipeData?.getFoodTypeCount()} Food Types / ${recipeData?.getFoodTotalCount()} Total"
         recipeRatingBarView.rating = recipeData?.rating?.toFloat()!!

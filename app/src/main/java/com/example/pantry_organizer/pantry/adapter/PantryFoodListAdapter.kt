@@ -1,5 +1,6 @@
 package com.example.pantry_organizer.pantry.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -7,11 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.FoodData
+import com.example.pantry_organizer.pantry.activity.PantryFoodDetailActivity
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 
-class PantryFoodListAdapter(private val list: ArrayList<FoodData>?): RecyclerView.Adapter<PantryFoodListViewHolder>() {
+class PantryFoodListAdapter(private val list: ArrayList<FoodData>?, private val pantryName: String):
+        RecyclerView.Adapter<PantryFoodListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PantryFoodListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return PantryFoodListViewHolder(inflater, parent)
@@ -21,20 +24,16 @@ class PantryFoodListAdapter(private val list: ArrayList<FoodData>?): RecyclerVie
         // Extract the food data from the position in the list.
         val foodData = list!![position]
 
+        // Bind the food data to this position to the recycler view item.
         holder.bind(foodData)
-        // todo onclick method for food list item select
+
+        // Set click listener for viewing nutritional data for this food.
         holder.itemView.setOnClickListener {
-//            val bundle = Bundle()
-//            bundle.putString("FoodName",foodName)
-//
-//            //start recipe detail fragment
-//            val activity = view!!.context as AppCompatActivity
-//            val fragment = FoodDetailFragment()
-//            fragment.setArguments(bundle)
-//
-//            val ft: FragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
-//            ft.replace(R.id.home_frameLayout, fragment)
-//            ft.commit()
+            val intent = Intent(it.context, PantryFoodDetailActivity::class.java)
+            intent.putExtra("pantryName", pantryName)
+            intent.putExtra("foodName", foodData.name)
+            intent.putExtra("foodIndex", position)
+            it.context.startActivity(intent)
         }
     }
 

@@ -46,6 +46,7 @@
     <string name="api_food_searching_button">Searching</string>
 
     <string name="food_detail_loading_label">…</string>
+    <string name="food_detail_quantity_label">Quantity</string>
     <string name="food_detail_calories_label">Calories</string>
     <string name="food_detail_serving_size_label">Serving Size</string>
     <string name="food_detail_fat_label">Fat (g)</string>
