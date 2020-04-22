@@ -32,7 +32,7 @@ data class PantryData(
         return foodList?.size ?: 1
     }
 
-    // Get the total food count in this recipe.
+    // Get the total food count in this pantry.
     fun getFoodTotalCount(): Long {
         var total = 0L
         if (foodList != null) {
