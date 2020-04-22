@@ -14,10 +14,12 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     val apiSearchList = MutableLiveData<ApiFoodDataPayload>()
     val apiFoodNutritionData = MutableLiveData<ApiFoodNutritionPayload>()
     val recipeList = MutableLiveData<List<RecipeData>>()
+    val shoppingList = MutableLiveData<List<ShoppingData>>()
 
     init {
         getPantries()
         getRecipes()
+        getShoppingList()
     }
 
 
@@ -132,4 +134,34 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     fun removeFoodQtyFromRecipe(recipeName: String, foodData: FoodData, quantity: Int) {
         repository.removeFoodQtyFromRecipe(recipeName, foodData, quantity)
     }
+
+    //Add a quantity of a specific item to the shopping list
+    fun addShoppingListItem(shoppingData: Map<String, Any?>): Boolean {
+        // Push the new item data to firebase.
+        repository.addShoppingListItem(ShoppingData(shoppingData))
+        return true
+    }
+
+    //Remove a quantity of an existing item form the shopping list
+    fun removeShoppingListItem(itemData: ShoppingData, quantity: Int): Boolean {
+        // Check for existing pantry with duplicate name.
+        // Push the new pantry data to firebase.
+        repository.removeItemQtyFromShoppingList(itemData, quantity)
+        return true
+    }
+
+    private fun getShoppingList() {
+        repository.getShoppingList()
+            .addSnapshotListener { querySnapshot, _ ->
+                val list: MutableList<ShoppingData> = mutableListOf()
+                for (doc in querySnapshot!!) {
+                    if (doc.get("name") != null) {
+                        list.add(createShoppingDataFromSnapshot(doc))
+                    }
+                }
+                shoppingList.value = list
+            }
+    }
+
+
 }

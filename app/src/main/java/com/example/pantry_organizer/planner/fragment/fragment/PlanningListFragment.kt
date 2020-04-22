@@ -35,8 +35,8 @@ class PlanningListFragment: Fragment() {
         val currentWeekDay = currentDate.dayOfWeek.toString()
         val previousMonday = currentDate.minusDays(daysToWeekStart(currentWeekDay))
         val nextMonday  = currentDate.plusDays(7).minusDays(daysToWeekStart(currentWeekDay))
-        val previousMondayFormatted = previousMonday.format(DateTimeFormatter.ofPattern("M/d/y"))
-        val nextMondayFormatted = nextMonday.format(DateTimeFormatter.ofPattern("M/d/y"))
+        val previousMondayFormatted = previousMonday.format(DateTimeFormatter.ofPattern("M.d.y"))
+        val nextMondayFormatted = nextMonday.format(DateTimeFormatter.ofPattern("M.d.y"))
 
         var currentWeekBundle = Bundle()
         currentWeekBundle.putString("weekMonday", previousMondayFormatted)

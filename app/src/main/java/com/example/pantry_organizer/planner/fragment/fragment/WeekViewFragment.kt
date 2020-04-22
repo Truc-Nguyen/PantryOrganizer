@@ -28,7 +28,7 @@ class WeekViewFragment(): Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val stringDate = this.arguments?.getString("weekMonday", "")
-        val parsedDate = stringDate!!.split("/")
+        val parsedDate = stringDate!!.split(".")
         val month = parsedDate[0].toInt()
         val day = parsedDate[1].toInt()
         val year = parsedDate[2].toInt()
@@ -44,7 +44,7 @@ class WeekViewFragment(): Fragment() {
         val testDate1 = "9/15/2020"
         val testDate2 = "12/1/2019"
         val testDate3 = "1/16/202"
-        val testList1 = listOf("Potato", "Tomato", "Death", "Taxes", "Coronavirus")
+        val testList1 = listOf("Potato", "Tomato", "Death", "Taxes", "Coronavirus","hjhghjhgjhghjhgjhghjhghjhghjhgjh")
         val testList2 = listOf("Potato", "Tomato")
         val testList3 = listOf("Potato")
 
@@ -81,7 +81,7 @@ class WeekViewFragment(): Fragment() {
         var weekDayList = ArrayList<String>()
         var currentDate = dateTime
         for(i in 0..6){
-            weekDayList.add(currentDate.format(DateTimeFormatter.ofPattern("M/d/y")))
+            weekDayList.add(currentDate.format(DateTimeFormatter.ofPattern("M.d.y")))
             currentDate = currentDate.plusDays(1) //iterate to next day in week
         }
         return weekDayList

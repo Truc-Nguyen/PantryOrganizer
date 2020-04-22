@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.MealplanData
@@ -17,7 +18,6 @@ import java.time.LocalDate
 
 
 class MealplanListAdapter(private val list: ArrayList<MealplanData>?): RecyclerView.Adapter<MealplanListViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealplanListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return MealplanListViewHolder(
@@ -44,37 +44,45 @@ class MealplanListAdapter(private val list: ArrayList<MealplanData>?): RecyclerV
 
 class MealplanListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
     RecyclerView.ViewHolder(inflater.inflate(R.layout.adapter_mealplan_list_item, parent, false)) {
+    private val maxRecipeLength = 24 //longest recipe name that can fit on one line of the display
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(mealplanData: MealplanData): String {
         val mealplanDateView: TextView = itemView.findViewById(R.id.adapter_mealplan_date)
+        val mealplanWeedayView: TextView = itemView.findViewById(R.id.adapter_mealplan_weekday)
         val mealplanRecipesView: TextView = itemView.findViewById(R.id.adapter_mealplan_recipes)
-        //parse mealplanDateView; currently stored as string in format: ""M/d/y""
-        val parsedDate = mealplanData.date.split("/")
+        //parse mealplanDateView; currently stored as string in format: ""M.d.y""
+        val parsedDate = mealplanData.date.split(".")
         val date = LocalDate.of(parsedDate[2].toInt(), parsedDate[0].toInt(), parsedDate[1].toInt())
         val weekDay = date.dayOfWeek.toString()
         val currentDate = LocalDate.now()
         Log.d("Current Date", currentDate.toString())
         Log.d("Date", currentDate.toString())
+        val view: CardView =  itemView.findViewById(R.id.adapter_mealplan_layout)
         if(currentDate == date){
-            val view: RelativeLayout =  itemView.findViewById(R.id.adapter_mealplan_layout)
-            view.setBackgroundColor(Color.GREEN)
+            view.elevation = 500.0F
+        }else{
+            view.elevation = 250.0F
         }
 
-
-        mealplanDateView.text = weekDay + " " +  parsedDate[0] + "/" + parsedDate[1]
+        mealplanDateView.text =  parsedDate[0] + "/" + parsedDate[1]
+        mealplanWeedayView.text = weekDay
 
         //set recipes to be multiline string
         var recipeString = ""
         if(mealplanData.recipes != null) {
             for (recipe in mealplanData.recipes?.indices){
-                    recipeString += mealplanData.recipes!![recipe]
+                    var currentRecipe = mealplanData.recipes!![recipe]
+                    if(currentRecipe.length > maxRecipeLength){  //if recipe is too long, truncate
+                        currentRecipe = currentRecipe.take(maxRecipeLength - 3) + "..."
+                    }
+                    recipeString += currentRecipe
                     if (recipe < mealplanData.recipes!!.size - 1) {
                         recipeString += ",\n"
                     }
                 }
             }
         mealplanRecipesView.text = recipeString
-
         return mealplanData.date
     }
 }

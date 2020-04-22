@@ -41,6 +41,8 @@
         <activity android:name=".recipe.activity.ApiFoodSearchActivity" />
         <activity android:name=".recipe.activity.AddCustomFoodActivity" />
         <activity android:name=".recipe.activity.AddFoodActivity" />
+        <activity android:name=".pantry.activity.PantryFoodDetailActivity" />
+        <activity android:name=".recipe.activity.RecipeFoodDetailActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
