@@ -38,7 +38,8 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
 
         //retrieve arguments from previous fragment
         date = intent.extras!!.getString("MealplanDate")!!
-        index = intent.extras!!.getInt("DateIndex")!!
+        Log.d("Test", date.toString())
+//        index = intent.extras!!.getInt("DateIndex")!!
 
         // Support bar attributes.
         supportActionBar?.title = date
@@ -54,24 +55,16 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
         Log.d("date",date)
 
         //retrieve recipes corresponding to date from firebase using getSingleMealplan
-        viewModel.getRecipesForDate(date!!)
-        Log.d("recipes", recipes.toString())
+//        viewModel.getRecipesForDate(date!!)
         viewModel.dateRecipeList.observe(this, Observer { liveData ->
             Log.d("observer","change")
             recipes.clear()
             if (liveData != null){
-
                 recipes.addAll(liveData.toList())
             }
+            Log.d("recipes", recipes.toString())
             adapter.notifyDataSetChanged()
         })
-//        viewModel.dateList.observe(this, Observer { liveData ->
-//            recipes.clear()
-//            recipes.addAll(liveData[index].recipes as Collection<RecipeData>)
-//            adapter.notifyDataSetChanged()
-//        })
-
-
 
         // implement swipe to delete
         val swipeController = SwipeController(this, 175f, object: SwipeControllerActions() {
@@ -105,6 +98,11 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
             }
         })
 
+    }
+
+    override fun onResume(){
+        super.onResume()
+        viewModel.getRecipesForDate(date!!)
     }
 
     // Inflate the app menu.

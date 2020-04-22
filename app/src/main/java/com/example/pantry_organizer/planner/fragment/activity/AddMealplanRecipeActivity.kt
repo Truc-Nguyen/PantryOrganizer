@@ -37,34 +37,6 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
         // Turn off the add food button until the data has been fetched.
         addRecipeDetail_addRecipeConfirm_button.isEnabled = false
 
-        // Request and update the nutritional food data for the query.
-       // viewModel.getApiFoodNutrition(query)
-//        viewModel.getingleRecipe(recipeName)
-//        viewModel.apiFoodNutritionData.observe(this, Observer { liveData ->
-//            // Construct food data from api data.
-//            foodData = FoodData(liveData.foods[0])
-//
-//            // Update view object data.
-//            addFoodDetailCalories_textView.text = foodData!!.calories.toString()
-//            addFoodDetailServingSize_textView.text = "${foodData!!.servingQty} ${foodData!!.servingUnit}"
-//            addFoodDetailFat_textView.text = foodData!!.fat.toString()
-//            addFoodDetailSugar_textView.text = foodData!!.sugar.toString()
-//            addFoodDetailCarbs_textView.text = foodData!!.carbs.toString()
-//            addFoodDetailProtein_textView.text = foodData!!.protein.toString()
-//
-//            // Update image view foodData.
-//            if (foodData!!.imageLink == null) {
-//                addFoodDetail_imageView.setImageResource(R.drawable.no_image_icon)
-//            } else {
-//                Picasso.get()
-//                    .load(foodData!!.imageLink)
-//                    .error(R.drawable.no_image_icon)
-//                    .transform(CropSquareTransformation())
-//                    .transform(RoundedCornersTransformation(5, 0))
-//                    .placeholder(R.drawable.loading_icon).into(addFoodDetail_imageView)
-//            }
-
-            // Enable the add food button.
             addRecipeDetail_addRecipeConfirm_button.isEnabled = true
 //        })
 

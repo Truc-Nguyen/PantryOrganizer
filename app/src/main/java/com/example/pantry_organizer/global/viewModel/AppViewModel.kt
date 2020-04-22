@@ -1,7 +1,9 @@
 package com.example.pantry_organizer.global.viewModel
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.pantry_organizer.data.*
@@ -18,12 +20,19 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     val dateList = MutableLiveData<List<MealplanData>>()
     val dateRecipeList = MutableLiveData<List<RecipeData>>()
     val shoppingList = MutableLiveData<List<ShoppingData>>()
+    val weekMeals = MutableLiveData<ArrayList<MutableLiveData<List<RecipeData>>>>()
+
+
 
     init {
         getPantries()
         getRecipes()
         getDates()
         getShoppingList()
+        weekMeals.value = ArrayList()
+        for(i in 0..6){ // one for storing meals on each day of the week
+            weekMeals.value!!.add(MutableLiveData())
+        }
     }
 
 
@@ -188,8 +197,15 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
 //        Log.d("viewmodelgetrecipes", dateRecipeList.value!![0].toString())
     }
 
+    fun getRecipesForWeek(week: ArrayList<String>) {
+        for(i in 0..6){
+            repository.getRecipesForDate(week[i],weekMeals.value!![i])
+        }
+    }
+
 
     //Add a quantity of a specific item to the shopping list
+    @RequiresApi(Build.VERSION_CODES.N)
     fun addShoppingListItem(shoppingData: Map<String, Any?>): Boolean {
         // Push the new item data to firebase.
         repository.addShoppingListItem(ShoppingData(shoppingData))
