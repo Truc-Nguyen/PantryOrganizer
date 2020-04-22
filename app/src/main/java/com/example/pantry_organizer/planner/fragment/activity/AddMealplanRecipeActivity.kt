@@ -87,18 +87,19 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
                     }
                 }
 
-//                if(test){
-//                    Log.d("addmealplan","addDate succeeded")
-//                    viewModel.addRecipeToDate(mealplanDate,recipeName)
+                if(test){
+                    Log.d("addmealplan","date already existed")
+                    viewModel.addRecipeToDate(mealplanDate,recipeName)
 //                    // Push successful.
-//                    Toast.makeText(this, "First recipe added to $mealplanDate.", Toast.LENGTH_LONG).show()
-//                }else{
+//                    Toast.makeText(this, "First recipe added to $mealplanDate.", Toast.LENGTH_SHORT).show()
+                }else{
+                    Log.d("addmealplan","date didnt existed")
                     viewModel.addDate(mealPlanData.getDataMap())
                     viewModel.dateList.observe(this, Observer{
                         viewModel.addRecipeToDate(mealplanDate,recipeName)
-                        Toast.makeText(this, "First recipe added to $mealplanDate.", Toast.LENGTH_LONG).show()
                     })
-//                }
+                }
+                Toast.makeText(this, "Recipe added to $mealplanDate.", Toast.LENGTH_SHORT).show()
 
 //                Log.d("datelist", "changed")
 //                if (viewModel.addDate(mealPlanData.getDataMap())) {
