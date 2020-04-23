@@ -38,20 +38,15 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
         recipeName = intent.extras!!.getString("recipeName")!!
         mealplanDate = intent.extras!!.getString("mealplanDate")!!
 
-
         // Support bar attributes.
         supportActionBar?.title = recipeName
         supportActionBar?.subtitle = "Back"
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Turn off the add food button until the data has been fetched.
-        addRecipeDetail_addRecipeConfirm_button.isEnabled = false
+        addRecipeDetail_addRecipeConfirm_button.isEnabled = true
 
-            addRecipeDetail_addRecipeConfirm_button.isEnabled = true
-//        })
-
-        // Add to pantry button listener.
+        // Add recipe button listener.
         addRecipeDetail_addRecipeConfirm_button.setOnClickListener {
             val mealPlanData = MealplanData(mealplanDate, emptyList())
             viewModel.getDates()
@@ -59,11 +54,11 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
             viewModel.ingredientsList.observe(this, Observer{
                 val ingredientList = it
                 val ingredientPurchaseAmounts = checkIngredientPurchaseNeeded(ingredientList)
-                if(ingredientPurchaseAmounts.size == 0){ //if no ingredients need to be purchased
+                if (ingredientPurchaseAmounts.size == 0){ //if no ingredients need to be purchased
                     addRecipeToCurrentDayHelper(mealPlanData)
                     // Return to previous activity.
                     onBackPressed()
-                }else {
+                } else {
                     //dispay dialog asking if user wants to add items to shopping list
                     //this function also handles returning to the previous activity
                     ingredientDialog(ingredientPurchaseAmounts)
@@ -71,9 +66,6 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
                     addRecipeToCurrentDayHelper(mealPlanData)
                 }
             })
-
-
-
         }
 
         // Cancel button listener.
@@ -88,7 +80,7 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
         onBackPressed()
         return true
     }
-    fun checkIfDateExists(date: String): Boolean{
+    fun checkIfDateExists(): Boolean{
         var dateExists = false
         val currentWeekDates = viewModel.dateList.value
         for (i in 0 until viewModel.dateList.value!!.size){
@@ -124,7 +116,7 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
     }
 
     private fun addRecipeToCurrentDayHelper(mealPlanData: MealplanData){
-        var dateExists = checkIfDateExists(mealplanDate)
+        var dateExists = checkIfDateExists()
         if(dateExists){
             viewModel.addRecipeToDate(mealplanDate,recipeName)
         }else{
@@ -155,8 +147,6 @@ class AddMealplanRecipeActivity: AbstractPantryAppActivity() {
         for (purchase in ingredientPurchaseAmounts){
             ingredientsString+= purchase.first.toString() + ": " + purchase.second.toString() + ", "
         }
-        Log.d("ingredientpurch",ingredientsString)
-
         ingredientsView.text = ingredientsString
 
 //                 User confirms addition.

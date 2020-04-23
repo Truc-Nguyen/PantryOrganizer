@@ -3,10 +3,8 @@ package com.example.pantry_organizer.planner.fragment.adapter
 import android.graphics.Color
 import android.os.Build
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
@@ -52,18 +50,12 @@ class MealplanListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
         val mealplanDateView: TextView = itemView.findViewById(R.id.adapter_mealplan_date)
         val mealplanWeedayView: TextView = itemView.findViewById(R.id.adapter_mealplan_weekday)
         val mealplanRecipesView: TextView = itemView.findViewById(R.id.adapter_mealplan_recipes)
-        //parse mealplanDateView; currently stored as string in format: ""M/d/y""
-//        val parsedDate = mealplanData.date.split(".")
-        //parse mealplanDateView; currently stored as string in format: ""M.d.y""
         val parsedDate = mealplanData.date.split(".")
         val date = LocalDate.of(parsedDate[2].toInt(), parsedDate[0].toInt(), parsedDate[1].toInt())
         val weekDay = date.dayOfWeek.toString()
         val currentDate = LocalDate.now()
-        Log.d("Current Date", currentDate.toString())
-        Log.d("Date", currentDate.toString())
         val view: CardView =  itemView.findViewById(R.id.adapter_mealplan_layout)
         if(currentDate == date){
-//            view.elevation = 500.0F
             view.setCardBackgroundColor(Color.rgb(200,200,200))
         }else{
             view.setCardBackgroundColor(Color.rgb(255,255,255))

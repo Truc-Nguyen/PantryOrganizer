@@ -20,14 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.global.viewModel.AppViewModel
-import com.example.pantry_organizer.pantry.adapter.PantryListAdapter
 import kotlinx.android.synthetic.main.fragment_shopping.*
 import com.example.pantry_organizer.data.ShoppingData
 import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
 import com.example.pantry_organizer.shopping.fragment.adapter.ShoppingListAdapter
-import kotlinx.android.synthetic.main.dialog_confirm_delete.*
-import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
 import kotlinx.android.synthetic.main.dialog_confirm_remove_item.*
 
 class ShoppingListFragment: Fragment() {
@@ -55,16 +52,14 @@ class ShoppingListFragment: Fragment() {
         viewModel.shoppingList.observe(activity!!, Observer { liveData ->
             shoppingList.clear()
             shoppingList.addAll(liveData)
-            adapter.notifyDataSetChanged()
-        })
+            adapter.notifyDataSetChanged() })
 
         // Set up delete item swipe controller and button listeners.
         val swipeController = SwipeController(activity!!, 175f, object: SwipeControllerActions() {
             override fun setOnDeleteClicked(position: Int) {
                 // Build an alert dialog for deleting this item.
                 val deleteShoppingListItemConfirmDialog = LayoutInflater.from(activity!!).inflate(
-                    R.layout.dialog_confirm_remove_item, null
-                )
+                    R.layout.dialog_confirm_remove_item, null)
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setView(deleteShoppingListItemConfirmDialog)
                 val dialog = dialogBuilder.show()
@@ -88,13 +83,8 @@ class ShoppingListFragment: Fragment() {
                     // Sanitize input.
                     val input = qtyView.text.toString()
                     if (input == "") {
-                        Toast.makeText(
-                            activity!!,
-                            "Please enter a valid quantity.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        qtyView.background =
-                            resources.getDrawable(R.drawable.edit_text_border_red, null)
+                        Toast.makeText(activity!!,"Please enter a valid quantity.", Toast.LENGTH_LONG).show()
+                        qtyView.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
                         return@setOnClickListener
                     }
 
@@ -107,10 +97,8 @@ class ShoppingListFragment: Fragment() {
 
                     // Delete the selected pantry.
                     viewModel.removeShoppingListItem(shoppingList[position], qtyToRemove)
-
                     dialog.dismiss()
                 }
-
                 // User selects cancel.
                 dialog.removeItemCancel_button.setOnClickListener {
                     dialog.dismiss()

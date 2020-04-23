@@ -2,7 +2,6 @@ package com.example.pantry_organizer.planner.fragment.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.MealplanData
-import com.example.pantry_organizer.data.RecipeData
 import com.example.pantry_organizer.global.viewModel.AppViewModel
 import com.example.pantry_organizer.planner.fragment.adapter.MealplanListAdapter
 import kotlinx.android.synthetic.main.fragment_week_view.*
@@ -37,20 +35,12 @@ class WeekViewFragment(): Fragment() {
         val dateTime = LocalDate.of(year, month, day)
         dayList = getWeekFromMondayDate(dateTime)
 
-        //Used for testing only, safe to delete
-
-        Log.d("Daylist", dayList.toString())
-        Log.d("Daylist Meals", dayListMeals.toString())
-//
         for(i in 0..6){
             dayListMeals.add(MealplanData(dayList[i], null))
         }
-
-
-        //Used for testing only, safe to delete
-
         return inflater.inflate(R.layout.fragment_week_view, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
 
@@ -62,10 +52,7 @@ class WeekViewFragment(): Fragment() {
         viewModel.getRecipesForWeek(dayList)
         for(x in 0..6) {
             viewModel.weekMeals.value!![x].observe(this, Observer {
-                Log.d("Daylist Meals", "Change Observed")
-                Log.d("Day: ", dayList[x])
                 val recipeList = it
-                Log.d("Recipes: ", recipeList.toString())
                 val mealData = MealplanData(dayList[x], recipeList)
                 dayListMeals[x] = mealData
                 adapter!!.notifyDataSetChanged()

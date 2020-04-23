@@ -10,7 +10,6 @@ import com.example.pantry_organizer.planner.fragment.adapter.RecipeSearchAdapter
 import kotlinx.android.synthetic.main.activity_mealplan_recipe_search.*
 
 class MealplanRecipeSearchActivity: AbstractPantryAppActivity() {
-    private lateinit var weekDay: String
     private var mealplanRecipeSearchList = ArrayList<RecipeData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +35,6 @@ class MealplanRecipeSearchActivity: AbstractPantryAppActivity() {
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
-        // todo: Attach observer to api search data.
         viewModel.recipeList.observe(this, Observer { liveData ->
             mealplanRecipeSearchList.clear()
             mealplanRecipeSearchList.addAll(liveData)

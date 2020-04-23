@@ -154,40 +154,27 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
 
     // MEALPLAN //
 
-
-    // Populate pantry list live data from firebase data.
+    // Populate date list live data from firebase data.
     fun getDates() {
         repository.getDates()
             .addSnapshotListener { querySnapshot, _ ->
                 val list: MutableList<MealplanData> = mutableListOf()
                 for (doc in querySnapshot!!) {
-                    if (doc.get("date") != null) {
-//                        Log.d("View loop ", )
-                        list.add(createMealplanDataFromSnapshot(doc))
-                    }
+                    if (doc.get("date") != null)  list.add(createMealplanDataFromSnapshot(doc))
                 }
-                Log.d("View Get Dates Res", list.toString())
                 dateList.value = list
             }
     }
 
-
     fun addDate(mealplanData: Map<String, Any?>) {
-        // Check for existing recipe with duplicate name.
-        Log.d("mealplandate",mealplanData["date"].toString())
+        // Check for existing date for duplicates.
         var dateExists = false
         if (dateList.value != null) {
             for (date in dateList.value!!) {
-                Log.d("datse", date.date)
-                if (date.date == mealplanData["date"]) {
-                    dateExists =  true
-                }
+                if (date.date == mealplanData["date"])  dateExists = true
             }
         }
-        // Push the new recipe data to firebase.
-        if(!dateExists){
-            repository.addDate(mealplanData)
-        }
+        if(!dateExists) repository.addDate(mealplanData)
     }
 
     fun addRecipeToDate (date: String, recipeName: String){
@@ -200,7 +187,6 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
 
     fun getRecipesForDate(date: String) {
         repository.getRecipesForDate(date,dateRecipeList)
-//        Log.d("viewmodelgetrecipes", dateRecipeList.value!![0].toString())
     }
 
     fun getRecipesForWeek(week: ArrayList<String>) {
@@ -238,6 +224,4 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
                 shoppingList.value = list
             }
     }
-
-
 }

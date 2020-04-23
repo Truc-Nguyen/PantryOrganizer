@@ -61,7 +61,6 @@ data class RecipeData(
                 total += food.calories ?: 0.0 * food.quantity
             }
         }
-
         return (total * 100).roundToInt() / 100.0
     }
 }
