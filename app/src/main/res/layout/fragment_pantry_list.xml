@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".home.activity.HomeActivity">
 
+    <TextView
+        android:id="@+id/pantryNoItems_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pantry_list_no_items"
+        android:textSize="12pt"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pantry_recyclerView"
         android:layout_width="match_parent"

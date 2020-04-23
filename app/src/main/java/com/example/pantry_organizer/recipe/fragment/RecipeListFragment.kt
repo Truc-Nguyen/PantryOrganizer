@@ -72,6 +72,12 @@ class RecipeListFragment: Fragment() {
 
         // Attach observer to recipe data.
         viewModel.recipeList.observe(this, Observer { liveData ->
+            if (liveData.isEmpty()) {
+                recipeNoItems_textView.visibility = View.VISIBLE
+            } else {
+                recipeNoItems_textView.visibility = View.INVISIBLE
+            }
+
             recipeList.clear()
             recipeList.addAll(liveData)
             adapter.notifyDataSetChanged()

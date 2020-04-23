@@ -64,4 +64,8 @@
 
     <string name="remove_food_confirm_button">Remove</string>
     <string name="remove_food_cancel_button">Cancel</string>
+
+    <string name="pantry_list_no_items">Get started by adding a new pantry!</string>
+    <string name="recipe_list_no_items">Get started by adding a new recipe!</string>
+    <string name="food_list_no_items">Get started by adding some food!</string>
 </resources>
