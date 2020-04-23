@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -112,6 +113,12 @@ class RecipeFoodListActivity: AbstractPantryAppActivity() {
 
         // Attach observer to recipe data.
         viewModel.recipeList.observe(this, Observer { liveData ->
+            if (liveData[recipeIndex].foodList!!.isEmpty()) {
+                recipeFoodNoItems_textView.visibility = View.VISIBLE
+            } else {
+                recipeFoodNoItems_textView.visibility = View.INVISIBLE
+            }
+
             foodList.clear()
             foodList.addAll(liveData[recipeIndex].foodList as Collection<FoodData>)
             adapter.notifyDataSetChanged()

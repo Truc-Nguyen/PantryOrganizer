@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -114,6 +115,12 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
 
         // Attach observer to pantry data.
         viewModel.pantryList.observe(this, Observer { liveData ->
+            if (liveData[pantryIndex].foodList!!.isEmpty()) {
+                pantryFoodNoItems_textView.visibility = View.VISIBLE
+            } else {
+                pantryFoodNoItems_textView.visibility = View.INVISIBLE
+            }
+
             foodList.clear()
             foodList.addAll(liveData[pantryIndex].foodList as Collection<FoodData>)
             adapter.notifyDataSetChanged()

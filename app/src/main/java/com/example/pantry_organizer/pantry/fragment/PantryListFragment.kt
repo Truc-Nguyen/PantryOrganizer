@@ -73,6 +73,11 @@ class PantryListFragment: Fragment() {
 
         // Attach observer to pantry data.
         viewModel.pantryList.observe(this, Observer { liveData ->
+            if (liveData.isEmpty()) {
+                pantryNoItems_textView.visibility = View.VISIBLE
+            } else {
+                pantryNoItems_textView.visibility = View.INVISIBLE
+            }
             pantryList.clear()
             pantryList.addAll(liveData)
             adapter.notifyDataSetChanged()
