@@ -22,14 +22,7 @@ class MealplanRecipeListAdapter(private val list: ArrayList<RecipeData>?): Recyc
     }
 
     override fun onBindViewHolder(holder: MealplanRecipeListViewHolder, position: Int) {
-//        Log.d("tf",(list!![position]. is HashMap<String, Any>).toString())
-//        val recipeData: RecipeData = RecipeData(list!![position].getDataMap())
         val recipeData = list!![position]
-
-        val test1 = recipeData.name
-        val test2 = recipeData.rating
-        Log.d("test1",test1.toString())
-        Log.d("test2",test2.toString())
         holder.bind(recipeData)
 
         holder.itemView.setOnClickListener{

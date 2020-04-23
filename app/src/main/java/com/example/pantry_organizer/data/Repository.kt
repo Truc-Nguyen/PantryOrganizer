@@ -1,6 +1,8 @@
 package com.example.pantry_organizer.data
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.example.pantry_organizer.api.ApiClient
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +16,8 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.File
 import java.io.FileInputStream
+import java.lang.Long.max
+import java.lang.Long.min
 import java.util.*
 
 class Repository {
@@ -186,6 +190,26 @@ class Repository {
             .delete()
     }
 
+    fun getRecipeIngredients(recipeName: String, ingredients: MutableLiveData<List<FoodData>>){
+        val recipeDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeName)
+
+
+        recipeDocRef.get().addOnSuccessListener {
+            val foodMapList = it["foodList"]
+            val foodList: MutableList<FoodData> = mutableListOf()
+            if(foodMapList != null){
+                for(food in foodMapList as List<Map<String,Any>>){
+                    foodList.add(FoodData(food))
+                }
+            }
+            ingredients.value = foodList
+        }
+    }
+
+
     // Push food to recipe in firebase.
     fun addFoodToRecipe(recipeName: String, foodData: FoodData) {
         // Create a reference to the recipe firebase document.
@@ -263,7 +287,6 @@ class Repository {
 
     fun addRecipeToDate (date: String, recipeName: String) {
         // Create a reference to the date firebase document
-//        var tmp: RecipeData? = null
         val recipeDocRef = db.collection("userData")
             .document(userID!!)
             .collection("recipeList")
@@ -271,11 +294,26 @@ class Repository {
 
         recipeDocRef.get().addOnSuccessListener { snapshot ->
             val tmp = RecipeData(
-                    snapshot["name"] as String,
-            snapshot["imageLink"] as String?,
-            snapshot["recipeImageLink"] as String?,
-            snapshot["rating"] as Double,
-            snapshot["foodList"] as List<FoodData>?
+                snapshot["name"] as String,
+                snapshot["imageLink"] as String?,
+                snapshot["recipeImageLink"] as String?,
+                snapshot["rating"] as Double,
+                snapshot["foodList"] as List<FoodData>?)
+
+            val foodMapList = tmp.foodList
+            val foodList: MutableList<FoodData> = mutableListOf()
+            if(foodMapList != null){
+                for(food in foodMapList as List<Map<String,Any>>){
+                    foodList.add(FoodData(food))
+                }
+            }
+
+            val test = RecipeData(
+                tmp.name,
+                tmp.imageLink,
+                tmp.recipeImageLink,
+                tmp.rating,
+                foodList
             )
 
             Log.d("viewmodeltmp",tmp.name)
@@ -286,58 +324,92 @@ class Repository {
                 .document(date)
 
             dateDocRef.get().addOnSuccessListener {
-                Log.d("viewmodeldateobj", it["recipes"].toString())
-                val list: MutableList<RecipeData> = mutableListOf()
-                for (recipe in it.get("recipes") as List<Map<String,Any>>){
-                    list.add(RecipeData(recipe))
+                var recipeNotOnDay = true
+                val recipeMapList = it.get("recipes")
+
+                val recipeList: MutableList<RecipeData> = mutableListOf()
+                if(recipeMapList != null){
+                    for(recipe in recipeMapList as List<Map<String,Any>>){
+                        recipeList.add(RecipeData(recipe))
+                    }
                 }
-                list.add(tmp)
-
-                // Add the recipe data to the date.
-//                dateDocRef.set("recipes" to list ) //as List<Map<String,Any>>
-                //Log.d("viewmodeldateobj", it["recipes"].toString())
-
-                dateDocRef.update("recipes", FieldValue.arrayUnion(tmp))
+                for (recipe in recipeList){
+                    if (recipe.name == test.name){
+                        recipeNotOnDay = false
+                    }
+                }
+                if(recipeNotOnDay){
+                    dateDocRef.update("recipes", FieldValue.arrayUnion(test.getDataMap()))
+                }
             }
         }
 
     }
-    fun removeRecipeFromDate(date: String, recipeData: RecipeData) {
-        // Create a reference to the date firebase document.
+    fun removeRecipeFromDate(date: String, recipeData: RecipeData, resBody: MutableLiveData<List<RecipeData>>) {
+        // Create a reference to the recipe firebase document.
+        val foodMapList = recipeData.foodList
+        val foodList: MutableList<FoodData> = mutableListOf()
+        if(foodMapList != null){
+            for(food in foodMapList as List<Map<String,Any>>){
+                foodList.add(FoodData(food))
+            }
+        }
+        val test = RecipeData(
+            recipeData.name,
+            recipeData.imageLink,
+            recipeData.recipeImageLink,
+            recipeData.rating,
+            foodList
+        )
+
+        Log.d("viewmodeltmp",recipeData.name)
+        // Inspect the date data.
         val dateDocRef = db.collection("userData")
             .document(userID!!)
-            .collection("mealplanDates")
+            .collection("Dates")
             .document(date)
 
-        // Inspect the date data.
         dateDocRef.get().addOnSuccessListener {
-            // Check if the recipe already exists in the date.
-            if (it.contains("recipes")) {
-                for (dbRecipe in it["recipes"] as List<Map<String, Any?>>) {
-                    if (dbRecipe["name"] == recipeData.name) {
-                        // Delete the old recipe data.
-                        dateDocRef.update("recipes", FieldValue.arrayRemove(dbRecipe))
+            dateDocRef.update("recipes", FieldValue.arrayRemove(test.getDataMap())).addOnSuccessListener {
+                val updatedDateDocRef = db.collection("userData")
+                    .document(userID!!)
+                    .collection("Dates")
+                    .document(date)
+                updatedDateDocRef.get().addOnSuccessListener {
+                    val recipeMapList = it.get("recipes")
+                    Log.d("recipes maplist",it.get("recipes").toString())
+                    val recipeList: MutableList<RecipeData> = mutableListOf()
+                    if(recipeMapList != null){
+                        for(recipe in recipeMapList as List<Map<String,Any>>){
+                            recipeList.add(RecipeData(recipe))
+                        }
+                        resBody.value = recipeList.toList()
+                        Log.d("recipes resbody",resBody.value!!.size.toString())
                     }
                 }
+
             }
+
         }
     }
     fun getRecipesForDate(date: String, resBody: MutableLiveData<List<RecipeData>>) {
         // Create a reference to the date firebase document.
         val parsedDate = date.split("/") //MM/DD/YYYY
 
+        Log.d("Recipe Retrieval Date: ", date)
         val dateDocRef = db.collection("userData")
             .document(userID!!)
             .collection("Dates")
             .document(date)
         dateDocRef.get().addOnSuccessListener {
             //update resbody with recipes
-            if (it["recipes"] != null){
+            if (it.get("recipes") != null){
                 val list: MutableList<RecipeData> = mutableListOf()
                 for (recipe in it.get("recipes") as List<Map<String,Any>>){
                     list.add(RecipeData(recipe))
                 }
                 resBody.value = list
+                Log.d("Recipe List", list.toString())
             }
             else {
                 resBody.value = emptyList()
@@ -353,68 +425,45 @@ class Repository {
             .collection("shoppingList")
     }
 
-//    fun addPantry(pantryData: Map<String, Any?>){
-//        db.collection("userData")
-//            .document(userID!!)
-//            .collection("pantryList")
-//            .document(pantryData["name"] as String)
-//            .set(pantryData)
-//    }
-
     // Push food to shopping list in firebase.
+    @RequiresApi(Build.VERSION_CODES.N)
     fun addShoppingListItem(shoppingData: ShoppingData) {
         // Create a reference to the shopping firebase document.
         val shoppingDocRef = db.collection("userData")
             .document(userID!!)
             .collection("shoppingList")
-            .document()
-
+            .document(shoppingData.name)
         // Inspect the pantry data.
         shoppingDocRef.get().addOnSuccessListener {
             // Check if the food already exists in the shopping list.
-            if (it.contains("shoppingList")) {
-                for (dbItem in it["shoppingList"] as List<Map<String, Any?>>) {
-                    if (dbItem["name"] == shoppingData.name) {
-                        // Food already exists in pantry. Update the quantity.
-                        shoppingData.quantity += dbItem["quantity"] as Long
-                        // Delete the old food data.
-                        shoppingDocRef.update("foodList", FieldValue.arrayRemove(dbItem))
-                    }
-                }
+            if (it.exists()) {
+                //prevents user from crashing program by exceeding the maximum size of a long
+                val newQuantity = min(shoppingData.quantity + it.data!!.get("quantity") as Long, 99999)
+                shoppingDocRef.update("quantity", newQuantity)
+            }else{
+                 shoppingDocRef.set(shoppingData)
             }
-            // Add the food data to the pantry.
-            shoppingDocRef.update("shoppingList", FieldValue.arrayUnion(shoppingData.getDataMap()))
         }
     }
 
     // Remove a quantity of an existing food from the shopping list in firebase.
-    fun removeItemQtyFromShoppingList(itemData: ShoppingData, quantity: Int) {
+    fun removeItemQtyFromShoppingList(shoppingData: ShoppingData, quantity: Int) {
         // Create a reference to the recipe firebase document.
-        val recipeDocRef = db.collection("userData")
+        val shoppingDocRef = db.collection("userData")
             .document(userID!!)
             .collection("shoppingList")
-            .document()
-
-        // Inspect the recipe data.
-        recipeDocRef.get().addOnSuccessListener {
-            // Check if the item already exists in the shopping list
-            if (it.contains("shoppingList")) {
-                for (dbItem in it["shoppingList"] as List<Map<String, Any?>>) {
-                    if (dbItem["name"] == itemData.name) {
-                        // Update the item quantity.
-                        itemData.quantity = dbItem["quantity"] as Long - quantity
-
-                        // Delete the old food data.
-                        recipeDocRef.update("shoppingList", FieldValue.arrayRemove(dbItem))
-
-                        // Add the new shopping data with the updated quantity only if the quantity is non-zero.
-                        if (itemData.quantity > 0) {
-                            recipeDocRef.update("shoppingList", FieldValue.arrayUnion(itemData.getDataMap()))
-                        }
-                    }
-                }
+            .document(shoppingData.name)
+        shoppingDocRef.get().addOnSuccessListener {
+            // Check if the food already exists in the shopping list.
+            val newQuantity = shoppingData.quantity - quantity
+            if(newQuantity > 0){
+                shoppingDocRef.update("quantity", newQuantity)
+            }else{
+                shoppingDocRef.delete()
             }
+
         }
+        // Inspect the recipe data.
     }
 
 

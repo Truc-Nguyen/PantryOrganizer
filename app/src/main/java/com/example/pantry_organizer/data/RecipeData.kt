@@ -20,7 +20,6 @@ data class RecipeData(
 
     // Convenience method for returning a map of this object.
     fun getDataMap(): Map<String, Any?> {
-        // Construct a list of maps of the food data in this pantry.
         val foodMapList = ArrayList<Map<String, Any?>>()
         if (foodList != null) {
             for (food in foodList) {
@@ -28,7 +27,6 @@ data class RecipeData(
             }
         }
 
-        // Return a map of this pantry's data.
         return hashMapOf(
             "name" to name,
             "imageLink" to imageLink,

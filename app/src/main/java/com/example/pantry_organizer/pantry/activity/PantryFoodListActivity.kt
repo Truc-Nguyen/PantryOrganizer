@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -37,6 +38,7 @@ class PantryFoodListActivity: AbstractPantryAppActivity() {
         // Extract the extras from intent.
         pantryName = intent.extras!!.getString("pantryName")!!
         pantryIndex = intent.extras!!.getInt("pantryIndex")
+        Log.d("Test", pantryName)
 
         // Support bar attributes.
         supportActionBar?.title = pantryName

@@ -1,6 +1,7 @@
 package com.example.pantry_organizer.home.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.pantry_organizer.R
@@ -24,6 +26,7 @@ import com.example.pantry_organizer.recipe.fragment.RecipeListFragment
 import com.example.pantry_organizer.userManagement.activity.UserManagementActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.dialog_add_item_to_shopping.*
 import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
 import kotlinx.android.synthetic.main.dialog_sign_out.*
 
@@ -80,6 +83,7 @@ class HomeActivity: AbstractPantryAppActivity() {
     }
 
     // App menu item listeners.
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.addPantry_menuItem -> {
@@ -93,65 +97,59 @@ class HomeActivity: AbstractPantryAppActivity() {
             R.id.addMeal_menuItem -> {
                 Log.d("Test", "addMeal")
                 true
-            }else->{
-                false
             }
-//            R.id.addItem_menuItem -> {
-//                Log.d("Test", "addShopping")
-//                val removeFoodQuantityConfirmDialog = LayoutInflater.from(this).inflate(
-//                    R.layout.dialog_confirm_remove_food, null)
-//                val dialogBuilder = android.app.AlertDialog.Builder(this)
-//                    .setView(removeFoodQuantityConfirmDialog)
-//                val dialog = dialogBuilder.show()
-//
-//                // Update the remove food message.
-//                val messageView: TextView = dialog.findViewById(R.id.removeFoodMessage_textView)
-//                val message = "Enter the food name and quantity to add to the list"
-//                messageView.text = message
+            R.id.addItem_menuItem -> {
+                Log.d("Test", "addShopping")
+                val removeFoodQuantityConfirmDialog = LayoutInflater.from(this).inflate(
+                    R.layout.dialog_add_item_to_shopping, null)
+                val dialogBuilder = android.app.AlertDialog.Builder(this)
+                    .setView(removeFoodQuantityConfirmDialog)
+                val dialog = dialogBuilder.show()
 
-                // User confirms addition.
-//                dialog.removeFoodConfirm_button.setOnClickListener{
-//                    // Define views.
-//                    val qtyView: EditText = dialog.findViewById(R.id.addItemQuantity_editText)
-//                    val nameView: EditText = dialog.findViewById(R.id.addItemName_editText)
-//                    val confirmButton: Button = dialog.findViewById(R.id.removeItemConfirm_button)
-//                    val cancelButton: Button = dialog.findViewById(R.id.removeItemCancel_button)
-//
-//                    // Reset quantity field color.
-//                    qtyView.background = resources.getDrawable(R.drawable.edit_text_border, null)
-//
-//                    // Sanitize input.
-//                    val qtyInput = qtyView.text.toString()
-//                    val nameInput = nameView.text.toString()
-//                    if (qtyInput == "" || nameInput == "") {
-//                        Toast.makeText(this, "Please enter a valid quantity and name.", Toast.LENGTH_LONG).show()
-//                        qtyView.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
-//                        return@setOnClickListener
-//                    }
-//
-//                    // Extract the quantity of item to add.
-//                    val item = ShoppingData(nameInput, qtyInput.toLong())
-//
-//
-//                    // Disable the buttons once a request has been made.
-//                    confirmButton.isEnabled = false
-//                    cancelButton.isEnabled = false
-//
-//                    // Delete the selected pantry.
-//                    viewModel.addShoppingListItem(item, qtyToRemove)
-//
-//                    dialog.dismiss()
-//                }
-//
-//                // User selects cancel.
-//                dialog.removeFoodCancel_button.setOnClickListener {
-//                    dialog.dismiss()
-//                }
-//            }
-//
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
+                // Update the remove food message.
+                val messageView: TextView = dialog.findViewById(R.id.addItemMessage_textView)
+                val message = "Enter the food name and quantity to add to the list"
+                messageView.text = message
+
+//                 User confirms addition.
+                dialog.addItemConfirm_button.setOnClickListener{
+                    // Define views.
+                    val qtyView: EditText = dialog.findViewById(R.id.addItemQuantity_editText)
+                    val nameView: EditText = dialog.findViewById(R.id.addItemName_editText)
+                    val confirmButton: Button = dialog.findViewById(R.id.addItemConfirm_button)
+                    val cancelButton: Button = dialog.findViewById(R.id.addItemCancel_button)
+
+                    // Reset quantity field color.
+                    qtyView.background = resources.getDrawable(R.drawable.edit_text_border, null)
+
+                    // Sanitize input.
+                    val qtyInput = qtyView.text.toString()
+                    val nameInput = nameView.text.toString()
+                    if (qtyInput == "" || nameInput == "") {
+                        Toast.makeText(this, "Please enter a valid quantity and name.", Toast.LENGTH_LONG).show()
+                        qtyView.background = resources.getDrawable(R.drawable.edit_text_border_red, null)
+                        return@setOnClickListener
+                    }
+
+                    // Extract the quantity of item to add.
+                    val item = ShoppingData(nameInput, qtyInput.toLong()).getDataMap()
+
+                    // Disable the buttons once a request has been made.
+                    confirmButton.isEnabled = false
+                    cancelButton.isEnabled = false
+
+                    // Delete the selected pantry.
+                    viewModel.addShoppingListItem(item)
+
+                    dialog.dismiss()
+                }
+
+                // User selects cancel.
+                dialog.addItemCancel_button.setOnClickListener {
+                    dialog.dismiss()
+                }
+                true
+            }else -> super.onOptionsItemSelected(item)
         }
     }
 

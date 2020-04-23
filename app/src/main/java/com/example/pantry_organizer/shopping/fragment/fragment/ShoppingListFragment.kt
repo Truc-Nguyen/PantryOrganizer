@@ -28,6 +28,7 @@ import com.example.pantry_organizer.global.adapter.SwipeControllerActions
 import com.example.pantry_organizer.shopping.fragment.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
+import kotlinx.android.synthetic.main.dialog_confirm_remove_item.*
 
 class ShoppingListFragment: Fragment() {
     lateinit var viewModel: AppViewModel
@@ -62,24 +63,24 @@ class ShoppingListFragment: Fragment() {
             override fun setOnDeleteClicked(position: Int) {
                 // Build an alert dialog for deleting this item.
                 val deleteShoppingListItemConfirmDialog = LayoutInflater.from(activity!!).inflate(
-                    R.layout.dialog_add_item_to_shopping, null
+                    R.layout.dialog_confirm_remove_item, null
                 )
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                     .setView(deleteShoppingListItemConfirmDialog)
                 val dialog = dialogBuilder.show()
 
                 // Update the remove food message.
-                val messageView: TextView = dialog.findViewById(R.id.removeFoodMessage_textView)
+                val messageView: TextView = dialog.findViewById(R.id.removeItemMessage_textView)
                 val message =
                     "Are you sure you want to remove ${shoppingList[position].name} from you list?"
                 messageView.text = message
 
                 // User confirms deletion.
-                dialog.removeFoodConfirm_button.setOnClickListener {
+                dialog.removeItemConfirm_button.setOnClickListener {
                     // Define views.
-                    val qtyView: EditText = dialog.findViewById(R.id.removeFoodQuantity_editText)
-                    val confirmButton: Button = dialog.findViewById(R.id.removeFoodConfirm_button)
-                    val cancelButton: Button = dialog.findViewById(R.id.removeFoodCancel_button)
+                    val qtyView: EditText = dialog.findViewById(R.id.removeItemQuantity_editText)
+                    val confirmButton: Button = dialog.findViewById(R.id.removeItemConfirm_button)
+                    val cancelButton: Button = dialog.findViewById(R.id.removeItemCancel_button)
 
                     // Reset quantity field color.
                     qtyView.background = resources.getDrawable(R.drawable.edit_text_border, null)
@@ -111,7 +112,7 @@ class ShoppingListFragment: Fragment() {
                 }
 
                 // User selects cancel.
-                dialog.removeFoodCancel_button.setOnClickListener {
+                dialog.removeItemCancel_button.setOnClickListener {
                     dialog.dismiss()
                 }
             }
@@ -126,35 +127,3 @@ class ShoppingListFragment: Fragment() {
         })
     }
 }
-
-
-//        val swipeController = SwipeController(activity!!, 175f, object: SwipeControllerActions() {
-//            override fun setOnDeleteClicked(position: Int) {
-//                // Build an alert dialog for deleting this item.
-//                val deleteShoppingListItemConfirmDialog = LayoutInflater.from(activity!!).inflate(
-//                    R.layout.dialog_confirm_delete, null)
-//                val dialogBuilder = AlertDialog.Builder(activity!!)
-//                    .setView(deleteShoppingListItemConfirmDialog)
-//                val dialog = dialogBuilder.show()
-//
-//                // User confirms deletion.
-//                dialog.deleteItemConfirm_button.setOnClickListener{
-//                    dialog.dismiss()
-//                    // Delete the selected pantry.
-//                    viewModel.removeShoppingListItem(shoppingList[position].name, 1)//setting this to one just as a test
-//                }
-//
-//                // User selects cancel.
-//                dialog.deleteItemCancel_button.setOnClickListener {
-//                    dialog.dismiss()
-//                }
-//            }
-//        })
-//
-//        // Attach the swipe controller to the recycler view.
-//        ItemTouchHelper(swipeController).attachToRecyclerView(recyclerView)
-//        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-//            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-//                swipeController.onDraw(c)
-//            }
-//        })

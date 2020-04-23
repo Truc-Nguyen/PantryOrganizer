@@ -1,7 +1,9 @@
 package com.example.pantry_organizer.global.viewModel
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.pantry_organizer.data.*
@@ -18,12 +20,18 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     val dateList = MutableLiveData<List<MealplanData>>()
     val dateRecipeList = MutableLiveData<List<RecipeData>>()
     val shoppingList = MutableLiveData<List<ShoppingData>>()
+    val weekMeals = MutableLiveData<ArrayList<MutableLiveData<List<RecipeData>>>>()
+    val ingredientsList = MutableLiveData<List<FoodData>>()
 
     init {
         getPantries()
         getRecipes()
         getDates()
         getShoppingList()
+        weekMeals.value = ArrayList()
+        for(i in 0..6){ // one for storing meals on each day of the week
+            weekMeals.value!!.add(MutableLiveData())
+        }
     }
 
 
@@ -124,7 +132,12 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         return true
     }
 
-    // Delete a recipe from firebase.
+    fun getRecipeIngredients(recipeName: String) {
+        repository.getRecipeIngredients(recipeName, ingredientsList)
+    }
+
+
+        // Delete a recipe from firebase.
     fun deleteRecipe(recipeName: String) {
         repository.deleteRecipe(recipeName)
     }
@@ -159,20 +172,22 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    fun addDate(mealplanData: Map<String, Any?>): Boolean {
+    fun addDate(mealplanData: Map<String, Any?>) {
         // Check for existing recipe with duplicate name.
         Log.d("mealplandate",mealplanData["date"].toString())
+        var dateExists = false
         if (dateList.value != null) {
             for (date in dateList.value!!) {
                 Log.d("datse", date.date)
                 if (date.date == mealplanData["date"]) {
-                    return false
+                    dateExists =  true
                 }
             }
         }
         // Push the new recipe data to firebase.
-        repository.addDate(mealplanData)
-        return true
+        if(!dateExists){
+            repository.addDate(mealplanData)
+        }
     }
 
     fun addRecipeToDate (date: String, recipeName: String){
@@ -180,7 +195,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun removeRecipeFromDate(date: String, recipeData: RecipeData) {
-        repository.removeRecipeFromDate(date,recipeData)
+        repository.removeRecipeFromDate(date,recipeData,dateRecipeList)
     }
 
     fun getRecipesForDate(date: String) {
@@ -188,8 +203,15 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
 //        Log.d("viewmodelgetrecipes", dateRecipeList.value!![0].toString())
     }
 
+    fun getRecipesForWeek(week: ArrayList<String>) {
+        for(i in 0..6){
+            repository.getRecipesForDate(week[i],weekMeals.value!![i])
+        }
+    }
+
 
     //Add a quantity of a specific item to the shopping list
+    @RequiresApi(Build.VERSION_CODES.N)
     fun addShoppingListItem(shoppingData: Map<String, Any?>): Boolean {
         // Push the new item data to firebase.
         repository.addShoppingListItem(ShoppingData(shoppingData))

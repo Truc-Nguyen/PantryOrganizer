@@ -63,9 +63,10 @@ class MealplanListViewHolder(inflater: LayoutInflater, parent: ViewGroup):
         Log.d("Date", currentDate.toString())
         val view: CardView =  itemView.findViewById(R.id.adapter_mealplan_layout)
         if(currentDate == date){
-            view.elevation = 500.0F
+//            view.elevation = 500.0F
+            view.setCardBackgroundColor(Color.rgb(200,200,200))
         }else{
-            view.elevation = 250.0F
+            view.setCardBackgroundColor(Color.rgb(255,255,255))
         }
 
         mealplanDateView.text =  parsedDate[0] + "/" + parsedDate[1]
