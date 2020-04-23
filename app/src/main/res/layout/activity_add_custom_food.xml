@@ -1,116 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/enter_food_name"
-        android:hint="Food name"
-        android:inputType="text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_amount"
-        android:hint="Amount in pantry"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <ImageView
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/addCustomFood_button_layout"
+        android:layout_marginTop="10dp">
 
-        android:id="@+id/addFood_customImage_imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/add_food_picture_icon"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:background="@drawable/edit_text_border"
-        android:layout_marginTop="5dp"
-        android:onClick="requestImageCaptureNo"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/optional_header"
-        android:text="OPTIONAL INFORMATION"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        />
-    <EditText
-        android:id="@+id/enter_food_calories"
-        android:hint="Calories"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_serving_size_quantity"
-        android:hint="Quantity of serving size"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_serving_size_unit"
-        android:hint="Unit of serving size"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_fat"
-        android:hint="Fat Content (g)"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_sugar"
-        android:hint="Sugar Content (g)"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_carbs"
-        android:hint="Carbohydrates (g)"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
-    <EditText
-        android:id="@+id/enter_food_protein"
-        android:hint="Protein Content (g)"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Custom Food"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_name_editText"
+                android:hint="Name"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quantity"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_quantity_editText"
+                android:hint="Amount"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Picture"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <ImageView
+                android:id="@+id/addCustomFood_image_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/add_food_picture_icon"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:background="@drawable/edit_text_border"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calories (g)"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_calories_editText"
+                android:hint="Caloric Amount"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Serving Size Quantity"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_servingQty_editText"
+                android:hint="Serving Size Amount"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Serving Size Unit"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_servingUnit_editText"
+                android:hint="Serving Size Unit"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fat (g)"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_fat_editText"
+                android:hint="Fat Content"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Added Sugars (g)"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_sugar_editText"
+                android:hint="Added Sugars"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Carbohydrates (g)"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_carbs_editText"
+                android:hint="Carbohydrates"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Protein (g)"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addCustomFood_protein_editText"
+                android:hint="Protein Content"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_border"/>
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/addCustomFood_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:id="@+id/custom_return_to_pantry"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/addCustomFood_addCancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:text="Back to Pantry" />
-    </LinearLayout>
+            android:layout_weight="0.5"
+            android:paddingTop="25dp"
+            android:orientation="vertical"
+            android:background="@drawable/button_red">
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/cancel_icon"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/add_food_cancel_button"
+                android:textColor="@color/white"
+                android:textSize="7pt"
+                android:background="@drawable/button_red"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/addCustomFood_addConfirm_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:paddingTop="25dp"
+            android:orientation="vertical"
+            android:background="@drawable/button_green">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/add_food_icon"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/addCustomFood_addConfirm_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/add_pantry_food_confirm_button"
+                android:textColor="@color/white"
+                android:textSize="7pt"
+                android:background="@drawable/button_green"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

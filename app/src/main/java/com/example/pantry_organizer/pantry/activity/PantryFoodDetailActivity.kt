@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import com.example.pantry_organizer.R
 import com.example.pantry_organizer.data.FoodData
 import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropSquareTransformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -62,12 +64,25 @@ class PantryFoodDetailActivity: AbstractPantryAppActivity() {
             if (foodData!!.imageLink == null) {
                 pantryFoodDetail_imageView.setImageResource(R.drawable.no_image_icon)
             } else {
-                Picasso.get()
-                    .load(foodData!!.imageLink)
-                    .error(R.drawable.no_image_icon)
-                    .transform(CropSquareTransformation())
-                    .transform(RoundedCornersTransformation(5, 0))
-                    .placeholder(R.drawable.loading_icon).into(pantryFoodDetail_imageView)
+                if (foodData!!.apiID == null) {
+                    val imageRef = Firebase.storage.reference.child(foodData!!.imageLink!!)
+                    imageRef.downloadUrl.addOnSuccessListener {
+                        Picasso.get()
+                            .load(it)
+                            .transform(CropSquareTransformation())
+                            .transform(RoundedCornersTransformation(25, 0))
+                            .placeholder(R.drawable.loading_icon).into(pantryFoodDetail_imageView)
+                    }.addOnFailureListener {
+                        pantryFoodDetail_imageView.setImageResource(R.drawable.no_image_icon)
+                    }
+                } else {
+                    Picasso.get()
+                        .load(foodData!!.imageLink)
+                        .error(R.drawable.no_image_icon)
+                        .transform(CropSquareTransformation())
+                        .transform(RoundedCornersTransformation(5, 0))
+                        .placeholder(R.drawable.loading_icon).into(pantryFoodDetail_imageView)
+                }
             }
         })
     }

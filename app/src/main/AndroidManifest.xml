@@ -43,6 +43,7 @@
         <activity android:name=".recipe.activity.AddFoodActivity" />
         <activity android:name=".pantry.activity.PantryFoodDetailActivity" />
         <activity android:name=".recipe.activity.RecipeFoodDetailActivity" />
+        <activity android:name=".pantry.activity.AddCustomFoodActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
