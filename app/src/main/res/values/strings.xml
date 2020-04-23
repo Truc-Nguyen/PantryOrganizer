@@ -22,14 +22,14 @@
     <string name="shopping_nav">Shopping</string>
 
     <string name="add_pantry_name_label">Pantry Name</string>
-    <string name="add_pantry_location_label">Location</string>
-    <string name="add_pantry_image_label">Image</string>
-    <string name="add_pantry_name_hint">Description</string>
-    <string name="add_pantry_location_hint">Physical Location</string>
+    <string name="add_pantry_location_label">Pantry Location</string>
+    <string name="add_pantry_image_label">Pantry Picture</string>
+    <string name="add_pantry_name_hint">Name</string>
+    <string name="add_pantry_location_hint">Location</string>
 
     <string name="add_recipe_name_label">Recipe Name</string>
-    <string name="add_recipe_image_label">Image</string>
-    <string name="add_recipe_name_hint">Description</string>
+    <string name="add_recipe_image_label">Recipe List Picture</string>
+    <string name="add_recipe_name_hint">Name</string>
 
     <string name="create_menu_item_desc">CREATE</string>
     <string name="add_pantry_menu_item_desc">Add New Pantry</string>

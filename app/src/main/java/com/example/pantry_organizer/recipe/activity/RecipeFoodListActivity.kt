@@ -22,6 +22,11 @@ import com.example.pantry_organizer.global.activity.AbstractPantryAppActivity
 import com.example.pantry_organizer.global.adapter.SwipeController
 import com.example.pantry_organizer.global.adapter.SwipeControllerActions
 import com.example.pantry_organizer.recipe.adapter.RecipeFoodListAdapter
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropSquareTransformation
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_recipe_food_list.*
 import kotlinx.android.synthetic.main.dialog_confirm_remove_food.*
 
@@ -113,14 +118,38 @@ class RecipeFoodListActivity: AbstractPantryAppActivity() {
 
         // Attach observer to recipe data.
         viewModel.recipeList.observe(this, Observer { liveData ->
-            if (liveData[recipeIndex].foodList!!.isEmpty()) {
+            // Set up recipe details.
+            val recipeData = liveData[recipeIndex]
+            recipeFoodList_serving_textView.text = "${recipeData.getFoodCalories()} Calories"
+            recipeFoodList_quantity_textView.text =
+                "${recipeData?.getFoodTypeCount()} Food Types / ${recipeData.getFoodTotalCount()} Total"
+            recipeFoodList_rating_ratingBar.rating = recipeData.rating.toFloat()
+            if (recipeData.imageLink == null) {
+                recipeFoodList_recipe_imageView.setImageResource(R.drawable.no_image_icon)
+            } else {
+                val imageRef = Firebase.storage.reference.child(recipeData.imageLink)
+                imageRef.downloadUrl.addOnSuccessListener {
+                    Picasso.get()
+                        .load(it)
+                        .transform(CropSquareTransformation())
+                        .transform(RoundedCornersTransformation(25, 0))
+                        .placeholder(R.drawable.loading_icon).into(recipeFoodList_recipe_imageView)
+                }.addOnFailureListener {
+                    recipeFoodList_recipe_imageView.setImageResource(R.drawable.no_image_icon)
+                }
+            }
+
+            // Set up food list details.
+            if (recipeData.foodList!!.isEmpty()) {
                 recipeFoodNoItems_textView.visibility = View.VISIBLE
+                recipeFood_foodLabel_textView.visibility = View.INVISIBLE
             } else {
                 recipeFoodNoItems_textView.visibility = View.INVISIBLE
+                recipeFood_foodLabel_textView.visibility = View.VISIBLE
             }
 
             foodList.clear()
-            foodList.addAll(liveData[recipeIndex].foodList as Collection<FoodData>)
+            foodList.addAll(recipeData.foodList as Collection<FoodData>)
             adapter.notifyDataSetChanged()
         })
     }
@@ -148,5 +177,12 @@ class RecipeFoodListActivity: AbstractPantryAppActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        val rating = recipeFoodList_rating_ratingBar.rating
+        viewModel.updateRecipeRating(recipeName, rating)
+
+        super.onBackPressed()
     }
 }

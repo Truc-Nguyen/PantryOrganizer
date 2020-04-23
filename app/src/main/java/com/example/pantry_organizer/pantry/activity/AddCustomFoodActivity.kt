@@ -34,6 +34,10 @@ class AddCustomFoodActivity: AbstractCameraImageCapture() {
 
         // Add to pantry button listener.
         addCustomFood_addConfirm_button.setOnClickListener {
+            // Reset field colors.
+            addCustomFood_name_editText.backgroundTintList = resources.getColorStateList(R.color.darkGray, null)
+            addCustomFood_quantity_editText.backgroundTintList = resources.getColorStateList(R.color.darkGray, null)
+
             // Harvest user input.
             val name = addCustomFood_name_editText.text.toString()
             val quantity = addCustomFood_quantity_editText.text.toString()
@@ -47,12 +51,15 @@ class AddCustomFoodActivity: AbstractCameraImageCapture() {
 
             // Sanitize input.
             if (name == "") {
+                addCustomFood_name_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                 Toast.makeText(this, "Food name cannot be blank.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (quantity == "") {
+                addCustomFood_quantity_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                 Toast.makeText(this, "Quantity cannot be blank.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (quantity.toInt() < 1) {
+                addCustomFood_quantity_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                 Toast.makeText(this, "Quantity must be greater than zero.", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }

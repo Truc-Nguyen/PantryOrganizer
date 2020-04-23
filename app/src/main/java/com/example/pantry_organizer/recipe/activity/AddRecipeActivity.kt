@@ -38,17 +38,19 @@ class AddRecipeActivity: AbstractCameraImageCapture() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.create_menuItem -> {
+                addRecipe_recipeName_editText.backgroundTintList = resources.getColorStateList(R.color.darkGray, null)
+
                 // Harvest user input.
                 val name = addRecipe_recipeName_editText.text.toString()
 
                 // Sanitize input.
                 if (name == "") {
+                    addRecipe_recipeName_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                     Toast.makeText(this, "Recipe name cannot be blank.", Toast.LENGTH_LONG).show()
                     return true
                 }
 
                 // Create new recipe data entry.
-                // todo update this with recipe image.
                 val recipeData = RecipeData(name, fbsFilename, null,0.0, null)
 
                 // Attempt to push the new recipe to firebase.
@@ -60,6 +62,7 @@ class AddRecipeActivity: AbstractCameraImageCapture() {
                     onBackPressed()
                 } else {
                     // Recipe with this name already exists.
+                    addRecipe_recipeName_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                     Toast.makeText(this, "$name already exists.", Toast.LENGTH_LONG).show()
                 }
 

@@ -112,7 +112,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
                         list.add(createRecipeDataFromSnapshot(doc))
                     }
                 }
-                recipeList.value = list
+                recipeList.value = list.sortedByDescending { it.rating }
             }
     }
 
@@ -152,8 +152,13 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         repository.removeFoodQtyFromRecipe(recipeName, foodData, quantity)
     }
 
-    // MEALPLAN //
+    // Push the new recipe rating to firebase.
+    fun updateRecipeRating(recipeName: String, rating: Float) {
+        repository.updateRecipeRating(recipeName, rating)
+    }
 
+
+    // MEALPLAN //
     // Populate date list live data from firebase data.
     fun getDates() {
         repository.getDates()

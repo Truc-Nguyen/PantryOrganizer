@@ -38,15 +38,20 @@ class AddPantryActivity: AbstractCameraImageCapture() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.create_menuItem -> {
+                addPantry_pantryName_editText.backgroundTintList = resources.getColorStateList(R.color.darkGray, null)
+                addPantry_pantryLocation_editText.backgroundTintList = resources.getColorStateList(R.color.darkGray, null)
+
                 // Harvest user input.
                 val name = addPantry_pantryName_editText.text.toString()
                 val location = addPantry_pantryLocation_editText.text.toString()
 
                 // Sanitize input.
                 if (name == "") {
+                    addPantry_pantryName_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                     Toast.makeText(this, "Pantry name cannot be blank.", Toast.LENGTH_LONG).show()
                     return true
                 } else if (location == "") {
+                    addPantry_pantryLocation_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                     Toast.makeText(this, "Pantry location cannot be blank.", Toast.LENGTH_LONG).show()
                     return true
                 }
@@ -63,9 +68,9 @@ class AddPantryActivity: AbstractCameraImageCapture() {
                     onBackPressed()
                 } else {
                     // Pantry with this name already exists.
+                    addPantry_pantryName_editText.backgroundTintList = resources.getColorStateList(R.color.red, null)
                     Toast.makeText(this, "$name already exists.", Toast.LENGTH_LONG).show()
                 }
-
                 true
             }
             else -> super.onOptionsItemSelected(item)

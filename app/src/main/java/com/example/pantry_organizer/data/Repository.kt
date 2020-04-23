@@ -267,6 +267,21 @@ class Repository {
         }
     }
 
+    // Update the recipe rating.
+    fun updateRecipeRating(recipeName: String, rating: Float) {
+        // Create a reference to the recipe firebase document.
+        val recipeDocRef = db.collection("userData")
+            .document(userID!!)
+            .collection("recipeList")
+            .document(recipeName)
+
+        // Update the recipe rating.
+        recipeDocRef.get().addOnSuccessListener {
+            recipeDocRef.update("rating", rating)
+        }
+    }
+
+
     // MEALPLAN //
     // Get dates list from firebase.
     fun getDates(): CollectionReference {
