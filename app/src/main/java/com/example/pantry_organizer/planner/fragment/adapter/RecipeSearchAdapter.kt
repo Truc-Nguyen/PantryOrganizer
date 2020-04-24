@@ -30,6 +30,7 @@ class RecipeSearchAdapter(private val list: ArrayList<RecipeData>?, private val 
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, AddMealplanRecipeActivity::class.java)
             intent.putExtra("recipeName", recipeData.name)
+            intent.putExtra("recipeIndex", position)
             intent.putExtra("mealplanDate", date)
             it.context.startActivity(intent)
         }

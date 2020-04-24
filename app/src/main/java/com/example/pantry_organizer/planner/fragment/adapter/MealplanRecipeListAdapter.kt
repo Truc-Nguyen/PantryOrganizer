@@ -21,7 +21,8 @@ class MealplanRecipeListAdapter(private val list: ArrayList<RecipeData>?): Recyc
         holder.bind(recipeData)
         holder.itemView.setOnClickListener{
             val intent = Intent(it.context, RecipeFoodListActivity::class.java)
-            intent.putExtra("pantryName", recipeData.name as String)
+            intent.putExtra("recipeName", recipeData.name)
+            intent.putExtra("recipeIndex", position)
             it.context.startActivity(intent)
         }
     }

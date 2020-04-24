@@ -80,7 +80,7 @@
         android:id="@+id/recipeFood_foodLabel_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recipe List"
+        android:text="Ingredient List"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="10dp"

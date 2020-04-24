@@ -30,8 +30,9 @@ class MealplanListAdapter(private val list: ArrayList<MealplanData>?): RecyclerV
         // Set click listener for viewing nutritional data for this food.
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, MealplanDetailActivity::class.java)
-            intent.putExtra("MealplanDate", mealplanDate)
-            intent.putExtra("DateIndex",position)
+
+            intent.putExtra("mealplanDate", mealplanDate)
+
             it.context.startActivity(intent)
         }
     }

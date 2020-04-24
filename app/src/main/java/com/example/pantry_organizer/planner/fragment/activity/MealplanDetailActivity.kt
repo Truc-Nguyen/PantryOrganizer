@@ -3,8 +3,10 @@ package com.example.pantry_organizer.planner.fragment.activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Canvas
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,21 +19,29 @@ import com.example.pantry_organizer.planner.fragment.adapter.MealplanRecipeListA
 import com.example.pantry_organizer.data.RecipeData
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 import kotlinx.android.synthetic.main.activity_mealplan_detail.*
+import java.time.LocalDate
 
 
 class MealplanDetailActivity: AbstractPantryAppActivity() {
     private var recipes = ArrayList<RecipeData>()
-    private lateinit var date: String
+    private lateinit var mealplanDate: String
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mealplan_detail)
 
         //retrieve arguments from previous fragment
-        date = intent.extras!!.getString("MealplanDate")!!
+        mealplanDate = intent.extras!!.getString("mealplanDate")!!
+
+        //convert date to readable view
+        val parsedDate = mealplanDate.split(".")
+        val date = LocalDate.of(parsedDate[2].toInt(), parsedDate[0].toInt(), parsedDate[1].toInt())
+        val weekDay = date.dayOfWeek.toString()
+        val correctDate = parsedDate[0] + "/" + parsedDate[1]
 
         // Support bar attributes.
-        supportActionBar?.title = date
+        supportActionBar?.title = weekDay + " " + correctDate
         supportActionBar?.subtitle = "Meal Planner"
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -62,7 +72,7 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
                     dialog.dismiss()
                     // Delete the selected recipe from a meal plan
                     // implement delete function of recipe from a date
-                    viewModel.removeRecipeFromDate(date,recipes[position])
+                    viewModel.removeRecipeFromDate(mealplanDate,recipes[position])
                     viewModel.dateRecipeList.observe(this@MealplanDetailActivity, Observer { liveData ->
                         recipes.clear()
                         if (liveData != null){
@@ -91,7 +101,7 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
 
     override fun onResume(){
         super.onResume()
-        viewModel.getRecipesForDate(date!!)
+        viewModel.getRecipesForDate(mealplanDate!!)
 
     }
 
@@ -106,7 +116,7 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
         return when (item.itemId) {
             R.id.addRecipe_menuItem -> {
                 val intent = Intent(this, MealplanRecipeSearchActivity::class.java)
-                intent.putExtra("MealplanDate", date)
+                intent.putExtra("MealplanDate", mealplanDate)
                 startActivity(intent)
                 true
             }
