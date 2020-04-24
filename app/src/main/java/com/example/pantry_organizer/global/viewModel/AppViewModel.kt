@@ -2,7 +2,6 @@ package com.example.pantry_organizer.global.viewModel
 
 import android.app.Application
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -210,7 +209,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     }
 
     //Remove a quantity of an existing item form the shopping list
-    fun removeShoppingListItem(itemData: ShoppingData, quantity: Int): Boolean {
+    fun removeShoppingListItem(itemData: ShoppingData, quantity: Long): Boolean {
         // Check for existing pantry with duplicate name.
         // Push the new pantry data to firebase.
         repository.removeItemQtyFromShoppingList(itemData, quantity)

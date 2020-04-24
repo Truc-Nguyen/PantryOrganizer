@@ -65,6 +65,9 @@ data class RecipeData(
     }
 }
 
+
+
+
 // Create recipe data object from a firebase query snapshot.
 fun createRecipeDataFromSnapshot(fbDoc: QueryDocumentSnapshot): RecipeData {
     // Extract basic recipe data.

@@ -44,6 +44,8 @@
         <activity android:name=".pantry.activity.PantryFoodDetailActivity" />
         <activity android:name=".recipe.activity.RecipeFoodDetailActivity" />
         <activity android:name=".pantry.activity.AddCustomFoodActivity" />
+        <activity android:name=".recipe.activity.RecipeImageZoomActivity" />
+        <activity android:name=".planner.fragment.activity.MealPlanFoodListActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

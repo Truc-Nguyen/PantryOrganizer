@@ -320,6 +320,7 @@ class Repository {
                 .document(userID!!)
                 .collection("Dates")
                 .document(date)
+
             dateDocRef.get().addOnSuccessListener {
                 var recipeNotOnDay = true
                 val recipeMapList = it.get("recipes")
@@ -429,7 +430,7 @@ class Repository {
     }
 
     // Remove a quantity of an existing food from the shopping list in firebase.
-    fun removeItemQtyFromShoppingList(shoppingData: ShoppingData, quantity: Int) {
+    fun removeItemQtyFromShoppingList(shoppingData: ShoppingData, quantity: Long) {
         // Create a reference to the recipe firebase document.
         val shoppingDocRef = db.collection("userData")
             .document(userID!!)

@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Adapter
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,12 +20,14 @@ import com.example.pantry_organizer.planner.fragment.adapter.MealplanRecipeListA
 import com.example.pantry_organizer.data.RecipeData
 import kotlinx.android.synthetic.main.dialog_confirm_delete.*
 import kotlinx.android.synthetic.main.activity_mealplan_detail.*
+import kotlinx.android.synthetic.main.activity_recipe_food_list.*
 import java.time.LocalDate
 
 
 class MealplanDetailActivity: AbstractPantryAppActivity() {
     private var recipes = ArrayList<RecipeData>()
     private lateinit var mealplanDate: String
+    private lateinit var adapter: MealplanRecipeListAdapter
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,15 +51,24 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
 
         //display recipes using MealplanRecipeListAdapter
         val recyclerView = mealplan_recyclerView
-        val adapter = MealplanRecipeListAdapter(recipes)
+        adapter = MealplanRecipeListAdapter(recipes)
         recyclerView.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
         //retrieve firebase recipes corresponding to date
         viewModel.dateRecipeList.observe(this, Observer { liveData ->
             recipes.clear()
-            if (liveData != null)  {recipes.addAll(liveData.toList())}
+            if (liveData != null){
+                recipes.addAll(liveData.toList())
+            }
             adapter.notifyDataSetChanged()
+
+            //show prompt if no recipes exist
+            if (recipes.size == 0) {
+                mealplanRecipesNoItems_textView.visibility = View.VISIBLE
+            } else {
+                mealplanRecipesNoItems_textView.visibility = View.INVISIBLE
+            }
         })
 
         // implement swipe to delete

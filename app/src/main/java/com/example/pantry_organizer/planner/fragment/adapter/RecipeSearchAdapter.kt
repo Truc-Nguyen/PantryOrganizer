@@ -20,10 +20,7 @@ class RecipeSearchAdapter(private val list: ArrayList<RecipeData>?, private val 
     :RecyclerView.Adapter<MealplanRecipeSearchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealplanRecipeSearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return MealplanRecipeSearchViewHolder(
-            inflater,
-            parent
-        )
+        return MealplanRecipeSearchViewHolder(inflater, parent)
     }
 
     override fun onBindViewHolder(holder: MealplanRecipeSearchViewHolder, position: Int) {

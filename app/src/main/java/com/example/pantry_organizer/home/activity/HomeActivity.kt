@@ -46,7 +46,7 @@ class HomeActivity: AbstractPantryAppActivity() {
             when (item.itemId) {
                 R.id.pantry_navMenu -> swapFragment(resources.getString(R.string.pantry_nav), PantryListFragment(), R.menu.add_pantry_menu)
                 R.id.recipe_navMenu -> swapFragment(resources.getString(R.string.recipe_nav), RecipeListFragment(), R.menu.add_recipe_menu)
-                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), PlanningListFragment(), R.menu.add_planning_menu)
+                R.id.planner_navMenu -> swapFragment(resources.getString(R.string.planner_nav), PlanningListFragment(), null)
                 R.id.shopping_navMenu -> swapFragment(resources.getString(R.string.shopping_nav), ShoppingListFragment(), R.menu.add_shopping_menu)
             }
             true
@@ -95,11 +95,9 @@ class HomeActivity: AbstractPantryAppActivity() {
                 true
             }
             R.id.addMeal_menuItem -> {
-                Log.d("Test", "addMeal")
                 true
             }
             R.id.addItem_menuItem -> {
-                Log.d("Test", "addShopping")
                 val removeFoodQuantityConfirmDialog = LayoutInflater.from(this).inflate(
                     R.layout.dialog_add_item_to_shopping, null)
                 val dialogBuilder = android.app.AlertDialog.Builder(this)

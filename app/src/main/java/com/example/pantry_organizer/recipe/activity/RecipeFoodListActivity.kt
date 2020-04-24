@@ -134,6 +134,14 @@ class RecipeFoodListActivity: AbstractPantryAppActivity() {
                         .transform(CropSquareTransformation())
                         .transform(RoundedCornersTransformation(25, 0))
                         .placeholder(R.drawable.loading_icon).into(recipeFoodList_recipe_imageView)
+
+                    //set up onclick listener for taking user to zoomed version of the recipe
+                    recipeFoodList_recipe_imageView.setOnClickListener{
+                        val intent = Intent(this, RecipeImageZoomActivity::class.java)
+                        intent.putExtra("recipeImgLink", recipeData.imageLink)
+                        intent.putExtra("recipeName", recipeData.name)
+                        startActivity(intent)
+                    }
                 }.addOnFailureListener {
                     recipeFoodList_recipe_imageView.setImageResource(R.drawable.no_image_icon)
                 }

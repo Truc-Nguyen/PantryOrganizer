@@ -52,7 +52,15 @@ class ShoppingListFragment: Fragment() {
         viewModel.shoppingList.observe(activity!!, Observer { liveData ->
             shoppingList.clear()
             shoppingList.addAll(liveData)
-            adapter.notifyDataSetChanged() })
+            adapter.notifyDataSetChanged()
+
+            //Show prompt if there are no shopping items
+            if (shoppingList.size == 0) {
+                shoppingListNoItems_textView.visibility = View.VISIBLE
+            } else {
+                shoppingListNoItems_textView.visibility = View.INVISIBLE
+            }
+        })
 
         // Set up delete item swipe controller and button listeners.
         val swipeController = SwipeController(activity!!, 175f, object: SwipeControllerActions() {
@@ -89,7 +97,7 @@ class ShoppingListFragment: Fragment() {
                     }
 
                     // Extract the quantity of food to remove.
-                    val qtyToRemove = input.toInt()
+                    val qtyToRemove = input.toLong()
 
                     // Disable the buttons once a request has been made.
                     confirmButton.isEnabled = false
