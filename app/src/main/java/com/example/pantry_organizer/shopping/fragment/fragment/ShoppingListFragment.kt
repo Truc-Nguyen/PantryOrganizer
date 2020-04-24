@@ -53,13 +53,6 @@ class ShoppingListFragment: Fragment() {
             shoppingList.clear()
             shoppingList.addAll(liveData)
             adapter.notifyDataSetChanged()
-
-            //Show prompt if there are no shopping items
-            if (shoppingList.size == 0) {
-                shoppingListNoItems_textView.visibility = View.VISIBLE
-            } else {
-                shoppingListNoItems_textView.visibility = View.INVISIBLE
-            }
         })
 
         // Set up delete item swipe controller and button listeners.

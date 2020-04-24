@@ -64,11 +64,6 @@ class MealplanDetailActivity: AbstractPantryAppActivity() {
             adapter.notifyDataSetChanged()
 
             //show prompt if no recipes exist
-            if (recipes.size == 0) {
-                mealplanRecipesNoItems_textView.visibility = View.VISIBLE
-            } else {
-                mealplanRecipesNoItems_textView.visibility = View.INVISIBLE
-            }
         })
 
         // implement swipe to delete
